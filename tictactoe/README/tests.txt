@@ -1,0 +1,5 @@
+call 'npm test' for one cycle
+call 'npm test -- -w' for watching files changes
+
+arrays
+https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d

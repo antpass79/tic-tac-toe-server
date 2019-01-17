@@ -1,0 +1,8 @@
+https://docs.python.org/2/library/unittest.html
+
+packages
+https://medium.com/@ramrajchandradevan/python-init-py-modular-imports-81b746e58aae
+see references to run py in different folders
+
+run tests
+python -m tests.entrypoint

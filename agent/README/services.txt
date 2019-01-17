@@ -1,0 +1,10 @@
+web service
+https://towardsdatascience.com/build-your-own-python-restful-web-service-840ed7766832
+
+by fiddler
+http://localhost:8080/process
+POST
+Content-Type: application/json
+
+body
+{"num1":{"mean":2.0,"min":1.0,"max":3.0},"num2":{"mean":5.0,"min":4.0,"max":6.0}}
