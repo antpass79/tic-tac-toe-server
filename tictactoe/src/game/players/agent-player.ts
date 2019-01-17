@@ -8,37 +8,34 @@ export class AgentProxy {
 
     private options = {
         host: "localhost",
-        port: 4000,
-        method: "PUT",
+        port: 8080,
+        method: "POST",
         path: '',
         headers: {
             "Content-Type": "application/json"
         }
     }
 
-    async newGame(side: Side): Promise<any> {
+    newGame(side: Side) {
 
-        return new Observable<any>((subscriber) => {
+        this.options.path = this.buildPath('new');
+        let predictionReq = http.request(this.options, function (res) {
 
-            this.options.path = this.buildPath('new');
-            let predictionReq = http.request(this.options, function (res) {
+            res.on('data', function (data) {
 
-                res.on('data', function (data) {
-    
-                    subscriber.next(data);
-                    subscriber.complete();        
-                });
-    
-                res.on('error', function (e) {
-                    subscriber.error(e);
-                    subscriber.complete();        
-                });
+                console.log('data');
+                console.log(data);
             });
 
-            let dataToSend = JSON.stringify(side);
-            predictionReq.end(dataToSend);                
-        }).toPromise();
-     }
+            res.on('error', function (e) {
+
+                console.log(e);
+            });
+        });
+        
+        let dataToSend = JSON.stringify(side);
+        predictionReq.write(dataToSend);
+    }
 
     async move(board: Board): Promise<{ gameResult: GameResult, finished: boolean }> {
 
@@ -48,19 +45,19 @@ export class AgentProxy {
             let predictionReq = http.request(this.options, function (res) {
 
                 res.on('data', function (data) {
-    
+
                     subscriber.next(data);
-                    subscriber.complete();        
+                    subscriber.complete();
                 });
-    
+
                 res.on('error', function (e) {
                     subscriber.error(e);
-                    subscriber.complete();        
+                    subscriber.complete();
                 });
             });
 
             let dataToSend = JSON.stringify(board);
-            predictionReq.end(dataToSend);                
+            predictionReq.end(dataToSend);
         }).toPromise();
     }
 
@@ -72,25 +69,25 @@ export class AgentProxy {
             let predictionReq = http.request(this.options, function (res) {
 
                 res.on('data', function (data) {
-    
+
                     subscriber.next(data);
-                    subscriber.complete();        
+                    subscriber.complete();
                 });
-    
+
                 res.on('error', function (e) {
                     subscriber.error(e);
-                    subscriber.complete();        
+                    subscriber.complete();
                 });
             });
 
             let dataToSend = JSON.stringify(gameResult);
-            predictionReq.end(dataToSend);                
+            predictionReq.end(dataToSend);
         }).toPromise();
     }
 
     private buildPath(verb: string): string {
 
-        return "http://localhost:8080/" + verb;
+        return "http://localhost/" + verb;
     }
 }
 
@@ -100,15 +97,15 @@ export class AgentPlayer extends Player {
 
     newGame(side: Side): void {
 
-        let wait = true;
+        // let wait = true;
 
-        this.agentProxy.newGame(side)
-        .then(() => {
-            wait = false;
-        })
-        .catch(() => {
-            wait = false;
-        });
+        // this.agentProxy.newGame(side)
+        //     .then(() => {
+        //         wait = false;
+        //     })
+        //     .catch(() => {
+        //         wait = false;
+        //     });
 
         //while(wait);
     }
@@ -122,19 +119,19 @@ export class AgentPlayer extends Player {
         };
 
         this.agentProxy.move(board)
-        .then((data) => {
+            .then((data) => {
 
-            result = {
-                gameResult: data.gameResult,
-                finished: data.finished
-            }
-            wait = false;
-        })
-        .catch(() => {
-            wait = false;
-        });
+                result = {
+                    gameResult: data.gameResult,
+                    finished: data.finished
+                }
+                wait = false;
+            })
+            .catch(() => {
+                wait = false;
+            });
 
-        while(wait);
+        while (wait);
 
         return result;
     }
@@ -144,13 +141,13 @@ export class AgentPlayer extends Player {
         let wait = true;
 
         this.agentProxy.end(gameResult)
-        .then(() => {
-            wait = false;
-        })
-        .catch(() => {
-            wait = false;
-        });
+            .then(() => {
+                wait = false;
+            })
+            .catch(() => {
+                wait = false;
+            });
 
-        while(wait);
+        while (wait);
     }
 }

@@ -8,9 +8,7 @@ describe('AgentProxy - initialize', () => {
     it('Should have default side value set to EMPTY', () => {
 
         let proxy = new AgentProxy();
-        proxy.newGame(Side.CROSS).then(() => {
-            console.log('proxy.newGame');
-        });
+        proxy.newGame(Side.CROSS);
         expect(proxy).to.equal(proxy);
     });
 });
