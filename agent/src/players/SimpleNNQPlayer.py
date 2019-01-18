@@ -6,10 +6,10 @@
 
 import numpy as np
 import tensorflow as tf
-from tic_tac_toe.TFSessionManager import TFSessionManager as TFSN
+from TFSessionManager import TFSessionManager as TFSN
 
-from tic_tac_toe.Board import Board, BOARD_SIZE, EMPTY, CROSS, NAUGHT
-from tic_tac_toe.Player import Player, GameResult
+from Board import Board, BOARD_SIZE, EMPTY, CROSS, NAUGHT
+from players.Player import Player, GameResult
 
 
 class QNetwork:

@@ -3,3 +3,9 @@ call 'npm test -- -w' for watching files changes
 
 arrays
 https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
+
+http
+https://scotch.io/tutorials/nodejs-tests-mocking-http-requests
+
+tutorial with many examples (context, callback, promises, etc.)
+https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d

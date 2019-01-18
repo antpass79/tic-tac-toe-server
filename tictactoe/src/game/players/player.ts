@@ -1,4 +1,5 @@
 import { GameResult, Board } from '../board';
+import { Observable } from 'rxjs';
 
 export enum Side {
 
@@ -10,7 +11,7 @@ export enum Side {
 export interface IPlayer {
 
     newGame(side: Side): void;
-    move(board: Board): { gameResult: GameResult, finished: boolean };
+    move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }>;
     end(gameResult: GameResult): void;
 }
 
@@ -25,7 +26,7 @@ export abstract class Player implements IPlayer {
         this._side = side;
     }
 
-    abstract move(board: Board): {gameResult: GameResult, finished: boolean};
+    abstract move(board: Board): Observable<{gameResult: GameResult, finished: boolean}>;
 
     end(gameResult: GameResult): void {
     }

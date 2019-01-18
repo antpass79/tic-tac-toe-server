@@ -29,8 +29,10 @@ describe('RandomPlayer - initialize', () => {
 
         let board = new Board();
         let player = new RandomPlayer();
-        let result = player.move(board);
-        expect(result.finished).to.equal(false);
+        player.move(board).subscribe((moveResult) => {
+
+            expect(moveResult.finished).to.equal(false);
+        });
     });
 
     it('move - Should return finished after a game', () => {
@@ -47,7 +49,10 @@ describe('RandomPlayer - initialize', () => {
 
         let counter = 0;
         while (!result.finished && counter < 10) {
-            result = player.move(board);
+             player.move(board).subscribe((moveResult) => {
+                 
+                result = moveResult;
+            });
             counter++;
         }
 

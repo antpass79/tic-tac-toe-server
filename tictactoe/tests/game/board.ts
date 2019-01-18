@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { Board, GameResult } from '../../src/game/board';
+import { Board } from '../../src/game/board';
 import { Side } from '../../src/game/players/player';
 
-describe('board', () => {
+describe('Board', () => {
 
     it('Should have default state not null', () => {
 
@@ -125,13 +125,3 @@ describe('board', () => {
         expect(isLegal).to.be.equal(false);
     });
 });
-
-// describe('player - move', () => {
-
-//     it('Should have default side value set to EMPTY', () => {
-
-//         let player = new Player();
-//         player.newGame(Side.CROSS);
-//         expect(player.side).to.equal(Side.EMPTY);
-//     });
-// });

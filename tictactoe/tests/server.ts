@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Server } from '../src/server';
 
-describe('server', () => {
+describe('Server', () => {
 
     it('Should have port value set to 3000', () => {
 

@@ -1,153 +1,26 @@
 import { Observable } from 'rxjs';
-import * as http from 'http';
 
 import { Player, Side } from './player';
 import { GameResult, Board } from '../board';
-
-export class AgentProxy {
-
-    private options = {
-        host: "localhost",
-        port: 8080,
-        method: "POST",
-        path: '',
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-
-    newGame(side: Side) {
-
-        this.options.path = this.buildPath('new');
-        let predictionReq = http.request(this.options, function (res) {
-
-            res.on('data', function (data) {
-
-                console.log('data');
-                console.log(data);
-            });
-
-            res.on('error', function (e) {
-
-                console.log(e);
-            });
-        });
-        
-        let dataToSend = JSON.stringify(side);
-        predictionReq.write(dataToSend);
-    }
-
-    async move(board: Board): Promise<{ gameResult: GameResult, finished: boolean }> {
-
-        return new Observable<any>((subscriber) => {
-
-            this.options.path = this.buildPath('move');
-            let predictionReq = http.request(this.options, function (res) {
-
-                res.on('data', function (data) {
-
-                    subscriber.next(data);
-                    subscriber.complete();
-                });
-
-                res.on('error', function (e) {
-                    subscriber.error(e);
-                    subscriber.complete();
-                });
-            });
-
-            let dataToSend = JSON.stringify(board);
-            predictionReq.end(dataToSend);
-        }).toPromise();
-    }
-
-    async end(gameResult: GameResult): Promise<any> {
-
-        return new Observable<any>((subscriber) => {
-
-            this.options.path = this.buildPath('end');
-            let predictionReq = http.request(this.options, function (res) {
-
-                res.on('data', function (data) {
-
-                    subscriber.next(data);
-                    subscriber.complete();
-                });
-
-                res.on('error', function (e) {
-                    subscriber.error(e);
-                    subscriber.complete();
-                });
-            });
-
-            let dataToSend = JSON.stringify(gameResult);
-            predictionReq.end(dataToSend);
-        }).toPromise();
-    }
-
-    private buildPath(verb: string): string {
-
-        return "http://localhost/" + verb;
-    }
-}
+import { AgentService } from './agent-service';
 
 export class AgentPlayer extends Player {
 
-    agentProxy: AgentProxy = new AgentProxy();
+    agentService: AgentService = new AgentService();
 
     newGame(side: Side): void {
 
-        // let wait = true;
-
-        // this.agentProxy.newGame(side)
-        //     .then(() => {
-        //         wait = false;
-        //     })
-        //     .catch(() => {
-        //         wait = false;
-        //     });
-
-        //while(wait);
+        super.newGame(side);
+        this.agentService.newGame(side);
     }
 
-    move(board: Board): { gameResult: GameResult, finished: boolean } {
+    move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }> {
 
-        let wait = true;
-        let result = {
-            gameResult: GameResult.NOT_FINISHED,
-            finished: false
-        };
-
-        this.agentProxy.move(board)
-            .then((data) => {
-
-                result = {
-                    gameResult: data.gameResult,
-                    finished: data.finished
-                }
-                wait = false;
-            })
-            .catch(() => {
-                wait = false;
-            });
-
-        while (wait);
-
-        return result;
+        return this.agentService.move(board);
     }
 
     end(gameResult: GameResult): void {
 
-        let wait = true;
-
-        this.agentProxy.end(gameResult)
-            .then(() => {
-                wait = false;
-            })
-            .catch(() => {
-                wait = false;
-            });
-
-        while (wait);
+        this.agentService.end(gameResult);
     }
 }
