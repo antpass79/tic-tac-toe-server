@@ -79,16 +79,16 @@ class Board:
 
         raise ValueError("{} is not a valid side".format(side))
 
-    def __init__(self, s=None):
+    def __init__(self, state=None):
         """
         Create a new Board. If a state is passed in, we use that otherwise we initialize with an empty board
         :param s: Optional board state to initialise the board with
         """
-        if s is None:
+        if state is None:
             self.state = np.ndarray(shape=(1, BOARD_SIZE), dtype=int)[0]
             self.reset()
         else:
-            self.state = s.copy()
+            self.state = state.copy()
 
     def coord_to_pos(self, coord: (int, int)) -> int:
         """

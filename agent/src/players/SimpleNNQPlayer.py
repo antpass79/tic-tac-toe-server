@@ -6,10 +6,10 @@
 
 import numpy as np
 import tensorflow as tf
-from TFSessionManager import TFSessionManager as TFSN
+from src.TFSessionManager import TFSessionManager as TFSN
 
-from Board import Board, BOARD_SIZE, EMPTY, CROSS, NAUGHT
-from players.Player import Player, GameResult
+from src.Board import Board, BOARD_SIZE, EMPTY, CROSS, NAUGHT
+from src.players.Player import Player, GameResult
 
 
 class QNetwork:

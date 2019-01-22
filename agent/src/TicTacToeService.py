@@ -1,8 +1,16 @@
+import tensorflow as tf
+import numpy as np
 import cherrypy
 
+from TFSessionManager import TFSessionManager
 from players.SimpleNNQPlayer import NNQPlayer
+from Board import Board, CROSS, GameResult
 
 player = NNQPlayer('NNQPlayer')
+player.new_game(CROSS)
+
+TFSessionManager.set_session(tf.Session())
+TFSessionManager.get_session().run(tf.global_variables_initializer())
 
 class TicTacToeService(object):
 
@@ -19,10 +27,13 @@ class TicTacToeService(object):
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
     def move(self):
-        board = cherrypy.request.json
-        result = player.move(board)
+        json_input = cherrypy.request.json
+        state = np.array(json_input['_state']).astype(int)
+        board = Board(state=state)
+        gameResult, finished = player.move(board)
+        board.print_board()
 
-        return result
+        return board.state.tolist()
 
     @cherrypy.expose
     @cherrypy.tools.json_out()

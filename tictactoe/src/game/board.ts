@@ -37,6 +37,13 @@ export class Board {
         throw Error(side + " is not a valid side");
     }
 
+    updateState(state: number[]) {
+
+        for (let i = 0; i < state.length; i++) {
+            this._state[i] = state[i];
+        }
+    }
+
     move(position: number, side: Side) {
 
         if (this.state[position] != Side.EMPTY) {
@@ -45,8 +52,13 @@ export class Board {
 
         this.state[position] = side;
 
+        return this.getBoardState();
+    }
+
+    getBoardState() {
+
         if (this.checkWin())
-            return { state: this.state, result: side == Side.CROSS ? GameResult.CROSS_WIN : GameResult.NAUGHT_WIN, finished: true };
+            return { state: this.state, result: this.whoWin() == Side.CROSS ? GameResult.CROSS_WIN : GameResult.NAUGHT_WIN, finished: true };
 
         if (this.numEmpty() == 0)
             return { state: this.state, result: GameResult.DRAW, finished: true };
@@ -92,6 +104,11 @@ export class Board {
 
     private checkWin(): boolean {
 
+        return this.whoWin() != Side.EMPTY ? true : false;
+    }
+
+    private whoWin(): Side {
+
         let winner = Side.EMPTY;
 
         // check rows
@@ -135,7 +152,7 @@ export class Board {
             winner = Side.NAUGHT;
         }
 
-        return winner != Side.EMPTY ? true : false;
+        return winner;
     }
 
     private numEmpty() {

@@ -18,8 +18,6 @@ export class Server {
     start() {
 
         this._app.listen(this.port, () => {
-
-
         });
     }
 }

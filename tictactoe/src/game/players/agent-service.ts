@@ -29,7 +29,7 @@ export class AgentService {
         })
     }
 
-    move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }> {
+    move(board: Board): Observable<number[]> {
 
         this.updateConfiguration('move', board);
 
@@ -37,20 +37,24 @@ export class AgentService {
             Axios(this.configuration)
                 .then((response) => {
 
-                    console.log(response.data);
                     subscriber.next(response.data);
                     subscriber.complete();
                 })
         })
     }
 
-    end(gameResult: GameResult): void {
+    end(gameResult: GameResult): Observable<any> {
 
         this.updateConfiguration('end', gameResult);
 
-        Axios(this.configuration)
+        return new Observable(subscriber => {
+
+            Axios(this.configuration)
             .then((response) => {
+                subscriber.next();
+                subscriber.complete();
             })
+        })
     }
 
     private updateConfiguration(action: string, data?: any): void {

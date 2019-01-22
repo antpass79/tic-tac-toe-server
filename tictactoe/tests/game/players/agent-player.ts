@@ -1,58 +1,70 @@
-// import { expect } from 'chai';
-// import { Side } from '../../../src/game/players/player';
-// import { AgentPlayer } from '../../../src/game/players/agent-player';
-// import { Board, GameResult } from '../../../src/game/board';
+import { expect } from 'chai';
+import { Side } from '../../../src/game/players/player';
+import { AgentPlayer } from '../../../src/game/players/agent-player';
+import { Board, GameResult } from '../../../src/game/board';
 
-// describe('AgentPlayer - initialize', () => {
+describe('AgentPlayer', () => {
 
-//     it('Should have default side value set to EMPTY', () => {
+    context('initialize', () => {
 
-//         let player = new AgentPlayer();
-//         expect(player.side).to.equal(Side.EMPTY);
-//     });
+        it('should have default side value set to EMPTY', () => {
 
-//     it('Should have side value set to CROSS', () => {
+            let player = new AgentPlayer();
+            expect(player.side).to.equal(Side.EMPTY);
+        });
 
-//         let player = new AgentPlayer();
-//         player.newGame(Side.CROSS);
-//         expect(player.side).to.equal(Side.CROSS);
-//     });
+        it('should have side value set to CROSS', () => {
 
-//     it('Should have side value set to NAUGHT', () => {
+            let player = new AgentPlayer();
+            player.newGame(Side.CROSS);
+            expect(player.side).to.equal(Side.CROSS);
+        });
 
-//         let player = new AgentPlayer();
-//         player.newGame(Side.NAUGHT);
-//         expect(player.side).to.equal(Side.NAUGHT);
-//     });
+        it('should have side value set to NAUGHT', () => {
 
-//     it('move - Should return !finished after player creation', () => {
+            let player = new AgentPlayer();
+            player.newGame(Side.NAUGHT);
+            expect(player.side).to.equal(Side.NAUGHT);
+        });
+    });
 
-//         let board = new Board();
-//         let player = new AgentPlayer();
-//         player.move(board).subscribe((moveResult) => {
-//             expect(moveResult.finished).to.equal(false);
-//         });        
-//     });
+    context('move', () => {
 
-//     it('move - Should return finished after a game', () => {
+        it('should return !finished after player creation', async () => {
 
-//         let result = {
-//             gameResult: GameResult.NOT_FINISHED,
-//             finished: false
-//         };
+            let board = new Board();
+            let player = new AgentPlayer();
+            let result = await player.move(board).toPromise();
 
-//         let board = new Board();
-//         let player = new AgentPlayer();
+            expect(result.finished).to.equal(false);
+        });
 
-//         player.newGame(Side.CROSS);
+        it('should return finished after a game', async () => {
 
-//         let counter = 0;
-//         while (!result.finished && counter < 10) {
-//             player.move(board).subscribe((moveResult) => {
-//                 result = moveResult;
-//             });
-//         }
+            let board = new Board();
+            let player = new AgentPlayer();
 
-//         expect(result.finished).to.equal(true);
-//     });
-// });
+            let result = {
+                gameResult: GameResult.NOT_FINISHED,
+                finished: false
+            };
+
+            for (let i = 0; i < 9; i++) {
+                result = await player.move(board).toPromise();
+            }
+
+            expect(result.finished).to.equal(true);
+        });
+    });
+});
+
+async function game(player: AgentPlayer, board: Board): Promise<{ gameResult: GameResult, finished: boolean }> {
+
+    return new Promise<{ gameResult: GameResult, finished: boolean }>((resolve) => {
+
+        player.move(board).subscribe((result: { gameResult: GameResult, finished: boolean }) => {
+
+            resolve(result);
+        });
+    });
+}

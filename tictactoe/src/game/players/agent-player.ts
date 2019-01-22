@@ -16,7 +16,21 @@ export class AgentPlayer extends Player {
 
     move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }> {
 
-        return this.agentService.move(board);
+        return new Observable(subscriber => {
+        
+            this.agentService.move(board).subscribe((state: number[]) => {
+
+                board.updateState(state);
+                let boardResult = board.getBoardState();
+                let result = {
+                    gameResult: boardResult.result,
+                    finished: boardResult.finished
+                }
+
+                subscriber.next(result);
+                subscriber.complete();
+            });
+        })
     }
 
     end(gameResult: GameResult): void {

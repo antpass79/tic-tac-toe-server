@@ -3,7 +3,7 @@
 #
 from abc import ABC, abstractmethod
 
-from Board import Board, GameResult
+from src.Board import Board, GameResult
 
 
 class Player(ABC):
