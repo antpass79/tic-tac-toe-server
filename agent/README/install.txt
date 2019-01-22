@@ -1,0 +1,3 @@
+in server root
+- virtualenv env: create env folder
+- pip install -r agent/requirements.txt: install all dependencies

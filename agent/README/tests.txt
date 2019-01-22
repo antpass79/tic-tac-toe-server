@@ -4,5 +4,5 @@ packages
 https://medium.com/@ramrajchandradevan/python-init-py-modular-imports-81b746e58aae
 see references to run py in different folders
 
-run tests
+run tests in agent folder
 python -m tests.entrypoint
