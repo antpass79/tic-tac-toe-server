@@ -1,0 +1,15 @@
+<div class="dashboard-game">
+    <div class="header">Tic Tac Toe Enterprise</div>
+    <div class="game-container">
+        <game-grid class="game-grid" (cellClick)="onCellClick($event)"></game-grid>
+        <div *ngIf="isBusy$ | async" class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <div>
+        <button (click)="onStartPlayer($event)">Start Player</button>
+        <button (click)="onStartRobot($event)">Start Robot</button>
+        <h1 *ngIf="(winner$ | async) != 0 && (winner$ | async) != 1">The Winner is O</h1>
+        <h1 *ngIf="(winner$ | async) != 0 && (winner$ | async) != 2">The Winner is X</h1>
+    </div>
+</div>
