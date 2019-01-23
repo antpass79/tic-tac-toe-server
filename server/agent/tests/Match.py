@@ -52,7 +52,12 @@ class MatchTests(unittest.TestCase):
         self.nnq_player1.new_game(CROSS)
         player.new_game(NAUGHT)
         
-        cross_count, naught_count, draw_count = match.play(self.nnq_player1, player, 1000)
+        num_games = 10000
+
+        cross_count, naught_count, draw_count = match.play(self.nnq_player1, player, num_games)
+
+        print("After {} game we have draws: {}, Player 1 wins: {}, and Player 2 wins: {}.".format(num_games, draw_count, cross_count, naught_count))
+        print("Which gives percentages of draws: {:.2%}, Player 1 wins: {:.2%}, and Player 2 wins:  {:.2%}".format(draw_count / num_games, cross_count / num_games, naught_count / num_games))
 
         self.assertGreaterEqual(cross_count, 0)
         self.assertGreaterEqual(naught_count, 0)

@@ -2,8 +2,8 @@
 # Copyright 2018 Carsten Friedrich (Carsten.Friedrich@gmail.com). All rights reserved
 #
 
-from src.Board import Board, GameResult
-from src.players.Player import Player
+from Board import Board, GameResult
+from players.Player import Player
 
 
 class RandomPlayer(Player):

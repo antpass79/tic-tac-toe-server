@@ -22,8 +22,11 @@ export class AgentService {
 
             Axios(this.configuration)
                 .then((response) => {
-
                     subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    subscriber.error(reason);
                     subscriber.complete();
                 })
         })
