@@ -26,6 +26,8 @@ In the server folder there are two sub folders:
 
 Each project has a test suite.
 
+##### client -> angular
+
 ##### server -> ticatactoe
 
 - open a cmd with administrative privileges
