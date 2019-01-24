@@ -17,7 +17,9 @@ export class AppConfig {
     // public functions
 
     public getValue(key: any) {
-        return this.configuration[key];
+        return false;
+
+//        return this.configuration[key];
     }
 
     public load(url) {

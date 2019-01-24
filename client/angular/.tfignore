@@ -1,0 +1,14 @@
+*.disable
+
+# Ignora i file di build
+dist/
+
+# Ignora i file di altri VCS
+.hgignore
+
+#Ignora i file di Visual Studio
+.vs/
+
+# Ignora le librerie
+bower_components/
+node_modules/

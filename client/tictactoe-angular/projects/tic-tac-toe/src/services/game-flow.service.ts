@@ -6,7 +6,9 @@ import { GameStateMessageActions, CellStateMessageActions } from '../redux/imple
 import { BaseRobotService } from './robot.service';
 import { WinService } from './win.service';
 
-@Injectable()
+@Injectable({
+    providedIn: "root"
+})
 export class GameFlowService {
 
     // constructor

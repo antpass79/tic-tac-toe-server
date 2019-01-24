@@ -1,0 +1,22 @@
+<svg:g [attr.transform]="'scale(1, 1)'">
+
+    <rect [attr.x]="100 * state.y" [attr.y]="100 * state.x" width="100" height="100"></rect>
+
+    <line [attr.x1]="100 * state.y" [attr.y1]="100 * state.x" [attr.x2]="100 * state.y + 100" [attr.y2]="100 * state.x" />
+    <line [attr.x1]="100 * state.y" [attr.y1]="100 * state.x + 100" [attr.x2]="100 * state.y + 100" [attr.y2]="100 * state.x + 100.0001" />
+
+    <line [attr.x1]="100 * state.y" [attr.y1]="100 * state.x" [attr.x2]="100 * state.y" [attr.y2]="100 * state.x + 100" />
+    <line [attr.x1]="100 * state.y + 100" [attr.y1]="100 * state.x" [attr.x2]="100 * state.y + 100.0001" [attr.y2]="100 * state.x + 100" />
+
+    <g class="player-x" *ngIf="state.side == 1">
+        <line [attr.x1]="100 * state.y + 10" [attr.y1]="100 * state.x + 10" [attr.x2]="100 * state.y + 90" [attr.y2]="100 * state.x + 90" />
+        <line [attr.x1]="100 * state.y + 90" [attr.y1]="100 * state.x + 10" [attr.x2]="100 * state.y + 10" [attr.y2]="100 * state.x + 90" />
+    </g>
+
+    <g class="player-o" *ngIf="state.side == 2">
+        <circle [attr.cx]="100 * state.y + 50" [attr.cy]="100 * state.x + 50" r="40"></circle>
+    </g>
+    
+    <text class="title" [attr.x]="100 * state.y + 25" [attr.y]="100 * state.x + 25">{{index}}</text>
+
+</svg:g>
