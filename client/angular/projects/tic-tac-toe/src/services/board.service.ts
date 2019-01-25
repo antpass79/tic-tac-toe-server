@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { range } from 'underscore';
 
 import { Constants, Side } from '../redux/implementation/states';
+import { Board } from '../game/board';
 
 @Injectable({
     providedIn: "root"
 })
 export class BoardService {
 
-    private _state: Side[];
-    get state() {
-        return this._state;
+    private _board: Board;
+    get board() {
+        return this._board;
     }
 
     // constructor
 
     constructor() {
-
-        this._state = range(Constants.BOARD_SIZE).map(() => { return Side.EMPTY; });
+        this._board = new Board();
     }
 
     static getIndex(x: number, y: number) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CellState } from '../../redux/implementation/states';
 import { BoardService } from '../../services/board.service';
 
@@ -8,6 +8,11 @@ import { BoardService } from '../../services/board.service';
     styleUrls: ['./board.component.css'],
 })
 export class BoardComponent {
+
+    // events
+
+    @Output()
+    cellClick: EventEmitter<CellState> = new EventEmitter();
 
     // data members
 
@@ -20,7 +25,7 @@ export class BoardComponent {
 
     constructor(private boardService: BoardService) {
         
-        this._cells = this.boardService.state.map((side, index) => {
+        this._cells = this.boardService.board.state.map((side, index) => {
 
             let coordinate = BoardService.getCoordinate(index);
             return {
@@ -32,8 +37,7 @@ export class BoardComponent {
     }
 
     onCellClick(state: CellState) {
-        
-        let index = BoardService.getIndex(state.x, state.y);
-        this.boardService.state[index] = 1;
+
+        this.cellClick.emit(state);
     }
 }
