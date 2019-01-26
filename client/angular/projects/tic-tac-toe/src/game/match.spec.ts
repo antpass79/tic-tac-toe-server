@@ -17,10 +17,27 @@ describe('Match', () => {
     }));
 
     it('should create Match', () => {
-        expect(Match).toBeTruthy();
+        expect(match).toBeTruthy();
     });
 
-    it('should return the games value from play, as sum of all counts (cross, maught, draw)', async(() => {
+    it('should return the games (1) value from play, as sum of all counts (cross, maught, draw)', async(() => {
+
+        let games = 1;
+        let player1 = new RandomPlayer();
+        let player2 = new RandomPlayer();
+
+        match.play(player1, player2, games).then((result) => {
+            expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
+
+            Match.printStatistics(games, {
+                crossCount: result.crossCount,
+                naughtCount: result.naughtCount,
+                drawCount: result.drawCount
+            });
+        });
+    }));
+
+    it('should return the games (5) value from play, as sum of all counts (cross, maught, draw)', async(() => {
 
         let games = 5;
         let player1 = new RandomPlayer();

@@ -2,6 +2,9 @@ import { async, TestBed } from '@angular/core/testing';
 import { TicTacToeComponent } from './tic-tac-toe.component';
 import { BoardComponent } from '../components/board/board.component';
 import { CellComponent } from '../components/cell/cell.component';
+import { GameStoreProvider } from '../redux/implementation/providers';
+import { Injector } from '@angular/core';
+import { LoggerFactory, Logger } from '../redux/logger';
 
 describe('TicTacToeComponent', () => {
   beforeEach(async(() => {
@@ -10,8 +13,16 @@ describe('TicTacToeComponent', () => {
             TicTacToeComponent,
             BoardComponent,
             CellComponent
+        ],
+        providers: [
+          {
+              provide: Logger,
+              useFactory: LoggerFactory,
+              deps: [Injector]
+          },
+          GameStoreProvider
         ]
-        }).compileComponents();
+  }).compileComponents();
   }));
   
   it('should create TicTacToeComponent', async(() => {

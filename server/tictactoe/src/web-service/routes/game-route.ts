@@ -10,7 +10,7 @@ export class GameRoute {
         const router = express.Router()
         router.post('/newgame', this.gameController.newGame);
         router.post('/move', this.gameController.move);
-        router.post('/end', this.gameController.end);
+        router.post('/endgame', this.gameController.endGame);
 
         return router;
     }

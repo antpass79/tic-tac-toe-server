@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { range } from 'underscore';
 
 import { Side } from "./players/player";

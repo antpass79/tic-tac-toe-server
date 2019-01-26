@@ -12,7 +12,7 @@ export interface IPlayer {
 
     newGame(side: Side): void;
     move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }>;
-    end(gameResult: GameResult): void;
+    endGame(gameResult: GameResult): void;
 }
 
 export abstract class Player implements IPlayer {
@@ -28,6 +28,6 @@ export abstract class Player implements IPlayer {
 
     abstract move(board: Board): Observable<{gameResult: GameResult, finished: boolean}>;
 
-    end(gameResult: GameResult): void {
+    endGame(gameResult: GameResult): void {
     }
 }

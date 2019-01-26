@@ -8,6 +8,8 @@ import { GameStore } from '../redux/implementation/providers';
 import { MessageActions } from '../redux/implementation/actions';
 import { Observable } from 'rxjs';
 import { Board } from '../game/board';
+import { AgentPlayer } from '../game/players/agent-player';
+import { AgentProxyService } from '../services/agent-proxy.service';
 
 @Component({
     selector: 'tic-tac-toe',
@@ -30,13 +32,13 @@ export class TicTacToeComponent {
 
     private _match: Match;
     private _humanPlayer: HumanPlayer;
-    private _agentPlayer: RandomPlayer;
+    private _agentPlayer: AgentPlayer;
 
     private _cellClick: EventEmitter<CellState> = new EventEmitter<CellState>();
 
     // Constructor
 
-    constructor(@Inject(GameStore) private store: Store<GameState>) {
+    constructor(@Inject(GameStore) private store: Store<GameState>, private agentProxyService: AgentProxyService) {
 
         this._busy$ = this.store.select('busy');
         this._winner$ = this.store.select('winner');
@@ -59,7 +61,7 @@ export class TicTacToeComponent {
         });
 
         this._humanPlayer = new HumanPlayer(this._cellClick);
-        this._agentPlayer = new RandomPlayer();
+        this._agentPlayer = new AgentPlayer(this.agentProxyService);
     }
 
     onCellClick(cellState: CellState) {

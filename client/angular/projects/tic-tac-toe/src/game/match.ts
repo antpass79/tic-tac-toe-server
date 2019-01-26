@@ -10,7 +10,6 @@ export class Match {
 
     async play(player1: Player, player2: Player, games: number = 1): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
 
-        this.board.reset();
         let draw_count = 0;
         let cross_count = 0;
         let naught_count = 0;
@@ -45,6 +44,7 @@ export class Match {
 
     private async game(player1: Player, player2: Player, board: Board): Promise<GameResult> {
 
+        this.board.reset();
         player1.newGame(Side.CROSS);
         player2.newGame(Side.NAUGHT);
 
@@ -81,8 +81,8 @@ export class Match {
             }
         }
 
-        player1.end(finalResult);
-        player2.end(finalResult);
+        player1.endGame(finalResult);
+        player2.endGame(finalResult);
 
         return new Promise<GameResult>(resolve => {
 

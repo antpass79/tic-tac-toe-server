@@ -12,10 +12,11 @@ export class GameController {
     //     }
     newGame(req: any, res: any) {
 
-        let data = req.body;
+        let side = req.body;
+        console.log(side);
 
         let agentService = new AgentService();
-        agentService.newGame(data.side).subscribe((data) => {
+        agentService.newGame(side).subscribe((data) => {
             res.sendStatus(200);
         }, (e) => {
             res.sendStatus(500);
@@ -29,15 +30,15 @@ export class GameController {
     //     }
     move(req: any, res: any) {
 
-        let data = req.body;
-        console.log(data);
+        let state = req.body;
+        console.log(state);
         
         let board = new Board();
-        board.updateState(data.state);
+        board.updateState(state);
 
         let agentService = new AgentService();
         agentService.move(board).subscribe((updatedState: number[]) => {
-            console.log(data);
+            console.log(state);
             res.send(updatedState);
         }, (e) => {
             res.sendStatus(500);
@@ -45,16 +46,16 @@ export class GameController {
     }
 
     // how to use it:
-    // call 'http://localhost:3000/tictactoe/end'
+    // call 'http://localhost:3000/tictactoe/endgame'
     // POST, Content-Type: application/json, Body: {
     //     "result": 1
     //     }
-    end(req: any, res: any) {
+    endGame(req: any, res: any) {
 
-        let data = req.body;
+        let gameResult = req.body;
 
         let agentService = new AgentService();
-        agentService.end(data.result).subscribe((data) => {
+        agentService.end(gameResult).subscribe((data) => {
             res.sendStatus(200);
         }, (e) => {
             res.sendStatus(500);
