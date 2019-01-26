@@ -3,7 +3,6 @@ import { GameResult, Board } from '../board';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { CellState } from '../../redux/implementation/states';
-import { BoardService } from '../../services/board.service';
 
 export class HumanPlayer extends Player {
 
@@ -20,7 +19,7 @@ export class HumanPlayer extends Player {
 
                 clickSubscriber.unsubscribe();
                 
-                let moveResult = board.move(BoardService.getIndex(cellState.x, cellState.y), this.side);
+                let moveResult = board.move(Board.getIndex(cellState.x, cellState.y), this.side);
                 let result = { gameResult: moveResult.result, finished: moveResult.finished };
          
                 subscriber.next(result);

@@ -3,15 +3,20 @@ import { Player, Side } from "./players/player";
 
 export class Match {
 
+    private _board: Board = new Board();
+    get board() {
+        return this._board;
+    }
+
     async play(player1: Player, player2: Player, games: number = 1): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
 
-        let board = new Board();
+        this.board.reset();
         let draw_count = 0;
         let cross_count = 0;
         let naught_count = 0;
 
         for (let i = 0; i < games; i++) {
-            let result = await this.game(player1, player2, board);
+            let result = await this.game(player1, player2, this.board);
             if (result == GameResult.CROSS_WIN)
                 cross_count += 1;
             else if (result == GameResult.NAUGHT_WIN)
@@ -43,7 +48,6 @@ export class Match {
         player1.newGame(Side.CROSS);
         player2.newGame(Side.NAUGHT);
 
-        board.reset();
         board.print();
 
         let finalResult = GameResult.NOT_FINISHED;

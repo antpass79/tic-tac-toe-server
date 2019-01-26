@@ -1,3 +1,4 @@
+import { Component, EventEmitter, Inject } from '@angular/core';
 import { range } from 'underscore';
 
 import { Side } from "./players/player";
@@ -11,6 +12,8 @@ export enum GameResult {
 
 export class Board {
 
+    stateChange: EventEmitter<Array<Side>> = new EventEmitter<Array<Side>>();
+
     static BOARD_DIM = 3;
     static BOARD_SIZE = Board.BOARD_DIM * Board.BOARD_DIM;
 
@@ -21,6 +24,20 @@ export class Board {
 
     constructor() {
         this.reset();
+    }
+
+    static getIndex(x: number, y: number) {
+        return x * 3 + y;
+    }
+
+    static getCoordinate(index: number): { x: number, y: number } {
+
+        let coordinate = {
+            x: Math.floor(index / Board.BOARD_DIM),
+            y: index % Board.BOARD_DIM
+        }
+
+        return coordinate;
     }
 
     static otherSide(side: Side) {
@@ -37,13 +54,6 @@ export class Board {
         throw Error(side + " is not a valid side");
     }
 
-    updateState(state: number[]) {
-
-        for (let i = 0; i < state.length; i++) {
-            this._state[i] = state[i];
-        }
-    }
-
     move(position: number, side: Side) {
 
         if (this.state[position] != Side.EMPTY) {
@@ -51,6 +61,7 @@ export class Board {
         }
 
         this.state[position] = side;
+        this.stateChange.emit(this.state);
 
         return this.getBoardState();
     }

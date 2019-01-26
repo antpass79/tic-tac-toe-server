@@ -1,5 +1,6 @@
 import { IReducer, IAction } from "../reducer";
-import { GameState, CellState } from "./states";
+import { GameState, initialState } from "./states";
+import { THE_WINNER_IS, UPDATE_CELL_SIDES, NEW_GAME } from "./actions";
 
 export class GameReducer implements IReducer<GameState> {
 
@@ -14,25 +15,18 @@ export class GameReducer implements IReducer<GameState> {
 
         switch (action.type) {
 
+            case NEW_GAME: {
+                return initialState;
+            }
 
-            default:
-                return state;
-        }
-    }
-}
+            case UPDATE_CELL_SIDES: {
+                let boardState = { ...state.boardState, cells: action.payload };
+                return { ...state, boardState: boardState };
+            }
 
-export class CellReducer implements IReducer<CellState> {
-
-    // constructor
-
-    constructor() {
-    }
-
-    // public functions
-
-    buildState(state: CellState, action: IAction): CellState {
-
-        switch (action.type) {
+            case THE_WINNER_IS: {
+                return { ...state, winner: action.payload };
+            }
 
             default:
                 return state;

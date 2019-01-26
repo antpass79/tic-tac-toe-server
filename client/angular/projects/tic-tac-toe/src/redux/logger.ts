@@ -27,7 +27,5 @@ export class Logger {
 
 export function LoggerFactory(injector: Injector): Logger {
 
-    //let appConfig = injector.get(AppConfig) as AppConfig;
-    //return new Logger(appConfig.getValue("log"));
     return new Logger(true);
 }

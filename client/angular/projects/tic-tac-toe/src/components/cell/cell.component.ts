@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CellState } from '../../redux/implementation/states';
-import { BoardService } from '../../services/board.service';
+import { Board } from '../../game/board';
 
 @Component({
     selector: '[cell]',
@@ -13,7 +13,7 @@ export class CellComponent {
     state: CellState;
 
     get index() {
-        return !this.state ? -1 : BoardService.getIndex(this.state.x, this.state.y);
+        return !this.state ? -1 : Board.getIndex(this.state.x, this.state.y);
     }
 
     // Constructor

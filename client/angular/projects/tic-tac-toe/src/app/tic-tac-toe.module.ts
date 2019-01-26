@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { TicTacToeComponent } from './tic-tac-toe.component';
 import { BoardComponent } from '../components/board/board.component';
 import { CellComponent } from '../components/cell/cell.component';
+import { GameStoreProvider } from '../redux/implementation/providers';
+import { Logger, LoggerFactory } from '../redux/logger';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,12 @@ import { CellComponent } from '../components/cell/cell.component';
         FormsModule,
     ],
     providers: [
+        {
+            provide: Logger,
+            useFactory: LoggerFactory,
+            deps: [Injector]
+        },
+        GameStoreProvider
     ],
     bootstrap: [TicTacToeComponent]
 })

@@ -1,10 +1,5 @@
 import { range } from 'underscore';
-
-export class Constants {
-
-    public static get BOARD_DIM(): number { return 3; };
-    public static get BOARD_SIZE(): number { return Constants.BOARD_DIM * Constants.BOARD_DIM; };
-}
+import { Board } from '../../game/board';
 
 export enum Side {
     
@@ -27,18 +22,24 @@ export interface BoardState {
 
 export interface GameState {
 
+    readonly busy: boolean;
+    readonly winner: Side;
     readonly boardState: BoardState;
 }
 
 export const initialState: GameState = {
 
+    busy: false,
+    winner: Side.EMPTY,
     boardState: {
-        cells: range(Constants.BOARD_SIZE).map(() => {
+        cells: range(Board.BOARD_SIZE).map((item, index) => {
+
+            let coordinate = Board.getCoordinate(index);
             return {
-                x: 0,
-                y: 0,
+                x: coordinate.x,
+                y: coordinate.y,
                 side: Side.EMPTY
-            };
+            }
         })
     }
 }

@@ -1,8 +1,13 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Inject } from '@angular/core';
 import { Match } from '../game/match';
-import { CellState, Side } from '../redux/implementation/states';
+import { CellState, Side, GameState, initialState } from '../redux/implementation/states';
 import { HumanPlayer } from '../game/players/human-player';
 import { RandomPlayer } from '../game/players/random-player';
+import { Store } from '../redux/store';
+import { GameStore } from '../redux/implementation/providers';
+import { MessageActions } from '../redux/implementation/actions';
+import { Observable } from 'rxjs';
+import { Board } from '../game/board';
 
 @Component({
     selector: 'tic-tac-toe',
@@ -11,14 +16,16 @@ import { RandomPlayer } from '../game/players/random-player';
 })
 export class TicTacToeComponent {
 
-    private _busy: boolean = false;
-    get busy(): boolean {
-        return this._busy;
+    gameState: GameState = initialState;
+
+    private _busy$: Observable<boolean>;
+    get busy(): Observable<boolean> {
+        return this._busy$;
     }
 
-    private _winner: Side = Side.EMPTY;
-    get winner(): Side {
-        return this._winner;
+    private _winner$: Observable<Side>;
+    get winner(): Observable<Side> {
+        return this._winner$;
     }
 
     private _match: Match;
@@ -29,9 +36,28 @@ export class TicTacToeComponent {
 
     // Constructor
 
-    constructor() {
+    constructor(@Inject(GameStore) private store: Store<GameState>) {
+
+        this._busy$ = this.store.select('busy');
+        this._winner$ = this.store.select('winner');
 
         this._match = new Match();
+        this._match.board.stateChange.subscribe((state: Side[]) => {
+
+            let cellStates: Array<CellState> = state.map((item, index) => {
+
+                let coordinate = Board.getCoordinate(index);
+
+                return {
+                    x: coordinate.x,
+                    y: coordinate.y,
+                    side: item
+                }
+            });
+
+            this.store.dispatch(MessageActions.updateCellSides(cellStates));
+        });
+
         this._humanPlayer = new HumanPlayer(this._cellClick);
         this._agentPlayer = new RandomPlayer();
     }
@@ -42,7 +68,7 @@ export class TicTacToeComponent {
 
     onStartHuman(event) {
 
-        this.reset();
+        this.newGame();
 
         this._match.play(this._humanPlayer, this._agentPlayer).then((result) => {
             this.updateWinner(result);
@@ -51,7 +77,7 @@ export class TicTacToeComponent {
 
     onStartAgent(event) {        
 
-        this.reset();
+        this.newGame();
 
         this._match.play(this._agentPlayer, this._humanPlayer).then((result) => {
             this.updateWinner(result);
@@ -60,18 +86,22 @@ export class TicTacToeComponent {
 
     private updateWinner(statistics: { crossCount: number, naughtCount: number, drawCount: number }) {
 
+        let winner: Side = Side.EMPTY;
+
         if (statistics.crossCount) {
-            this._winner = Side.CROSS;
+            winner = Side.CROSS;
         }
         else if (statistics.naughtCount) {
-            this._winner = Side.NAUGHT;
+            winner = Side.NAUGHT;
         }
         else {
-            this._winner = Side.EMPTY;
+            winner = Side.EMPTY;
         }
+
+        this.store.dispatch(MessageActions.theWinnerIs(winner));
     }
 
-    private reset() {
-        this._winner = Side.EMPTY;
+    private newGame() {
+        this.store.dispatch(MessageActions.newGame());
     }
 }
