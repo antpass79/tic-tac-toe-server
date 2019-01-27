@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import cherrypy
+import json
 
 from TFSessionManager import TFSessionManager
 from players.SimpleNNQPlayer import NNQPlayer
@@ -40,7 +41,7 @@ class TicTacToeService(object):
     @cherrypy.tools.json_in()
     def end(self):
         game_result = cherrypy.request.json
-        player.final_result(game_result)
+        player.final_result(GameResult(game_result))
 
         return game_result
 

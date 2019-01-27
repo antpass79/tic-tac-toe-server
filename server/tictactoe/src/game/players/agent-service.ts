@@ -43,20 +43,28 @@ export class AgentService {
                     subscriber.next(response.data);
                     subscriber.complete();
                 })
+                .catch((reason) => {
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
         })
     }
 
-    end(gameResult: GameResult): Observable<any> {
+    end(gameResult: GameResult): Observable<GameResult> {
 
         this.updateConfiguration('end', gameResult);
 
         return new Observable(subscriber => {
 
             Axios(this.configuration)
-            .then((response) => {
-                subscriber.next();
-                subscriber.complete();
-            })
+                .then((response) => {
+                    subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
         })
     }
 
@@ -64,6 +72,8 @@ export class AgentService {
 
         let url = "http://localhost:8080/" + action;
         let jsonData = data ? JSON.stringify(data) : null;
+        console.log('jsonData' + ' ' + action);
+        console.log(jsonData);
 
         this.configuration.url = url;
         this.configuration.data = jsonData;

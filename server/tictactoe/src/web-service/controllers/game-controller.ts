@@ -12,12 +12,11 @@ export class GameController {
     //     }
     newGame(req: any, res: any) {
 
-        let side = req.body;
-        console.log(side);
+        let jsonData = req.body;
 
         let agentService = new AgentService();
-        agentService.newGame(side).subscribe((data) => {
-            res.sendStatus(200);
+        agentService.newGame(jsonData.side).subscribe((data) => {
+            res.send(JSON.stringify(data));
         }, (e) => {
             res.sendStatus(500);
         });
@@ -31,14 +30,12 @@ export class GameController {
     move(req: any, res: any) {
 
         let state = req.body;
-        console.log(state);
         
         let board = new Board();
         board.updateState(state);
 
         let agentService = new AgentService();
         agentService.move(board).subscribe((updatedState: number[]) => {
-            console.log(state);
             res.send(updatedState);
         }, (e) => {
             res.sendStatus(500);
@@ -52,11 +49,11 @@ export class GameController {
     //     }
     endGame(req: any, res: any) {
 
-        let gameResult = req.body;
+        let jsonData = req.body;
 
         let agentService = new AgentService();
-        agentService.end(gameResult).subscribe((data) => {
-            res.sendStatus(200);
+        agentService.end(jsonData.gameResult).subscribe((data) => {
+            res.send(JSON.stringify(data));
         }, (e) => {
             res.sendStatus(500);
         });

@@ -19,7 +19,11 @@ export class AgentProxyService {
 
     newGame(side: Side): Observable<number> {
 
-        return this.httpClient.post<number>(this.buildEndpoint('newgame'), side, this.buildOptions());
+        let data = {
+            side: side            
+        };
+
+        return this.httpClient.post<number>(this.buildEndpoint('newgame'), JSON.stringify(data), this.buildOptions());
     }
 
     move(state: number[]): Observable<number[]> {
@@ -29,7 +33,11 @@ export class AgentProxyService {
 
     endGame(gameResult: GameResult): Observable<number> {
 
-        return this.httpClient.post<number>(this.buildEndpoint('endgame'), gameResult, this.buildOptions());
+        let data = {
+            gameResult: gameResult            
+        };
+
+        return this.httpClient.post<number>(this.buildEndpoint('endgame'), JSON.stringify(data), this.buildOptions());
     }
 
     // private functions

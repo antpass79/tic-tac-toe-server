@@ -1,6 +1,6 @@
 import { IReducer, IAction } from "../reducer";
 import { GameState, initialState } from "./states";
-import { THE_WINNER_IS, UPDATE_CELL_SIDES, NEW_GAME } from "./actions";
+import { THE_WINNER_IS, MOVE, NEW_GAME } from "./actions";
 
 export class GameReducer implements IReducer<GameState> {
 
@@ -19,7 +19,7 @@ export class GameReducer implements IReducer<GameState> {
                 return initialState;
             }
 
-            case UPDATE_CELL_SIDES: {
+            case MOVE: {
                 let boardState = { ...state.boardState, cells: action.payload };
                 return { ...state, boardState: boardState };
             }

@@ -1,7 +1,7 @@
 import { Side, CellState } from "./states";
 
 export const NEW_GAME: string = "NEW_GAME";
-export const UPDATE_CELL_SIDES: string = "UPDATE_CELL_SIDES";
+export const MOVE: string = "MOVE";
 export const THE_WINNER_IS: string = "THE_WINNER_IS";
 
 export class MessageActions {
@@ -18,7 +18,7 @@ export class MessageActions {
 
     static updateCellSides(state: CellState[]) {
         return MessageActions.commonMessage({
-            type: UPDATE_CELL_SIDES,
+            type: MOVE,
             payload: state
         });
     }    

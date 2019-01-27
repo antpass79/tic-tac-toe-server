@@ -45,8 +45,8 @@ export class Match {
     private async game(player1: Player, player2: Player, board: Board): Promise<GameResult> {
 
         this.board.reset();
-        player1.newGame(Side.CROSS);
-        player2.newGame(Side.NAUGHT);
+        await player1.newGame(Side.CROSS).toPromise();
+        await player2.newGame(Side.NAUGHT).toPromise();
 
         board.print();
 
@@ -81,8 +81,8 @@ export class Match {
             }
         }
 
-        player1.endGame(finalResult);
-        player2.endGame(finalResult);
+        await player1.endGame(finalResult).toPromise();
+        await player2.endGame(finalResult).toPromise();
 
         return new Promise<GameResult>(resolve => {
 
