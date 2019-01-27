@@ -2,6 +2,10 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { Match } from './match';
 import { RandomPlayer } from './players/random-player';
+import { HumanPlayer } from './players/human-player';
+import { CellState, Side } from '../redux/implementation/states';
+import { EventEmitter } from '@angular/core';
+import { Board } from './board';
 
 describe('Match', () => {
 
@@ -20,37 +24,60 @@ describe('Match', () => {
         expect(match).toBeTruthy();
     });
 
-    it('should return the games (1) value from play, as sum of all counts (cross, maught, draw)', async(() => {
-
-        let games = 1;
-        let player1 = new RandomPlayer();
-        let player2 = new RandomPlayer();
-
-        match.play(player1, player2, games).then((result) => {
-            expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
-
-            Match.printStatistics(games, {
-                crossCount: result.crossCount,
-                naughtCount: result.naughtCount,
-                drawCount: result.drawCount
-            });
-        });
-    }));
-
-    it('should return the games (5) value from play, as sum of all counts (cross, maught, draw)', async(() => {
+    it('should return the games (5) value from play, as sum of all counts (cross, maught, draw) with random players', async(() => {
 
         let games = 5;
         let player1 = new RandomPlayer();
         let player2 = new RandomPlayer();
 
-        match.play(player1, player2, games).then((result) => {
+        match.play(player1, player2, games, true).then((result) => {
             expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
+        });
+    }));
 
-            Match.printStatistics(games, {
-                crossCount: result.crossCount,
-                naughtCount: result.naughtCount,
-                drawCount: result.drawCount
+    it('should return the games (5) value from play, as sum of all counts (cross, maught, draw) with human player and random player', async(() => {
+
+        let click1: EventEmitter<CellState> = new EventEmitter<CellState>();
+        let click2: EventEmitter<CellState> = new EventEmitter<CellState>();
+
+        let games = 5;
+        let player1 = new HumanPlayer(click1);
+        let player2 = new HumanPlayer(click2);
+
+        match.play(player1, player2, games, true).then((result) => {
+            expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
+        });
+
+        let array = [0, 1, 2, 3, 4, 5, 6, 7];
+
+        slowEach(array, 100, function (element, index) {
+
+            let coordinate1 = Board.getCoordinate(index);
+            click1.emit({
+                side: Side.CROSS,
+                x: coordinate1.x,
+                y: coordinate1.y
+            });
+
+            let coordinate2 = Board.getCoordinate(index + 1);
+            click2.emit({
+                side: Side.CROSS,
+                x: coordinate2.x,
+                y: coordinate2.y
             });
         });
     }));
 })
+
+function slowEach(array, interval, callback) {
+    if (!array.length) return;
+    var i = 0;
+    next();
+    function next() {
+        if (callback(array[i], i) !== false) {
+            if (++i < array.length) {
+                setTimeout(next, interval);
+            }
+        }
+    }
+}

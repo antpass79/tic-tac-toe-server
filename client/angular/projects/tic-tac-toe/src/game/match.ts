@@ -8,14 +8,14 @@ export class Match {
         return this._board;
     }
 
-    async play(player1: Player, player2: Player, games: number = 1): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
+    async play(player1: Player, player2: Player, games: number = 1, silent: boolean = false): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
 
         let draw_count = 0;
         let cross_count = 0;
         let naught_count = 0;
 
         for (let i = 0; i < games; i++) {
-            let result = await this.game(player1, player2, this.board);
+            let result = await this.game(player1, player2, this.board, silent);
             if (result == GameResult.CROSS_WIN)
                 cross_count += 1;
             else if (result == GameResult.NAUGHT_WIN)
@@ -42,13 +42,14 @@ export class Match {
         console.log("Which gives percentages of draws : cross : naught of about " + drawPercent + "% : " + crossPercent + "% : " + naughtPercent + "%");
       }    
 
-    private async game(player1: Player, player2: Player, board: Board): Promise<GameResult> {
+    private async game(player1: Player, player2: Player, board: Board, silent: boolean): Promise<GameResult> {
 
         this.board.reset();
         await player1.newGame(Side.CROSS).toPromise();
         await player2.newGame(Side.NAUGHT).toPromise();
 
-        board.print();
+        if (!silent)
+            board.print();
 
         let finalResult = GameResult.NOT_FINISHED;
 
@@ -60,7 +61,8 @@ export class Match {
         while (!result.finished) {
 
             result = await player1.move(board).toPromise();
-            board.print();
+            if (!silent)
+                board.print();
 
             if (result.finished) {
                 if (result.gameResult == GameResult.DRAW)
@@ -70,7 +72,8 @@ export class Match {
             }
             else {
                 result = await player2.move(board).toPromise();
-                board.print();
+                if (!silent)
+                    board.print();
 
                 if (result.finished) {
                     if (result.gameResult == GameResult.DRAW)

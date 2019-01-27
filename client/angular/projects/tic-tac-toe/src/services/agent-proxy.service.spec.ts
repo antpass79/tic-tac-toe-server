@@ -49,14 +49,14 @@ describe('AgentProxyService', () => {
 
         service.newGame(side).subscribe((status) => {
 
-            expect(status).toBe(200);
+            expect(status).toBe(side);
         });
 
         const req = mockController.expectOne('http://localhost:3000/tictactoe/newgame');
 
         expect(req.request.method).toEqual('POST');
 
-        req.flush(200);
+        req.flush(side);
     });
 
     it('should return status 200 after a call to move', () => {
@@ -66,8 +66,8 @@ describe('AgentProxyService', () => {
 
         service.move(state).subscribe((status) => {
 
-            console.log(status);
-            expect(status).toEqual((<any>jasmine).arrayContaining(Side.NAUGHT));
+            //expect(status).toEqual((<any>jasmine).arrayContaining(Side.NAUGHT));
+            expect(status).toContain(Side.NAUGHT);
         });
 
         const req = mockController.expectOne('http://localhost:3000/tictactoe/move');
@@ -83,13 +83,13 @@ describe('AgentProxyService', () => {
 
         service.endGame(gameResult).subscribe((status) => {
 
-            expect(status).toBe(200);
+            expect(status).toBe(gameResult);
         });
 
         const req = mockController.expectOne('http://localhost:3000/tictactoe/endgame');
 
         expect(req.request.method).toEqual('POST');
 
-        req.flush(200);
+        req.flush(gameResult);
     });
 })
