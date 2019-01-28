@@ -1,6 +1,6 @@
 import { IReducer, IAction } from "../reducer";
 import { GameState, initialState } from "./states";
-import { THE_WINNER_IS, MOVE, NEW_GAME } from "./actions";
+import { THE_WINNER_IS, MOVE, NEW_GAME, BUSY } from "./actions";
 
 export class GameReducer implements IReducer<GameState> {
 
@@ -26,6 +26,10 @@ export class GameReducer implements IReducer<GameState> {
 
             case THE_WINNER_IS: {
                 return { ...state, winner: action.payload };
+            }
+
+            case BUSY: {
+                return { ...state, busy: action.payload };
             }
 
             default:

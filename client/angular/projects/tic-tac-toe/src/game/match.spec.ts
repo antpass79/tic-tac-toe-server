@@ -48,9 +48,8 @@ describe('Match', () => {
             expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
         });
 
-        let array = [0, 1, 2, 3, 4, 5, 6, 7];
-
-        slowEach(array, 100, function (element, index) {
+        for(let index = 0; index < 19; index++) {
+        //slowEach(array, 100, function (element, index) {
 
             let coordinate1 = Board.getCoordinate(index);
             click1.emit({
@@ -61,11 +60,11 @@ describe('Match', () => {
 
             let coordinate2 = Board.getCoordinate(index + 1);
             click2.emit({
-                side: Side.CROSS,
+                side: Side.NAUGHT,
                 x: coordinate2.x,
                 y: coordinate2.y
             });
-        });
+        }//);
     }));
 })
 

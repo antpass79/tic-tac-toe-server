@@ -5,10 +5,15 @@ import json
 
 from TFSessionManager import TFSessionManager
 from players.SimpleNNQPlayer import NNQPlayer
-from Board import Board, CROSS, GameResult
+from players.RandomPlayer import RandomPlayer
+from Board import Board, CROSS, NAUGHT, GameResult
+from Match import Match
 
 player = NNQPlayer('NNQPlayer')
 player.new_game(CROSS)
+
+player2 = NNQPlayer('NNQPlayer2')
+player2.new_game(NAUGHT)
 
 TFSessionManager.set_session(tf.Session())
 TFSessionManager.get_session().run(tf.global_variables_initializer())
@@ -44,6 +49,17 @@ class TicTacToeService(object):
         player.final_result(GameResult(game_result))
 
         return game_result
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    @cherrypy.tools.json_in()
+    def train(self):
+        games = cherrypy.request.json
+
+        match = Match()
+        match.play(player2, player, games)
+
+        return games
 
 if __name__ == '__main__':
    config = {'server.socket_host': '0.0.0.0'}

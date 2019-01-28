@@ -1,5 +1,5 @@
-from src.Board import Board, GameResult, CROSS, NAUGHT
-from src.players.Player import Player
+from Board import Board, GameResult, CROSS, NAUGHT
+from players.Player import Player
 
 class Match:
 

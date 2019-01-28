@@ -1,5 +1,5 @@
 import { GameResult, Board } from "./board";
-import { Player, Side } from "./players/player";
+import { Side, IPlayer } from "./players/player";
 
 export class Match {
 
@@ -8,7 +8,7 @@ export class Match {
         return this._board;
     }
 
-    async play(player1: Player, player2: Player, games: number = 1, silent: boolean = false): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
+    async play(player1: IPlayer, player2: IPlayer, games: number = 1, silent: boolean = false): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
 
         let draw_count = 0;
         let cross_count = 0;
@@ -31,25 +31,14 @@ export class Match {
         };
     }
 
-    static printStatistics(games: number, statistics: { crossCount: number, naughtCount: number, drawCount: number }) {
-
-        console.log("After " + games + " game we have draws: " + statistics.drawCount + ", cross wins: " + statistics.crossCount + ", and naught wins: " + statistics.naughtCount + ".");
-    
-        let drawPercent = (statistics.drawCount / games * 100).toFixed(2);
-        let crossPercent = (statistics.crossCount / games * 100).toFixed(2);
-        let naughtPercent = (statistics.naughtCount / games * 100).toFixed(2);
-    
-        console.log("Which gives percentages of draws : cross : naught of about " + drawPercent + "% : " + crossPercent + "% : " + naughtPercent + "%");
-      }    
-
-    private async game(player1: Player, player2: Player, board: Board, silent: boolean): Promise<GameResult> {
+    async game(player1: IPlayer, player2: IPlayer, silent: boolean): Promise<GameResult> {
 
         this.board.reset();
         await player1.newGame(Side.NAUGHT).toPromise();
         await player2.newGame(Side.CROSS).toPromise();
 
         if (!silent)
-            board.print();
+            this.board.print();
 
         let finalResult = GameResult.NOT_FINISHED;
 
@@ -60,9 +49,9 @@ export class Match {
 
         while (!result.finished) {
 
-            result = await player1.move(board).toPromise();
+            result = await player1.move(this.board).toPromise();
             if (!silent)
-                board.print();
+            this.board.print();
 
             if (result.finished) {
                 if (result.gameResult == GameResult.DRAW)
@@ -71,9 +60,9 @@ export class Match {
                     finalResult = GameResult.CROSS_WIN;
             }
             else {
-                result = await player2.move(board).toPromise();
+                result = await player2.move(this.board).toPromise();
                 if (!silent)
-                    board.print();
+                this.board.print();
 
                 if (result.finished) {
                     if (result.gameResult == GameResult.DRAW)
@@ -92,4 +81,15 @@ export class Match {
             resolve(finalResult);
         });
     }
+
+    static printStatistics(games: number, statistics: { crossCount: number, naughtCount: number, drawCount: number }) {
+
+        console.log("After " + games + " game we have draws: " + statistics.drawCount + ", cross wins: " + statistics.crossCount + ", and naught wins: " + statistics.naughtCount + ".");
+    
+        let drawPercent = (statistics.drawCount / games * 100).toFixed(2);
+        let crossPercent = (statistics.crossCount / games * 100).toFixed(2);
+        let naughtPercent = (statistics.naughtCount / games * 100).toFixed(2);
+    
+        console.log("Which gives percentages of draws : cross : naught of about " + drawPercent + "% : " + crossPercent + "% : " + naughtPercent + "%");
+      }    
 }

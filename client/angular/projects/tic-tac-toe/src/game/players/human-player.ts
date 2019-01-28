@@ -1,4 +1,4 @@
-import { Player } from './player';
+import { Player, Side } from './player';
 import { GameResult, Board } from '../board';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
@@ -9,6 +9,11 @@ export class HumanPlayer extends Player {
     constructor(private click: EventEmitter<CellState>) {
 
         super();
+    }
+
+    newGame(side: Side): Observable<Side> {
+        
+        return super.newGame(side);
     }
 
     move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }> {
@@ -26,5 +31,10 @@ export class HumanPlayer extends Player {
                 subscriber.complete();
             });
         });
+    }
+
+    endGame(gameResult: GameResult): Observable<GameResult> {
+
+        return super.endGame(gameResult);
     }
 }

@@ -10,9 +10,11 @@ export enum Side {
 
 export interface IPlayer {
 
+    readonly side: Side;
+
     newGame(side: Side): Observable<Side>;
     move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }>;
-    endGame(gameResult: GameResult): void;
+    endGame(gameResult: GameResult): Observable<GameResult>;
 }
 
 export abstract class Player implements IPlayer {

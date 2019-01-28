@@ -3,6 +3,7 @@ import { Side, CellState } from "./states";
 export const NEW_GAME: string = "NEW_GAME";
 export const MOVE: string = "MOVE";
 export const THE_WINNER_IS: string = "THE_WINNER_IS";
+export const BUSY: string = "BUSY";
 
 export class MessageActions {
 
@@ -27,6 +28,13 @@ export class MessageActions {
         return MessageActions.commonMessage({
             type: THE_WINNER_IS,
             payload: winner
+        });
+    }
+
+    static busy(busy: boolean) {
+        return MessageActions.commonMessage({
+            type: BUSY,
+            payload: busy
         });
     }    
 }

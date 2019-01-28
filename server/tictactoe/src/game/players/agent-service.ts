@@ -50,9 +50,27 @@ export class AgentService {
         })
     }
 
-    end(gameResult: GameResult): Observable<GameResult> {
+    endGame(gameResult: GameResult): Observable<GameResult> {
 
         this.updateConfiguration('end', gameResult);
+
+        return new Observable(subscriber => {
+
+            Axios(this.configuration)
+                .then((response) => {
+                    subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
+        })
+    }
+
+    train(games: number): Observable<number> {
+
+        this.updateConfiguration('train', games);
 
         return new Observable(subscriber => {
 

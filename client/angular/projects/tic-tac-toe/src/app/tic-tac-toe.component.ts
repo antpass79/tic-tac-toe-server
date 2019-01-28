@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { Board } from '../game/board';
 import { AgentPlayer } from '../game/players/agent-player';
 import { AgentProxyService } from '../services/agent-proxy.service';
+import { GameFlowService } from '../services/game-flow.service';
 
 @Component({
     selector: 'tic-tac-toe',
@@ -38,27 +39,10 @@ export class TicTacToeComponent {
 
     // Constructor
 
-    constructor(@Inject(GameStore) private store: Store<GameState>, private agentProxyService: AgentProxyService) {
+    constructor(@Inject(GameStore) private store: Store<GameState>, private agentProxyService: AgentProxyService, private gameFlowService: GameFlowService) {
 
         this._busy$ = this.store.select('busy');
         this._winner$ = this.store.select('winner');
-
-        this._match = new Match();
-        this._match.board.stateChange.subscribe((state: Side[]) => {
-
-            let cellStates: Array<CellState> = state.map((item, index) => {
-
-                let coordinate = Board.getCoordinate(index);
-
-                return {
-                    x: coordinate.x,
-                    y: coordinate.y,
-                    side: item
-                }
-            });
-
-            this.store.dispatch(MessageActions.updateCellSides(cellStates));
-        });
 
         this._humanPlayer = new HumanPlayer(this._cellClick);
         this._agentPlayer = new AgentPlayer(this.agentProxyService);
@@ -66,44 +50,20 @@ export class TicTacToeComponent {
 
     onCellClick(cellState: CellState) {
         this._cellClick.emit(cellState);
+    }    
+
+    async onStartHuman() {
+
+        await this.gameFlowService.newGame(this._humanPlayer, this._agentPlayer);
     }
 
-    onStartHuman(event) {
+    async onStartAgent() {
 
-        this.newGame();
-
-        this._match.play(this._humanPlayer, this._agentPlayer).then((result) => {
-            this.updateWinner(result);
-        });
+        await this.gameFlowService.newGame(this._agentPlayer, this._humanPlayer);
     }
 
-    onStartAgent(event) {        
+    async onTrainAgent() {
 
-        this.newGame();
-
-        this._match.play(this._agentPlayer, this._humanPlayer).then((result) => {
-            this.updateWinner(result);
-        });
-    }
-
-    private updateWinner(statistics: { crossCount: number, naughtCount: number, drawCount: number }) {
-
-        let winner: Side = Side.EMPTY;
-
-        if (statistics.crossCount) {
-            winner = Side.CROSS;
-        }
-        else if (statistics.naughtCount) {
-            winner = Side.NAUGHT;
-        }
-        else {
-            winner = Side.EMPTY;
-        }
-
-        this.store.dispatch(MessageActions.theWinnerIs(winner));
-    }
-
-    private newGame() {
-        this.store.dispatch(MessageActions.newGame());
+        await this.gameFlowService.train(100);
     }
 }

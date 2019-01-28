@@ -11,6 +11,7 @@ export class GameRoute {
         router.post('/newgame', this.gameController.newGame);
         router.post('/move', this.gameController.move);
         router.post('/endgame', this.gameController.endGame);
+        router.post('/train', this.gameController.train);
 
         return router;
     }
