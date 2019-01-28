@@ -43,6 +43,7 @@ export class Server {
     private configCors(app: express.Application) {
         let originsWhitelist = [
             'http://localhost:4200',
+            'http://localhost:2000',
         ];
         let corsOptions = {
             origin: (origin: any, callback: any) => {

@@ -4,8 +4,8 @@ import { Observable, observable } from 'rxjs';
 export enum Side {
 
     EMPTY = 0,
-    CROSS = 1,
-    NAUGHT = 2
+    NAUGHT = 1,
+    CROSS = 2
 }
 
 export interface IPlayer {

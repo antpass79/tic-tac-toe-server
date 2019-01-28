@@ -9,7 +9,7 @@
         <div>
             <button (click)="onStartHuman($event)">Start Human</button>
             <button (click)="onStartAgent($event)">Start Agent</button>
-            <h1 *ngIf="(winner | async) != 0 && (winner | async) != 1">The Winner is X</h1>
-            <h1 *ngIf="(winner | async) != 0 && (winner | async) != 2">The Winner is O</h1>
+            <h1 *ngIf="(winner | async) != 0 && (winner | async) != 1">The Winner is O</h1>
+            <h1 *ngIf="(winner | async) != 0 && (winner | async) != 2">The Winner is X</h1>
         </div>
     </div>
