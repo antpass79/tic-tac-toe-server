@@ -1,6 +1,6 @@
 import { IReducer, IAction } from "../reducer";
 import { GameState, initialState } from "./states";
-import { THE_WINNER_IS, MOVE, NEW_GAME, BUSY } from "./actions";
+import { THE_WINNER_IS, MOVE, START, STOP, BUSY } from "./actions";
 
 export class GameReducer implements IReducer<GameState> {
 
@@ -15,8 +15,13 @@ export class GameReducer implements IReducer<GameState> {
 
         switch (action.type) {
 
-            case NEW_GAME: {
-                return initialState;
+            case START: {
+                let startState = initialState;
+                return { ...startState, started: true };
+            }
+
+            case STOP: {                
+                return { ...state, started: false };
             }
 
             case MOVE: {

@@ -1,6 +1,7 @@
 import { Side, CellState } from "./states";
 
-export const NEW_GAME: string = "NEW_GAME";
+export const START: string = "START";
+export const STOP: string = "STOP";
 export const MOVE: string = "MOVE";
 export const THE_WINNER_IS: string = "THE_WINNER_IS";
 export const BUSY: string = "BUSY";
@@ -11,9 +12,15 @@ export class MessageActions {
         return Object.assign({}, action, { bypassIfEqual: true });
     }
 
-    static newGame() {
+    static start() {
         return MessageActions.commonMessage({
-            type: NEW_GAME
+            type: START
+        });
+    }    
+
+    static stop() {
+        return MessageActions.commonMessage({
+            type: STOP
         });
     }    
 

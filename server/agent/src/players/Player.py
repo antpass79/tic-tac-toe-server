@@ -16,6 +16,7 @@ class Player(ABC):
         """
         Nothing to do here apart from calling our super class
         """
+        self.side = None
         super().__init__()
 
     @abstractmethod
@@ -37,11 +38,10 @@ class Player(ABC):
         """
         pass
 
-    @abstractmethod
     def new_game(self, side: int):
         """
         This method will be called before a game starts. It allows the players to get ready for the game and also tells
         which side it is on.
         :param side: The side the player will play in the new game
         """
-        pass
+        self.side = side

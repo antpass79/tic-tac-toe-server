@@ -22,6 +22,7 @@ export interface BoardState {
 
 export interface GameState {
 
+    readonly started: boolean;
     readonly busy: boolean;
     readonly winner: Side;
     readonly boardState: BoardState;
@@ -29,6 +30,7 @@ export interface GameState {
 
 export const initialState: GameState = {
 
+    started: false,
     busy: false,
     winner: Side.EMPTY,
     boardState: {

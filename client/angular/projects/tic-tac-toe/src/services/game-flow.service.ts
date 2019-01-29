@@ -46,10 +46,11 @@ export class GameFlowService {
 
     async newGame(player1: IPlayer, player2: IPlayer): Promise<GameResult> {
 
-        this._newGame();
+        this.start();
 
         let result = await this._match.game(player1, player2, false);
         this._updateWinner(result);
+        this.stop();
 
         return new Promise<GameResult>((resolve) => {
             resolve(result);
@@ -62,10 +63,10 @@ export class GameFlowService {
 
             this.store.dispatch(MessageActions.busy(true));
 
-            this.agentProxyService.train(games).subscribe(() => {
+            this.agentProxyService.train(games).subscribe((statistics) => {
 
                 this.store.dispatch(MessageActions.busy(false));
-                resolve();
+                resolve(statistics);
             });
         });
     }
@@ -89,7 +90,11 @@ export class GameFlowService {
         this.store.dispatch(MessageActions.theWinnerIs(winner));
     }
 
-    private _newGame() {
-        this.store.dispatch(MessageActions.newGame());
+    private start() {
+        this.store.dispatch(MessageActions.start());
+    }
+
+    private stop() {
+        this.store.dispatch(MessageActions.stop());
     }
 }

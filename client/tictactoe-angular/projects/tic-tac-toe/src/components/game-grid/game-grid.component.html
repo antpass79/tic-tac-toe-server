@@ -1,7 +1,0 @@
-<div class="vertical-center">
-  <svg id="gameGrid" class="grid" preserveAspectRatio="xMidYMid meet" overflow="scroll">
-
-    <g game-cell *ngFor="let cell of cells$ | async; index as i" [cell]="cell" [index]="i" (click)="onCellClick(cell)"></g>
-
-  </svg>
-</div>

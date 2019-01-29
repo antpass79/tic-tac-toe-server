@@ -9,6 +9,14 @@ import { AgentPlayer } from '../game/players/agent-player';
 import { AgentProxyService } from '../services/agent-proxy.service';
 import { GameFlowService } from '../services/game-flow.service';
 
+class Statistics {
+
+    games: number;
+    crossCount: number;
+    naughtCount: number;
+    drawCount: number;
+}
+
 @Component({
     selector: 'tic-tac-toe',
     templateUrl: './tic-tac-toe.component.html',
@@ -17,6 +25,11 @@ import { GameFlowService } from '../services/game-flow.service';
 export class TicTacToeComponent {
 
     gameState: GameState = initialState;
+
+    private _started$: Observable<boolean>;
+    get started(): Observable<boolean> {
+        return this._started$;
+    }
 
     private _busy$: Observable<boolean>;
     get busy(): Observable<boolean> {
@@ -34,10 +47,14 @@ export class TicTacToeComponent {
 
     private _cellClick: EventEmitter<CellState> = new EventEmitter<CellState>();
 
+    statistics: Statistics;
+    games: number = 100;
+
     // Constructor
 
     constructor(@Inject(GameStore) private store: Store<GameState>, private agentProxyService: AgentProxyService, private gameFlowService: GameFlowService) {
 
+        this._started$ = this.store.select('started');
         this._busy$ = this.store.select('busy');
         this._winner$ = this.store.select('winner');
 
@@ -61,6 +78,13 @@ export class TicTacToeComponent {
 
     async onTrainAgent() {
 
-        await this.gameFlowService.train(100);
+        let jsonData = await this.gameFlowService.train(this.games);
+        let statistics = JSON.parse(jsonData);
+        this.statistics = {
+            games: statistics.games,
+            crossCount: statistics.cross_count,
+            naughtCount: statistics.naught_count,
+            drawCount: statistics.draw_count
+        };
     }
 }

@@ -16,7 +16,6 @@ class RandomPlayer(Player):
         """
         Getting ready for playing tic tac toe.
         """
-        self.side = None
         super().__init__()
 
     def move(self, board: Board) -> (GameResult, bool):
@@ -35,10 +34,3 @@ class RandomPlayer(Player):
         :return:
         """
         pass
-
-    def new_game(self, side: int):
-        """
-        Setting the side for the game to come. Noting else to do.
-        :param side: The side this player will be playing
-        """
-        self.side = side

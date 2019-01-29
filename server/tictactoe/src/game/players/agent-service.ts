@@ -16,7 +16,7 @@ export class AgentService {
 
     newGame(side: Side): Observable<Side> {
 
-        this.updateConfiguration('new', side);
+        this.updateConfiguration('new', side, 'agent side ' + (side == 1 ? 'NAUGHT' : 'CROSS'));
 
         return new Observable(subscriber => {
 
@@ -34,7 +34,7 @@ export class AgentService {
 
     move(board: Board): Observable<number[]> {
 
-        this.updateConfiguration('move', board);
+        this.updateConfiguration('move', board, 'state board before agent move');
 
         return new Observable(subscriber => {
             Axios(this.configuration)
@@ -52,7 +52,7 @@ export class AgentService {
 
     endGame(gameResult: GameResult): Observable<GameResult> {
 
-        this.updateConfiguration('end', gameResult);
+        this.updateConfiguration('end', gameResult, 'game result is ' + (gameResult == GameResult.CROSS_WIN ? 'CROSS_WIN' : (gameResult == GameResult.NAUGHT_WIN ? 'NAUGHT_WIN' : (gameResult == GameResult.DRAW ? 'DRAW' : 'NOT_FINISHED'))));
 
         return new Observable(subscriber => {
 
@@ -68,9 +68,9 @@ export class AgentService {
         })
     }
 
-    train(games: number): Observable<number> {
+    train(games: number): Observable<any> {
 
-        this.updateConfiguration('train', games);
+        this.updateConfiguration('train', games, 'games count for training');
 
         return new Observable(subscriber => {
 
@@ -86,11 +86,11 @@ export class AgentService {
         })
     }
 
-    private updateConfiguration(action: string, data?: any): void {
+    private updateConfiguration(action: string, data: any, message: string): void {
 
         let url = "http://localhost:8080/" + action;
         let jsonData = data ? JSON.stringify(data) : null;
-        console.log('jsonData' + ' ' + action);
+        console.log('jsonData - action ' + action + ' - ' + message);
         console.log(jsonData);
 
         this.configuration.url = url;

@@ -120,7 +120,7 @@ class NNQPlayer(Player):
         Prepares for a new games. Store which side we play and clear internal data structures for the last game.
         :param side: The side it will play in the new game.
         """
-        self.side = side
+        super().new_game(side)
         self.board_position_log = []
         self.action_log = []
         self.next_max_log = []

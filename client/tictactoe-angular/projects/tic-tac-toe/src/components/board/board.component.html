@@ -1,7 +1,0 @@
-<div class="vertical-center">
-    <svg id="board" class="board" preserveAspectRatio="xMidYMid meet" overflow="scroll">
-  
-      <g cell class="cell" *ngFor="let cellState of cellStates$ | async; index as i" [state]="cellState" (click)="onCellClick(cellState)"></g>
-  
-    </svg>
-  </div>
