@@ -27,6 +27,9 @@ class TicTacToeService(object):
         side = cherrypy.request.json
         player.new_game(side)
 
+        print("player.side {}".format(player.side))
+        print('CROSS' if player.side == CROSS else ('NAUGHT' if player.side == NAUGHT else 'INVALID SIDE'))
+
         return player.side
 
     @cherrypy.expose
@@ -45,10 +48,15 @@ class TicTacToeService(object):
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
     def end(self):
-        game_result = cherrypy.request.json
-        player.final_result(GameResult(game_result))
+        game_result_json = cherrypy.request.json
+        game_result = GameResult(game_result_json)
+        player.final_result(game_result)
 
-        return game_result
+        print("game_result {}".format(game_result))
+        # print('CROSS_WIN' if game_result == GameResult.CROSS_WIN else 'NAUGHT_WIN')
+        print('CROSS_WIN' if game_result == GameResult.CROSS_WIN else ('NAUGHT_WIN' if game_result == GameResult.NAUGHT_WIN else ('DRAW' if game_result == GameResult.DRAW else ('NOT_FINISHED' if game_result == GameResult.NOT_FINISHED else 'INVALID GAME_RESULT'))))
+
+        return game_result_json
 
     @cherrypy.expose
     @cherrypy.tools.json_out()

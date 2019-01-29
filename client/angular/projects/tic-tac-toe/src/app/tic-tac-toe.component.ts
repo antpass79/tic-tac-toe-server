@@ -2,12 +2,9 @@ import { Component, EventEmitter, Inject } from '@angular/core';
 import { Match } from '../game/match';
 import { CellState, Side, GameState, initialState } from '../redux/implementation/states';
 import { HumanPlayer } from '../game/players/human-player';
-import { RandomPlayer } from '../game/players/random-player';
 import { Store } from '../redux/store';
 import { GameStore } from '../redux/implementation/providers';
-import { MessageActions } from '../redux/implementation/actions';
 import { Observable } from 'rxjs';
-import { Board } from '../game/board';
 import { AgentPlayer } from '../game/players/agent-player';
 import { AgentProxyService } from '../services/agent-proxy.service';
 import { GameFlowService } from '../services/game-flow.service';
@@ -44,8 +41,8 @@ export class TicTacToeComponent {
         this._busy$ = this.store.select('busy');
         this._winner$ = this.store.select('winner');
 
-        this._humanPlayer = new HumanPlayer(this._cellClick);
-        this._agentPlayer = new AgentPlayer(this.agentProxyService);
+        this._humanPlayer = new HumanPlayer(Side.CROSS, this._cellClick);
+        this._agentPlayer = new AgentPlayer(Side.NAUGHT, this.agentProxyService);
     }
 
     onCellClick(cellState: CellState) {

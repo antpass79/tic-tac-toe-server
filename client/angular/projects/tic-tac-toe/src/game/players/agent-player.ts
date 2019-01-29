@@ -6,21 +6,24 @@ import { AgentProxyService } from '../../services/agent-proxy.service';
 
 export class AgentPlayer extends Player {
 
-    constructor(private agentProxyService: AgentProxyService) {
+    constructor(side: Side, private agentProxyService: AgentProxyService) {
 
-        super();
+        super(side);
     }
 
-    newGame(side: Side): Observable<Side> {
+    newGame(): Observable<Side> {
 
         return new Observable<Side>((subscriber) => {
 
-            let agentSubscriber = this.agentProxyService.newGame(side).subscribe((response: any) => {
+            let agentSubscriber = this.agentProxyService.newGame(this.side).subscribe((response: any) => {
 
                 agentSubscriber.unsubscribe();
+            
+                let side = <number>response;
+                if (side != this.side)
+                    throw Error('Invalid side. this.side is ' + this.side + ', side from server is ' + side);
 
-                this._side = <number>response; 
-                subscriber.next(this._side);
+                subscriber.next(side);
                 subscriber.complete();
             });
         });

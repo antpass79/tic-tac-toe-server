@@ -15,7 +15,7 @@ export class Match {
         let naught_count = 0;
 
         for (let i = 0; i < games; i++) {
-            let result = await this.game(player1, player2, this.board, silent);
+            let result = await this.game(player1, player2, silent);
             if (result == GameResult.CROSS_WIN)
                 cross_count += 1;
             else if (result == GameResult.NAUGHT_WIN)
@@ -34,8 +34,8 @@ export class Match {
     async game(player1: IPlayer, player2: IPlayer, silent: boolean): Promise<GameResult> {
 
         this.board.reset();
-        await player1.newGame(Side.NAUGHT).toPromise();
-        await player2.newGame(Side.CROSS).toPromise();
+        await player1.newGame().toPromise();
+        await player2.newGame().toPromise();
 
         if (!silent)
             this.board.print();
@@ -51,24 +51,24 @@ export class Match {
 
             result = await player1.move(this.board).toPromise();
             if (!silent)
-            this.board.print();
+                this.board.print();
 
             if (result.finished) {
                 if (result.gameResult == GameResult.DRAW)
                     finalResult = GameResult.DRAW;
                 else
-                    finalResult = GameResult.CROSS_WIN;
+                    finalResult = player1.side == Side.CROSS ? GameResult.CROSS_WIN : GameResult.NAUGHT_WIN;
             }
             else {
                 result = await player2.move(this.board).toPromise();
                 if (!silent)
-                this.board.print();
+                    this.board.print();
 
                 if (result.finished) {
                     if (result.gameResult == GameResult.DRAW)
                         finalResult = GameResult.DRAW;
                     else
-                        finalResult = GameResult.NAUGHT_WIN;
+                        finalResult = player2.side == Side.CROSS ? GameResult.CROSS_WIN : GameResult.NAUGHT_WIN;
                 }
             }
         }

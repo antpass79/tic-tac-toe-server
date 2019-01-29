@@ -12,7 +12,7 @@ export interface IPlayer {
 
     readonly side: Side;
 
-    newGame(side: Side): Observable<Side>;
+    newGame(): Observable<Side>;
     move(board: Board): Observable<{ gameResult: GameResult, finished: boolean }>;
     endGame(gameResult: GameResult): Observable<GameResult>;
 }
@@ -24,8 +24,11 @@ export abstract class Player implements IPlayer {
         return this._side;
     }
 
-    newGame(side: Side): Observable<Side> {
+    constructor(side: Side) {
         this._side = side;
+    }
+
+    newGame(): Observable<Side> {
 
         return new Observable<any>((subscriber) => {
 
