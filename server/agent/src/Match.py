@@ -3,21 +3,12 @@ from players.Player import Player
 
 class Match:
 
-    is_playing = False
-
-    def __init__(self):
-        self.counter = 0
-
     def play(self, player1: Player, player2: Player, games = 1) -> (int, int, int):
-
-        Match.is_playing = True
 
         board = Board()
         draw_count = 0
         cross_count = 0
         naught_count = 0
-
-        self.counter = 0
 
         for _ in range(games):
             result = self.game(player1, player2, board)
@@ -27,15 +18,13 @@ class Match:
                 naught_count += 1
             else:
                 draw_count += 1
-            
-            self.counter = self.counter + 1            
-
-        Match.is_playing = False
 
         return cross_count, naught_count, draw_count
 
     def game(self, player1: Player, player2: Player, board: Board) -> GameResult:
         
+        player1.new_game(CROSS)
+        player2.new_game(NAUGHT)
         board.reset()
 
         finished = False
