@@ -23,8 +23,8 @@ class Match:
 
     def game(self, player1: Player, player2: Player, board: Board) -> GameResult:
         
-        player1.new_game(CROSS)
-        player2.new_game(NAUGHT)
+        player1.new_game(player1.side)
+        player2.new_game(player2.side)
         board.reset()
 
         finished = False
@@ -39,9 +39,9 @@ class Match:
                 result, finished = player2.move(board)
                 if finished:
                     if result == GameResult.DRAW:
-                        final_result = GameResult.CROSS_WIN if player2.side == CROSS else GameResult.NAUGHT_WIN
+                        final_result = GameResult.DRAW
                     else:
-                        final_result = GameResult.NAUGHT_WIN
+                        final_result = GameResult.CROSS_WIN if player2.side == CROSS else GameResult.NAUGHT_WIN
 
         player1.final_result(final_result)
         player2.final_result(final_result)

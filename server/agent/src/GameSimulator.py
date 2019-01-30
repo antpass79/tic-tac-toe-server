@@ -21,11 +21,8 @@ class GameSimulator:
 
     def __init__(self):
         self.match = Match()
-        # self.agent_player = NNQPlayer('NNQPlayer')
-        self.agent_player = DirectPolicyAgent('DirectPolicyAgent')
-        self.agent_player.new_game(CROSS)
-        self.human_simulator = TQPlayer()
-        self.human_simulator.new_game(NAUGHT)
+        self.agent_player = TQPlayer()
+        self.human_simulator = RandomPlayer()
 
         TFSessionManager.set_session(tf.Session())
         TFSessionManager.get_session().run(tf.global_variables_initializer())
@@ -56,14 +53,21 @@ class GameSimulator:
         print('CROSS_WIN' if game_result == GameResult.CROSS_WIN else ('NAUGHT_WIN' if game_result == GameResult.NAUGHT_WIN else ('DRAW' if game_result == GameResult.DRAW else ('NOT_FINISHED' if game_result == GameResult.NOT_FINISHED else 'INVALID GAME_RESULT'))))
 
     def train(self, num_games: int):
-        side = self.agent_player.side
-        cross_count, naught_count, draw_count = self.match.play(self.human_simulator, self.agent_player, num_games)
-        # cross_count, naught_count, draw_count = self.match.play(self.agent_player, self.human_simulator, num_games)
-        self.agent_player.side = side
-        self.human_simulator.side = CROSS if self.agent_player.side == NAUGHT else NAUGHT
 
-        print("After {} game we have draws: {}, Player 1 wins: {}, and Player 2 wins: {}.".format(num_games, draw_count, cross_count, naught_count))
-        print("Which gives percentages of draws: {:.2%}, Player 1 wins: {:.2%}, and Player 2 wins:  {:.2%}".format(draw_count / num_games, cross_count / num_games, naught_count / num_games))
+        if self.agent_player.side == None:
+            self.agent_player.new_game(CROSS)
+            self.human_simulator.new_game(CROSS if self.agent_player.side == NAUGHT else NAUGHT)
 
-        return Statistics(num_games, cross_count, naught_count, draw_count)
+        cross_count1, naught_count1, draw_count1 = self.match.play(self.human_simulator, self.agent_player, num_games)
+        cross_count2, naught_count2, draw_count2 = self.match.play(self.agent_player, self.human_simulator, num_games)
+
+        double_num_games = 2 * num_games
+        cross_count = cross_count1 + cross_count2
+        naught_count = naught_count1 + naught_count2
+        draw_count = draw_count1 + draw_count2
+
+        print("After {} game we have draws: {}, Player 1 wins: {}, and Player 2 wins: {}.".format(double_num_games, draw_count, cross_count, naught_count))
+        print("Which gives percentages of draws: {:.2%}, Player 1 wins: {:.2%}, and Player 2 wins:  {:.2%}".format(draw_count / double_num_games, cross_count / double_num_games, naught_count / double_num_games))
+
+        return Statistics(double_num_games, cross_count, naught_count, draw_count)
 
