@@ -13,7 +13,7 @@
 .board-container, .board, .spinner-container {
     display: flex;
     justify-content: center;
-    flex: 0.35;
+    flex: 0.50;
 }
 
 .spinner-container {

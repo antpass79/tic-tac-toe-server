@@ -6,6 +6,7 @@ from Board import Board, CROSS, NAUGHT, GameResult
 from players.RandomPlayer import RandomPlayer
 from players.TabularQPlayer import TQPlayer
 from players.SimpleNNQPlayer import NNQPlayer
+from players.DirectPolicyAgent import DirectPolicyAgent
 
 from TFSessionManager import TFSessionManager
 
@@ -20,14 +21,14 @@ class GameSimulator:
 
     def __init__(self):
         self.match = Match()
-        self.agent_player = NNQPlayer('NNQPlayer')
+        # self.agent_player = NNQPlayer('NNQPlayer')
+        self.agent_player = DirectPolicyAgent('DirectPolicyAgent')
         self.agent_player.new_game(CROSS)
-        self.human_simulator = RandomPlayer()
+        self.human_simulator = TQPlayer()
         self.human_simulator.new_game(NAUGHT)
 
         TFSessionManager.set_session(tf.Session())
         TFSessionManager.get_session().run(tf.global_variables_initializer())
-
 
     def new_game(self, side: int) -> int:
         self.agent_player.new_game(side)
