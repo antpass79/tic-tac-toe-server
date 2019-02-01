@@ -44,7 +44,8 @@ export class TicTacToeComponent {
     private _cellClick: EventEmitter<CellState> = new EventEmitter<CellState>();
 
     statistics: Statistics;
-    games: number = 100;
+    games: number = 10000;
+    firstHuman: boolean = true;
 
     // Constructor
 
@@ -64,11 +65,13 @@ export class TicTacToeComponent {
 
     async onStartHuman() {
 
+        this.firstHuman = true;
         await this.gameFlowService.newGame(this._humanPlayer, this._agentPlayer);
     }
 
     async onStartAgent() {
 
+        this.firstHuman = false;
         await this.gameFlowService.newGame(this._agentPlayer, this._humanPlayer);
     }
 
@@ -87,5 +90,10 @@ export class TicTacToeComponent {
     async onCleanAgent() {
         
         await this.gameFlowService.clean();
+
+        if (this.firstHuman)
+            await this.onStartHuman();
+        else
+            await this.onStartAgent();
     }
 }
