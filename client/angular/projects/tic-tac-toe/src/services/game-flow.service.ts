@@ -16,7 +16,8 @@ export class GameFlowService {
 
     // data members
 
-    private _match: Match = new Match();
+    private _match: Match;
+    private _roundChangeSubscriber;
 
     // constructor
 
@@ -44,7 +45,28 @@ export class GameFlowService {
 
     // public functions
 
+    listenForStarted() {
+        return this.store.select('started');
+    }
+
+    listenForBusy() {
+        return this.store.select('busy');
+    }
+
+    listenForWinner() {
+        return this.store.select('winner');
+    }
+
     async newGame(player1: IPlayer, player2: IPlayer): Promise<GameResult> {
+
+        if (this._roundChangeSubscriber) {
+            this._roundChangeSubscriber.unsubscribe();
+            this._roundChangeSubscriber = null;
+        }
+        this._roundChangeSubscriber = this._match.roundChange.subscribe((side: Side) => {
+            
+            this.store.dispatch(MessageActions.busy(side == Side.NAUGHT));
+        });
 
         this.start();
 
@@ -53,6 +75,7 @@ export class GameFlowService {
         this.stop();
 
         return new Promise<GameResult>((resolve) => {
+
             resolve(result);
         });
     }

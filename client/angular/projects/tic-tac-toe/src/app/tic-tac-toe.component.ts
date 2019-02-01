@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
-import { Match } from '../game/match';
 import { CellState, Side, GameState, initialState } from '../redux/implementation/states';
 import { HumanPlayer } from '../game/players/human-player';
-import { Store } from '../redux/store';
-import { GameStore } from '../redux/implementation/providers';
 import { Observable } from 'rxjs';
 import { AgentPlayer } from '../game/players/agent-player';
 import { AgentProxyService } from '../services/agent-proxy.service';
@@ -41,7 +38,6 @@ export class TicTacToeComponent {
         return this._winner$;
     }
 
-    private _match: Match;
     private _humanPlayer: HumanPlayer;
     private _agentPlayer: AgentPlayer;
 
@@ -52,11 +48,11 @@ export class TicTacToeComponent {
 
     // Constructor
 
-    constructor(@Inject(GameStore) private store: Store<GameState>, private agentProxyService: AgentProxyService, private gameFlowService: GameFlowService) {
+    constructor(private agentProxyService: AgentProxyService, private gameFlowService: GameFlowService) {
 
-        this._started$ = this.store.select('started');
-        this._busy$ = this.store.select('busy');
-        this._winner$ = this.store.select('winner');
+        this._started$ = this.gameFlowService.listenForStarted();
+        this._busy$ = this.gameFlowService.listenForBusy();
+        this._winner$ = this.gameFlowService.listenForWinner();
 
         this._humanPlayer = new HumanPlayer(Side.CROSS, this._cellClick);
         this._agentPlayer = new AgentPlayer(Side.NAUGHT, this.agentProxyService);

@@ -1,7 +1,11 @@
+import { EventEmitter } from "@angular/core";
+
 import { GameResult, Board } from "./board";
 import { Side, IPlayer } from "./players/player";
 
 export class Match {
+
+    roundChange: EventEmitter<Side> = new EventEmitter<Side>();
 
     private _board: Board = new Board();
     get board() {
@@ -49,6 +53,8 @@ export class Match {
 
         while (!result.finished) {
 
+            this.roundChange.emit(player1.side);
+
             result = await player1.move(this.board).toPromise();
             if (!silent)
                 this.board.print();
@@ -60,6 +66,9 @@ export class Match {
                     finalResult = player1.side == Side.CROSS ? GameResult.CROSS_WIN : GameResult.NAUGHT_WIN;
             }
             else {
+
+                this.roundChange.emit(player2.side);
+
                 result = await player2.move(this.board).toPromise();
                 if (!silent)
                     this.board.print();
@@ -77,6 +86,8 @@ export class Match {
         await player2.endGame(finalResult).toPromise();
 
         return new Promise<GameResult>(resolve => {
+
+            this.roundChange.emit(Side.EMPTY);
 
             resolve(finalResult);
         });
