@@ -87,4 +87,9 @@ export class TicTacToeComponent {
             drawCount: statistics.draw_count
         };
     }
+
+    async onCleanAgent() {
+        
+        await this.gameFlowService.clean();
+    }
 }

@@ -55,19 +55,21 @@ class GameSimulator:
     def train(self, num_games: int):
 
         if self.agent_player.side == None:
-            self.agent_player.new_game(CROSS)
+            self.agent_player.new_game(NAUGHT)
             self.human_simulator.new_game(CROSS if self.agent_player.side == NAUGHT else NAUGHT)
 
-        cross_count1, naught_count1, draw_count1 = self.match.play(self.human_simulator, self.agent_player, num_games)
-        cross_count2, naught_count2, draw_count2 = self.match.play(self.agent_player, self.human_simulator, num_games)
-
-        double_num_games = 2 * num_games
+        cross_count1, naught_count1, draw_count1 = self.match.play(self.human_simulator, self.agent_player, int(num_games / 2))
+        cross_count2, naught_count2, draw_count2 = self.match.play(self.agent_player, self.human_simulator, int(num_games / 2))
+        
         cross_count = cross_count1 + cross_count2
         naught_count = naught_count1 + naught_count2
         draw_count = draw_count1 + draw_count2
 
-        print("After {} game we have draws: {}, Player 1 wins: {}, and Player 2 wins: {}.".format(double_num_games, draw_count, cross_count, naught_count))
-        print("Which gives percentages of draws: {:.2%}, Player 1 wins: {:.2%}, and Player 2 wins:  {:.2%}".format(draw_count / double_num_games, cross_count / double_num_games, naught_count / double_num_games))
+        print("After {} game we have draws: {}, Player 1 wins: {}, and Player 2 wins: {}.".format(num_games, draw_count, cross_count, naught_count))
+        print("Which gives percentages of draws: {:.2%}, Player 1 wins: {:.2%}, and Player 2 wins:  {:.2%}".format(draw_count / num_games, cross_count / num_games, naught_count / num_games))
 
-        return Statistics(double_num_games, cross_count, naught_count, draw_count)
+        return Statistics(num_games, cross_count, naught_count, draw_count)
+
+    def clean(self):
+        TFSessionManager.set_session(None)
 

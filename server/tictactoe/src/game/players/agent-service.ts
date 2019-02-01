@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import Axios, * as axios from 'axios';
 
-import { Player, Side } from './player';
+import { Side } from './player';
 import { GameResult, Board } from '../board';
 
 export class AgentService {
@@ -86,10 +86,28 @@ export class AgentService {
         })
     }
 
+    clean(): Observable<any> {
+
+        this.updateConfiguration('clean', undefined, 'cleaning the agent training');
+
+        return new Observable(subscriber => {
+
+            Axios(this.configuration)
+                .then((response) => {
+                    subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
+        })
+    }
+
     private updateConfiguration(action: string, data: any, message: string): void {
 
         let url = "http://localhost:8080/" + action;
-        let jsonData = data ? JSON.stringify(data) : null;
+        let jsonData = data ? JSON.stringify(data) : JSON.stringify('NO DATA TO SEND');
         console.log('jsonData - action ' + action + ' - ' + message);
         console.log(jsonData);
 

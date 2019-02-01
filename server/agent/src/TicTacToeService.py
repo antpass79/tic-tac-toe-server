@@ -49,6 +49,17 @@ class TicTacToeService(object):
         jsonStatistics = json.dumps(statistics.__dict__)
         return jsonStatistics
 
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    @cherrypy.tools.json_in()
+    def clean(self):
+        result = cherrypy.request.json
+
+        self.game_simulator.clean()
+        self.game_simulator = GameSimulator()
+
+        return result
+
 if __name__ == '__main__':
    config = {'server.socket_host': '0.0.0.0'}
    cherrypy.config.update(config)

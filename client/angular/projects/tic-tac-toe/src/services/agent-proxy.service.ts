@@ -49,6 +49,11 @@ export class AgentProxyService {
         return this.httpClient.post<number>(this.buildEndpoint('train'), JSON.stringify(data), this.buildOptions());
     }
 
+    clean(): Observable<number> {
+
+        return this.httpClient.post<any>(this.buildEndpoint('clean'), undefined, this.buildOptions());
+    }
+
     // private functions
 
     private buildEndpoint(action: string) {

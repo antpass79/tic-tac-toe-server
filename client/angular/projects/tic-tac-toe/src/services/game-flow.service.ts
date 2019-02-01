@@ -71,6 +71,20 @@ export class GameFlowService {
         });
     }
 
+    async clean(): Promise<any> {
+
+        return new Promise<any>((resolve) => {
+
+            this.store.dispatch(MessageActions.busy(true));
+
+            this.agentProxyService.clean().subscribe(() => {
+
+                this.store.dispatch(MessageActions.busy(false));
+                resolve();
+            });
+        });
+    }
+
     // private functions
 
     private _updateWinner(gameResult: GameResult) {

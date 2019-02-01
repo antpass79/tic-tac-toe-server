@@ -75,4 +75,17 @@ export class GameController {
             res.sendStatus(500);
         });
     }
+
+    // how to use it:
+    // call 'http://localhost:3000/tictactoe/clean'
+    // POST, Content-Type: application/json
+    clean(req: any, res: any) {
+
+        let agentService = new AgentService();
+        agentService.clean().subscribe((data) => {
+            res.send(JSON.stringify(data));
+        }, () => {
+            res.sendStatus(500);
+        });
+    }
 }

@@ -1,0 +1,13 @@
+http://www.defuze.org/archives/315-create-a-docker-container-for-your-cherrypy-application.html
+
+on raspberry
+http://www.knight-of-pi.org/docker-and-the-raspberry-pi-cherrypy-in-a-container/
+
+How to dockerize:
+
+1) create the image
+- go to agent folder
+- from cmd: docker build -t tictactoe .
+
+2) run a container
+- from cmd: docker run -p 8080:8080 -i -t tictactoe
