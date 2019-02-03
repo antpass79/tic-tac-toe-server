@@ -106,6 +106,8 @@ export class AgentService {
 
     private updateConfiguration(action: string, data: any, message: string): void {
 
+// using docker toolbox
+//        let url = "http://192.168.99.100:8080/" + action;
         let url = "http://localhost:8080/" + action;
         let jsonData = data ? JSON.stringify(data) : JSON.stringify('NO DATA TO SEND');
         console.log('jsonData - action ' + action + ' - ' + message);

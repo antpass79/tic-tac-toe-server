@@ -2,11 +2,11 @@
 
 ## Introduction
 
-I started to work on this project for the purpose of to learn some new technologies. A simple application to put all together what I wanted to study was perfect for my aim.
+I started to work on this project for the purpose of to learn some new technologies. A simple application to put all together what I wanted to study was perfect for my aim. At the present this is a working in progress project that I'm using to learn and study new things. I try to update and do refactoring every sections based on my study.
 
-I take it for granted that this game is known, otherwise it's easy to find on google something about it.
+I take it for granted that this game is known, otherwise it's easy to find on Google something about it.
 
-In the past, every time that a new language came in front of me for work or hobby, I used the Tic Tac Toe game to learn it. MFC, C#, javascript are examples of languages that I learnt thanks to this game. 
+In the past, every time that a new language came in front of me for work or hobby, I used the Tic Tac Toe game to learn it. MFC, C#, javascript are examples of languages that I learnt thanks to this game. Now there are a lot of new things to know, but I wanted to use the same example.
 
 ### Goals
 
@@ -14,7 +14,7 @@ On the client side my goals are to learn react.js (TODO) and redux concepts.
 
 On the server side my goals are to learn node.js and express.
 
-The last goal, but the most important, is to learn python and tensorflow. In the reference section, there is a link of a very good article and code about deep learning, from which I took all the code for the agent project.
+The last goal is to learn python and tensorflow. In the reference section, there is a link of a very good article and code about deep learning, from which I took all the code for the agent project.
 
 During the development other concepts came in my mind, the first one is Docker, so I decided to move all projects on containers. The second one is based on the gift I made to myself, the Raspberry, so my aim is to move all on that device...step by step.
 
@@ -117,11 +117,25 @@ Each project can run on a docker container.
 
 ### Client -> Angular
 
-TODO
+- create the image
+    
+    - go under client\angular
+    - from cmd: docker build -t tictactoe-client .
+
+- run the container
+
+    - from cmd: docker run -p 4200:4200 -i -t tictactoe-client
 
 ### Server -> Tic Tac Toe
 
-TODO
+- create the image
+    
+    - go under server\tictactoe
+    - from cmd: docker build -t tictactoe .
+
+- run the container
+
+    - from cmd: docker run -p 3000:3000 -i -t tictactoe
 
 ### Server -> Agent
 

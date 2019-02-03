@@ -58,6 +58,8 @@ export class AgentProxyService {
 
     private buildEndpoint(action: string) {
 
+// using docker toolbox
+        // return 'http://192.168.99.100:3000/tictactoe/' + action;
         return 'http://localhost:3000/tictactoe/' + action;
     }
 
