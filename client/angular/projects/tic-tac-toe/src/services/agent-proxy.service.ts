@@ -3,16 +3,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CellState, Side } from '../redux/implementation/states';
 import { Observable } from 'rxjs';
 import { GameResult } from '../game/board';
+import { AppConfig } from '../app/app.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AgentProxyService {
 
+    // data members
+
+    private _endpoint: string;
+
     // constructor
 
     constructor(
-        protected httpClient: HttpClient) {
+        protected httpClient: HttpClient,
+        appConfig: AppConfig) {
+
+            this._endpoint = appConfig.getValue('endpoint');
     }
 
     // public functions
@@ -58,9 +66,7 @@ export class AgentProxyService {
 
     private buildEndpoint(action: string) {
 
-// using docker toolbox
-        // return 'http://192.168.99.100:3000/tictactoe/' + action;
-        return 'http://localhost:3000/tictactoe/' + action;
+        return this._endpoint + action;
     }
 
     private buildOptions() {

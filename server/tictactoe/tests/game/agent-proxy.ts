@@ -1,9 +1,6 @@
 import { expect } from 'chai';
-import { Done } from 'mocha';
-import { Side } from '../../../src/game/players/player';
-import { AgentService } from '../../../src/game/players/agent-service';
-import { Board, GameResult } from '../../../src/game/board';
-import { Observable } from 'rxjs';
+import { AgentService, Side } from '../../src/game/agent-proxy';
+import { Board } from '../../src/game/board';
 
 describe('AgentService', () => {
 

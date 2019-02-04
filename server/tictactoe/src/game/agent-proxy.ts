@@ -1,10 +1,19 @@
 import { Observable } from 'rxjs';
 import Axios, * as axios from 'axios';
 
-import { Side } from './player';
-import { GameResult, Board } from '../board';
+import { GameResult, Board } from './board';
+import { NodeConfig } from '../web-service/utilities/node-config';
+
+export enum Side {
+
+    EMPTY = 0,
+    CROSS = 1,
+    NAUGHT = 2
+}
 
 export class AgentService {
+
+    // data members
 
     private configuration: axios.AxiosRequestConfig = {
         method: "POST",
@@ -13,6 +22,19 @@ export class AgentService {
             "Content-Type": "application/json"
         }
     }
+
+    private _endpoint: string;
+
+    // constructor
+
+    constructor() {
+
+        let nodeConfig = new NodeConfig();
+        this._endpoint = nodeConfig.getValue('endpoint');
+
+    }
+
+    // public functions
 
     newGame(side: Side): Observable<Side> {
 
@@ -104,11 +126,11 @@ export class AgentService {
         })
     }
 
+    // private functions
+
     private updateConfiguration(action: string, data: any, message: string): void {
 
-// using docker toolbox
-//        let url = "http://192.168.99.100:8080/" + action;
-        let url = "http://localhost:8080/" + action;
+        let url = this._endpoint + action;
         let jsonData = data ? JSON.stringify(data) : JSON.stringify('NO DATA TO SEND');
         console.log('jsonData - action ' + action + ' - ' + message);
         console.log(jsonData);

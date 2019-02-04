@@ -1,21 +1,21 @@
 import { expect } from 'chai';
 import { Board } from '../../src/game/board';
-import { Side } from '../../src/game/players/player';
+import { Side } from '../../src/game/agent-proxy';
 
 describe('Board', () => {
 
-    context('initialize', () => {
+    context('.ctor', () => {
 
-        it('should have default state not null', () => {
+        it('should have the state array length to 9 after .ctor', () => {
 
             let board = new Board();
-            expect(board.state).to.be.not.null;
+            expect(board.state.length).to.be.eql(9);
         });
 
-        it('should have default 9 cells set to EMPTY', () => {
+        it('should have every positions of the array set to EMPTY after .ctor', () => {
 
             let board = new Board();
-            expect(board.state).to.be.eqls([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            expect(board.state).to.be.eqls([Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY, Side.EMPTY]);
         });
     });
 
@@ -47,21 +47,21 @@ describe('Board', () => {
 
     context('move', () => {
 
-        it('should set state based on move 0 for CROSS', () => {
+        it('should set the state at position 0 to CROSS', () => {
 
             let board = new Board();
             board.move(0, Side.CROSS);
-            expect(board.state).to.be.eqls([1, 0, 0, 0, 0, 0, 0, 0, 0]);
+            expect(board.state).to.be.eqls([Side.CROSS, 0, 0, 0, 0, 0, 0, 0, 0]);
         });
 
-        it('should set state based on move 3 for NAUGHT', () => {
+        it('should set the state at position 3 to NAUGHT', () => {
 
             let board = new Board();
             board.move(3, Side.NAUGHT);
-            expect(board.state).to.be.eqls([0, 0, 0, 2, 0, 0, 0, 0, 0]);
+            expect(board.state).to.be.eqls([0, 0, 0, Side.NAUGHT, 0, 0, 0, 0, 0]);
         });
 
-        it('should throw error moving on 3 that is filled', () => {
+        it('should throw error moving at position 3, after a previous move at position 3', () => {
 
             let board = new Board();
             board.move(3, Side.NAUGHT);
@@ -101,7 +101,7 @@ describe('Board', () => {
 
     context('randomEmptySpot', () => {
 
-        it('should generate a number between 0 - 8, after 10 cycles', () => {
+        it('should generate a number between 0 - 8, for each of 10 cycles', () => {
 
             let board = new Board();
 
@@ -112,7 +112,7 @@ describe('Board', () => {
             }
         });
 
-        it('should generate a number between 0 - 8 except 1, after 10 cycles', () => {
+        it('should generate a number between 0 - 8 except 1 after a move at position 1, for each of 10 cycles', () => {
 
             let board = new Board();
             board.move(1, Side.CROSS);
@@ -126,14 +126,16 @@ describe('Board', () => {
 
     context('isLegal', () => {
 
-        it('should return true after board creation', () => {
+        it('should return true after board .ctor, checking all 9 positions of the state', () => {
 
             let board = new Board();
-            let isLegal = board.isLegal(3);
-            expect(isLegal).to.be.equal(true);
+            for (let i = 0; i < 9; i++) {
+                let isLegal = board.isLegal(i);
+                expect(isLegal).to.be.equal(true);
+            }
         });
 
-        it('should return false for a filled random position (using randomEmptySpot)', () => {
+        it('should return false checking a filled random position', () => {
 
             let board = new Board();
             let random = board.randomEmptySpot();

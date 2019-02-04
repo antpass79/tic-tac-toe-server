@@ -1,3 +1,4 @@
 {
-    "mock": false
+    "endpoint": "http://localhost:3000/tictactoe/",
+    "endpoint1": "http://192.168.99.100:3000/tictactoe/"
 }

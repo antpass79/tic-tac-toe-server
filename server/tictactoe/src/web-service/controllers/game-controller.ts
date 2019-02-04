@@ -1,6 +1,4 @@
-import Axios, * as axios from 'axios';
-import { AgentService } from '../../game/players/agent-service';
-import { Side } from '../../game/players/player';
+import { AgentService } from '../../game/agent-proxy';
 import { Board } from '../../game/board';
 
 export class GameController {

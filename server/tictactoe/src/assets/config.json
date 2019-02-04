@@ -1,0 +1,8 @@
+{
+    "originsWhitelist": [
+        "http://localhost:4200",
+        "http://localhost:2000"
+    ],
+    "endpoint": "http://localhost:8080/",
+    "endpoint1": "http://192.168.99.100:8080/"
+}

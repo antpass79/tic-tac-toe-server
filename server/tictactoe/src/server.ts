@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import cors from 'cors';
 
 import { GameRoute } from './web-service/routes/game-route';
+import { NodeConfig } from './web-service/utilities/node-config';
 
 export class Server {
 
@@ -41,10 +42,10 @@ export class Server {
     }
 
     private configCors(app: express.Application) {
-        let originsWhitelist = [
-            'http://localhost:4200',
-            'http://localhost:2000',
-        ];
+
+        let nodeConfig = new NodeConfig();
+
+        let originsWhitelist = nodeConfig.getValue('originsWhitelist');
         let corsOptions = {
             origin: (origin: any, callback: any) => {
                 var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;

@@ -1,6 +1,6 @@
 import { range } from 'underscore';
 
-import { Side } from "./players/player";
+import { Side } from "./agent-proxy";
 
 export enum GameResult {
     NOT_FINISHED = 0,

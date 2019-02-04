@@ -1,7 +1,6 @@
 import { Player, Side } from './player';
 import { GameResult, Board } from '../board';
 import { Observable } from 'rxjs';
-import { CellState } from '../../redux/implementation/states';
 import { AgentProxyService } from '../../services/agent-proxy.service';
 
 export class AgentPlayer extends Player {
