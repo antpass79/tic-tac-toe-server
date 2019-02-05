@@ -1,7 +1,24 @@
-import { AgentService } from '../../game/agent-proxy';
+import { AgentProxy } from '../../game/agent-proxy';
 import { Board } from '../../game/board';
 
 export class GameController {
+
+    // how to use it:
+    // call 'http://localhost:3000/tictactoe/nickname'
+    // POST, Content-Type: application/json, Body: {
+    //     "nickname": "user"
+    //     }
+    nickname(req: any, res: any) {
+
+        let jsonData = req.body;
+
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.nickname(jsonData.nickname).subscribe((data) => {
+            res.send(JSON.stringify(data));
+        }, (e) => {
+            res.sendStatus(500);
+        });
+    }
 
     // how to use it:
     // call 'http://localhost:3000/tictactoe/newgame'
@@ -12,8 +29,8 @@ export class GameController {
 
         let jsonData = req.body;
 
-        let agentService = new AgentService();
-        agentService.newGame(jsonData.side).subscribe((data) => {
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.newGame(jsonData.side).subscribe((data) => {
             res.send(JSON.stringify(data));
         }, (e) => {
             res.sendStatus(500);
@@ -32,8 +49,8 @@ export class GameController {
         let board = new Board();
         board.updateState(state);
 
-        let agentService = new AgentService();
-        agentService.move(board).subscribe((updatedState: number[]) => {
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.move(board).subscribe((updatedState: number[]) => {
             res.send(updatedState);
         }, (e) => {
             res.sendStatus(500);
@@ -49,8 +66,8 @@ export class GameController {
 
         let jsonData = req.body;
 
-        let agentService = new AgentService();
-        agentService.endGame(jsonData.gameResult).subscribe((data) => {
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.endGame(jsonData.gameResult).subscribe((data) => {
             res.send(JSON.stringify(data));
         }, (e) => {
             res.sendStatus(500);
@@ -58,7 +75,7 @@ export class GameController {
     }
 
     // how to use it:
-    // call 'http://localhost:3000/tictactoe/newgame'
+    // call 'http://localhost:3000/tictactoe/train'
     // POST, Content-Type: application/json, Body: {
     //     "side": 1
     //     }
@@ -66,8 +83,8 @@ export class GameController {
 
         let jsonData = req.body;
 
-        let agentService = new AgentService();
-        agentService.train(jsonData.games).subscribe((data) => {
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.train(jsonData.games).subscribe((data) => {
             res.send(JSON.stringify(data));
         }, (e) => {
             res.sendStatus(500);
@@ -79,8 +96,8 @@ export class GameController {
     // POST, Content-Type: application/json
     clean(req: any, res: any) {
 
-        let agentService = new AgentService();
-        agentService.clean().subscribe((data) => {
+        let agentProxy = new AgentProxy(req.get('Nickname'));
+        agentProxy.clean().subscribe((data) => {
             res.send(JSON.stringify(data));
         }, () => {
             res.sendStatus(500);

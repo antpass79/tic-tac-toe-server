@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TicTacToeComponent } from './tic-tac-toe.component';
 import { BoardComponent } from '../components/board/board.component';
 import { CellComponent } from '../components/cell/cell.component';
 import { GameStoreProvider } from '../redux/implementation/providers';
 import { Logger, LoggerFactory } from '../redux/logger';
 import { AppConfig } from './app.config';
+import { NicknameInterceptor } from '../services/nickname.interceptor';
+import { NicknameStoreService } from '../services/nickname-store.service';
 
 @NgModule({
     declarations: [
@@ -32,8 +34,15 @@ import { AppConfig } from './app.config';
             useFactory: ConfigLoader,
             deps: [AppConfig],
             multi: true
-        }
-    ],
+        },
+        NicknameStoreService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: NicknameInterceptor,
+            deps: [NicknameStoreService],
+            multi: true
+        },
+   ],
     bootstrap: [TicTacToeComponent]
 })
 export class TicTacToeModule {

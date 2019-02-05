@@ -45,6 +45,7 @@ export class TicTacToeComponent {
 
     statistics: Statistics;
     games: number = 10000;
+    nickname: string = '';
     firstHuman: boolean = true;
 
     // Constructor
@@ -62,6 +63,11 @@ export class TicTacToeComponent {
     onCellClick(cellState: CellState) {
         this._cellClick.emit(cellState);
     }    
+
+    async onNickname() {
+
+        await this.gameFlowService.nickname(this.nickname);
+    }
 
     async onStartHuman() {
 

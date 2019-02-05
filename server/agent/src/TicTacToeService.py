@@ -5,18 +5,43 @@ import json
 from Board import GameResult
 from GameSimulator import GameSimulator
 
+class GameSession(object):
+
+    def __init__(self):
+        self.games = {}
+
+    def get_game(self, key: str) -> GameSimulator:
+        return self.games[key]
+
+    def set_game(self, key: str, gameSimulator: GameSimulator):
+        self.games[key] = gameSimulator
+
 class TicTacToeService(object):
 
     def __init__(self):
+        self.games = GameSession()
         self.game_simulator = GameSimulator()
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
+    def nickname(self):
+
+        nickname = cherrypy.request.json
+        self.games.set_game(nickname, GameSimulator())
+
+        return nickname
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    @cherrypy.tools.json_in()
     def new(self):
+
         side = cherrypy.request.json
 
-        result = self.game_simulator.new_game(side)
+        nickname = cherrypy.request.headers['Nickname']
+        game_simulator = self.games.get_game(nickname)
+        result = game_simulator.new_game(side)
         return result
 
     @cherrypy.expose
@@ -26,7 +51,9 @@ class TicTacToeService(object):
         json_input = cherrypy.request.json
         state = np.array(json_input['_state']).astype(int)
 
-        result = self.game_simulator.move(state)
+        nickname = cherrypy.request.headers['Nickname']
+        game_simulator = self.games.get_game(nickname)
+        result = game_simulator.move(state)
         return result.tolist()
 
     @cherrypy.expose
@@ -36,7 +63,9 @@ class TicTacToeService(object):
         game_result_json = cherrypy.request.json
         game_result = GameResult(game_result_json)
 
-        result = self.game_simulator.end_game(game_result)
+        nickname = cherrypy.request.headers['Nickname']
+        game_simulator = self.games.get_game(nickname)
+        result = game_simulator.end_game(game_result)
         return game_result_json
 
     @cherrypy.expose
@@ -44,7 +73,10 @@ class TicTacToeService(object):
     @cherrypy.tools.json_in()
     def train(self):
         num_games = cherrypy.request.json
-        statistics = self.game_simulator.train(num_games)
+
+        nickname = cherrypy.request.headers['Nickname']
+        game_simulator = self.games.get_game(nickname)
+        statistics = game_simulator.train(num_games)
 
         jsonStatistics = json.dumps(statistics.__dict__)
         return jsonStatistics
@@ -55,8 +87,10 @@ class TicTacToeService(object):
     def clean(self):
         result = cherrypy.request.json
 
-        self.game_simulator.clean()
-        self.game_simulator = GameSimulator()
+        nickname = cherrypy.request.headers['Nickname']
+        game_simulator = self.games.get_game(nickname)
+        game_simulator.clean()
+        game_simulator = GameSimulator()
 
         return result
 

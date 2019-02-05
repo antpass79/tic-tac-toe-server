@@ -11,30 +11,52 @@ export enum Side {
     NAUGHT = 2
 }
 
-export class AgentService {
+export class AgentProxy {
 
     // data members
 
-    private configuration: axios.AxiosRequestConfig = {
-        method: "POST",
-        responseType: 'json',
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
+    private configuration: axios.AxiosRequestConfig;
 
     private _endpoint: string;
 
     // constructor
 
-    constructor() {
+    constructor(nickname: string) {
 
         let nodeConfig = new NodeConfig();
         this._endpoint = nodeConfig.getValue('endpoint');
 
+        this.configuration = {
+            method: "POST",
+            responseType: 'json',
+            headers: {
+                "Content-Type": "application/json",
+                "Nickname": nickname
+            }
+        }
+
+        console.log(this.configuration);
     }
 
     // public functions
+
+    nickname(nickname: string): Observable<any> {
+
+        this.updateConfiguration('nickname', nickname, 'nickname with play');
+
+        return new Observable(subscriber => {
+
+            Axios(this.configuration)
+                .then((response) => {
+                    subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
+        })
+    }
 
     newGame(side: Side): Observable<Side> {
 

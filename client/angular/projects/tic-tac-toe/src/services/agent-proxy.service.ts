@@ -4,6 +4,7 @@ import { CellState, Side } from '../redux/implementation/states';
 import { Observable } from 'rxjs';
 import { GameResult } from '../game/board';
 import { AppConfig } from '../app/app.config';
+import { NicknameStoreService } from './nickname-store.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,12 +19,24 @@ export class AgentProxyService {
 
     constructor(
         protected httpClient: HttpClient,
+        private nicknameStoreService: NicknameStoreService,
         appConfig: AppConfig) {
 
             this._endpoint = appConfig.getValue('endpoint');
     }
 
     // public functions
+
+    nickname(nickname: string): Observable<string> {
+
+        this.nicknameStoreService.nickname = nickname;
+
+        let data = {
+            nickname: nickname
+        };
+
+        return this.httpClient.post<string>(this.buildEndpoint('nickname'), JSON.stringify(data), this.buildOptions());
+    }
 
     newGame(side: Side): Observable<number> {
 

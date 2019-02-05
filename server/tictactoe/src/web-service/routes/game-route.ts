@@ -8,6 +8,7 @@ export class GameRoute {
     initRoute(app: express.Application): express.Router {
 
         const router = express.Router()
+        router.post('/nickname', this.gameController.nickname);
         router.post('/newgame', this.gameController.newGame);
         router.post('/move', this.gameController.move);
         router.post('/endgame', this.gameController.endGame);

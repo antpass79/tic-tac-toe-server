@@ -6,10 +6,17 @@
             <div class="spinner"></div>
         </div>
     </div>
-    <div>
+    <div class="options">
+        <div>
+            <button (click)="onNickname()">Play with the nickname</button><input type="text"
+                [(ngModel)]="nickname">
+        </div>
         <button (click)="onStartHuman()">Start Human - CROSS</button>
         <button (click)="onStartAgent()">Start Agent - NAUGHT</button>
-        <button (click)="onTrainAgent()" [disabled]="!(started | async)">Train Agent</button><input type="number" [(ngModel)]="games">
+        <div>
+            <button (click)="onTrainAgent()" [disabled]="!(started | async)">Train Agent</button><input type="number"
+                [(ngModel)]="games">
+        </div>
         <button (click)="onCleanAgent()">Clean Agent Training</button>
         <h1 *ngIf="(winner | async) != 0 && (winner | async) == 1">The Winner is O</h1>
         <h1 *ngIf="(winner | async) != 0 && (winner | async) == 2">The Winner is X</h1>
