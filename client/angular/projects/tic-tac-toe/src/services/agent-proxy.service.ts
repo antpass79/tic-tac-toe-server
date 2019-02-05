@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CellState, Side } from '../redux/implementation/states';
+import { Side } from '../redux/implementation/states';
 import { Observable } from 'rxjs';
 import { GameResult } from '../game/board';
-import { AppConfig } from '../app/app.config';
+import { IAppConfig } from '../app/app.config';
 import { NicknameStoreService } from './nickname-store.service';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class AgentProxyService {
     constructor(
         protected httpClient: HttpClient,
         private nicknameStoreService: NicknameStoreService,
-        appConfig: AppConfig) {
+        appConfig: IAppConfig) {
 
             this._endpoint = appConfig.getValue('endpoint');
     }

@@ -7,7 +7,7 @@ import { BoardComponent } from '../components/board/board.component';
 import { CellComponent } from '../components/cell/cell.component';
 import { GameStoreProvider } from '../redux/implementation/providers';
 import { Logger, LoggerFactory } from '../redux/logger';
-import { AppConfig } from './app.config';
+import { IAppConfig, AppConfig, ConfigLoader } from './app.config';
 import { NicknameInterceptor } from '../services/nickname.interceptor';
 import { NicknameStoreService } from '../services/nickname-store.service';
 
@@ -30,6 +30,10 @@ import { NicknameStoreService } from '../services/nickname-store.service';
         },
         GameStoreProvider,
         {
+            provide: IAppConfig,
+            useClass: AppConfig
+        },
+        {
             provide: APP_INITIALIZER,
             useFactory: ConfigLoader,
             deps: [AppConfig],
@@ -41,13 +45,9 @@ import { NicknameStoreService } from '../services/nickname-store.service';
             useClass: NicknameInterceptor,
             deps: [NicknameStoreService],
             multi: true
-        },
-   ],
+        }
+    ],
     bootstrap: [TicTacToeComponent]
 })
 export class TicTacToeModule {
-}
-
-export function ConfigLoader(appConfig: AppConfig) {
-    return () => appConfig.load('./assets/config.json');
 }

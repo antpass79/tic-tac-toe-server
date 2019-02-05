@@ -27,8 +27,8 @@ describe('Match', () => {
     it('should return the games (5) value from play, as sum of all counts (cross, maught, draw) with random players', async(() => {
 
         let games = 5;
-        let player1 = new RandomPlayer();
-        let player2 = new RandomPlayer();
+        let player1 = new RandomPlayer(Side.CROSS);
+        let player2 = new RandomPlayer(Side.NAUGHT);
 
         match.play(player1, player2, games, true).then((result) => {
             expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);
@@ -41,8 +41,8 @@ describe('Match', () => {
         let click2: EventEmitter<CellState> = new EventEmitter<CellState>();
 
         let games = 5;
-        let player1 = new HumanPlayer(click1);
-        let player2 = new HumanPlayer(click2);
+        let player1 = new HumanPlayer(Side.CROSS, click1);
+        let player2 = new HumanPlayer(Side.NAUGHT, click2);
 
         match.play(player1, player2, games, true).then((result) => {
             expect(result.crossCount + result.naughtCount + result.drawCount).toEqual(games);

@@ -7,7 +7,10 @@ import { AgentProxyService } from './agent-proxy.service';
 import { Side } from '../redux/implementation/states';
 import { GameResult, Board } from '../game/board';
 import { GameStoreProvider } from '../redux/implementation/providers';
-import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NicknameStoreService } from './nickname-store.service';
+import { IAppConfig } from '../app/app.config';
+import { MockAppConfig } from '../mock/mock-app-config';
 
 describe('AgentProxyService', () => {
 
@@ -23,9 +26,14 @@ describe('AgentProxyService', () => {
             ],
             providers: [
                 {
+                    provide: IAppConfig,
+                    useClass: MockAppConfig
+                },
+                NicknameStoreService,
+                {
                     provide: AgentProxyService,
                     useClass: AgentProxyService,
-                    deps: [HttpClient]
+                    deps: [HttpClient, NicknameStoreService, IAppConfig]
                 },
                 GameStoreProvider
             ]

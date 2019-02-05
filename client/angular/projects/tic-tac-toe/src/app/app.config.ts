@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+export abstract class IAppConfig {
+
+    abstract getValue(key: string): any;
+}
+
 @Injectable({
     providedIn: 'root'
 })
-export class AppConfig {
+export class AppConfig implements IAppConfig {
 
     // data members
 
@@ -17,11 +22,11 @@ export class AppConfig {
 
     // public functions
 
-    public getValue(key: any) {
+    public getValue(key: string): any {
         return this.configuration[key];
     }
 
-    public load(url) {
+    public load(url: string) {
         return new Promise((resolve) => {
 
             this.httpClient.get<any>(url)
@@ -32,4 +37,8 @@ export class AppConfig {
                 });
         });
     }
+}
+
+export function ConfigLoader(appConfig: AppConfig) {
+    return () => appConfig.load('./assets/config.json');
 }
