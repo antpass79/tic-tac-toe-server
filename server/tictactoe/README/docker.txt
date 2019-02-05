@@ -1,1 +1,8 @@
 https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
+with powershell is possible using the $(...) syntax
+
+remove all
+http://blog.baudson.de/blog/stop-and-remove-all-docker-containers-and-images
+
+with -f flag is possible to force also blocked situations

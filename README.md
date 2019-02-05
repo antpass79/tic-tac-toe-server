@@ -14,13 +14,14 @@ On the client side my goals are to learn react.js (TODO) and redux concepts.
 
 On the server side my goals are to learn node.js and express.
 
-The last goal is to learn python and tensorflow. In the reference section, there is a link of a very good article and code about deep learning, from which I took all the code for the agent project.
+The last goal is to learn python and tensorflow. In the reference section, there is a link to a very good article and code about deep learning, from which I took all the code for the agent project.
 
-During the development other concepts came in my mind, the first one is Docker, so I decided to move all projects on containers. The second one is based on the gift I made to myself, the Raspberry, so my aim is to move all on that device...step by step.
+During the development other concepts came in my mind, the first one is Docker, so I decided to move all projects on containers. The second one is based on the gift I made to myself, the Raspberry (TODO), so my aim is to move all on that device...step by step.
 
 ## Projects
 
 The game is organized in the following projects:
+
 - client
   - angular
   - react (TODO)
@@ -29,124 +30,158 @@ The game is organized in the following projects:
   - agent
   
 In the client folder there are two versions of the same application:
+
 - the first one is written in angular 6+.
 - the second one is written in react (TODO).
 
 The projects expose the GUI for the human player.
 
 In the server folder there are two sub folders:
+
 - tictactoe is the project that exposes the web service, based on node.js and express. The clients call it to play ti tac toe.
 - agent is the project that exposes the web service to manage the AI, written in python and based on tensorflow. tictactoe project call it to manage the next best move.
 
-## Setup
+### Architecture
+
+In the following picture there is a sequence diagram to show how any single user action is handled by the system.
+
+![user action sequence diagram](assets/images/user_action_sequence.jpg)
+
+## Setup and Run
 
 Once you cloned or downloaded the project from github, you have to install all packages for each project. Follow these steps.
 
-### Client -> Angular
+### Setup and Run the Client
 
-From cmd prompt, under the client\angular folder, type:
+The following commands have to run under the folder client\angular through a cmd prompt with administrative privileges.
 
-- npm install, installs all dependencies
+    npm install
 
-Now the client angular is ready to run
+installs all dependencies
 
-### Server -> Tic Tac Toe
+Now the client angular is ready to run.
 
-From cmd prompt, under the server\tictactoe folder, type:
+Try it, typing the command defined in package.json
 
-- npm install, installs all dependencies
+    ng serve run:tic-tac-toe
 
-Now the tictactoe service is ready to run
+### Setup and Run the Application Server
 
-### Server -> Agent
+The following commands have to run under the folder server\tictactoe through a cmd prompt with administrative privileges.
 
-The prerequisite is to have installed on your computer python 3.6
+    npm install
 
-From cmd prompt, under the server\agent folder, type:
+installs all dependencies
 
-- pip install virtualenv, installs virtualenv package in order to create and use a virtual environment to work with
-- virtualenv env, creates the virtual folder env
-- env\scripts\activate, activates the virtual environment
-- pip install -r agent/requirements.txt, installs in the virtula environment the packages listed in the requirements.txt file
+Now the tictactoe service is ready to run.
 
-Now the agent service is ready to run
+Try it, typing the command
 
-## Run
+    npm start
 
-In order to play the game you have to run the client application and the two services. The following steps work if you install all dependencies for every projects as you can read in Setup section.
+### Setup and Run the Agent
 
-### Client -> Angular
+The prerequisite to run the agent is to have installed on your computer python 3.6. After a short search on Google you can find and install it.
 
-Under the client\angular folder, run 'ng serve tic-tac-toe'.
+The following commands have to run under the folder server\agent through a cmd prompt with administrative privileges.
 
-### Server -> Tic Tac Toe
+    pip install virtualenv
 
-Under the server\tictactoe folder, run 'npm start'.
+installs virtualenv package in order to create and use a virtual environment to work in
 
-### Server -> Agent
+    virtualenv env
 
-Under the server\agent folder, run python src\TicTacToe.py.
+creates the virtual folder env
+
+    env\scripts\activate
+
+activates the virtual environment
+
+    pip install -r agent/requirements.txt
+
+installs in the virtual environment the packages listed in the requirements.txt file
+
+Now the agent service is ready to run.
+
+Try it, typing the command
+
+    python src\TicTacToe.py
 
 ## Tests
 
 Each project has a test suite. Follow these steps to run them.
 
-### Client -> Angular
+### Test the Client
 
-- open a cmd with administrative privileges
-- go inside the project root (client\angular)
-- call 'ng test'
+The following commands have to run under the folder client\angular through a cmd prompt with administrative privileges.
 
-### Server -> Tic Tac Toe
+    ng test
 
-- open a cmd with administrative privileges
-- go inside the project root (server\tictactoe)
-- call 'npm test' for one cycle of test
-- call 'npm test -- -w' for watching file changes
+### Test the Application Server
 
-### Server -> Agent
+The following commands have to run under the folder server/tictactoe through a cmd prompt with administrative privileges.
 
-- open a cmd with administrative privileges
-- go inside the project root (server\agent)
-- create and activate the virtual folder
-- call python -m tests.entrypoint
+    npm test
+
+for one cycle of test
+
+    npm test -- -w
+
+for watching file changes
+
+### Test the Agent
+
+The following commands have to run under the folder server/agent through a cmd prompt with administrative privileges.
+
+Create (if it doesn't exist) and activate the virtual folder (see [Setup and Run the Agent](#Setup-and-Run-the-Agent))
+
+    python -m tests.entrypoint
 
 ## Docker
 
 Each project can run on a docker container.
 
-### Client -> Angular
+### Docker for the Client
 
-- create the image
-    
-    - go under client\angular
-    - from cmd: docker build -t tictactoe-client .
+The following commands have to run under the folder client\angular through a cmd prompt with administrative privileges.
 
-- run the container
+- build the angular application
 
-    - from cmd: docker run -p 4200:4200 -i -t tictactoe-client
-
-### Server -> Tic Tac Toe
-
-- create the image
-    
-    - go under server\tictactoe
-    - from cmd: docker build -t tictactoe .
-
-- run the container
-
-    - from cmd: docker run -p 3000:3000 -i -t tictactoe
-
-### Server -> Agent
+        ng build --prod
 
 - create the image
 
-    - go under server\agent
-    - from cmd: docker build -t agent .
+        docker image build -t tictactoe-client .
 
-- run the container
+- run the container listen on port 4200
 
-    - from cmd: docker run -p 8080:8080 -i -t agent
+        docker run -p 4200:80 --rm tictactoe-client
+
+### Docker for the Application Server
+
+The following commands have to run under the folder server\tictactoe through a cmd prompt with administrative privileges.
+
+- create the image
+
+        docker build -t tictactoe .
+
+- run the container listen on the port 3000
+
+        docker run -p 3000:3000 -i -t tictactoe
+
+### Docker for the Agent
+
+The following commands have to run under the folder server\agent through a cmd prompt with administrative privileges.
+
+- create the image
+
+        docker build -t agent .
+
+- run the container listen on the port 8080
+
+        docker run -p 8080:8080 -i -t agent
+
+### Docker for all together
 
 ## Raspberry
 
@@ -160,7 +195,7 @@ TODO
 
 In the following sections the are the references about the main topics. In each project there is a folder README in which it's possible to find other links and examples that I have taken note. 
 
-### Tests
+### Tools for testing
 
 #### Jasmine for Angular
 

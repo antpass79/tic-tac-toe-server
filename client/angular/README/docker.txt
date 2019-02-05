@@ -1,0 +1,12 @@
+https://medium.com/@DenysVuika/your-angular-apps-as-docker-containers-471f570a7f2
+pay attention: in Dockerfile change
+COPY dist/ .
+to
+COPY dist/tic-tac-toe/ .
+
+summary:
+ng build --prod
+docker image build -t tictactoe-client .
+docker run -p 4200:80 --rm tictactoe-client
+
+https://medium.com/@tiangolo/angular-in-docker-with-nginx-supporting-environments-built-with-multi-stage-docker-builds-bb9f1724e984
