@@ -73,8 +73,6 @@ describe('AgentProxyService', () => {
         state[1] = Side.NAUGHT;
 
         service.move(state).subscribe((status) => {
-
-            //expect(status).toEqual((<any>jasmine).arrayContaining(Side.NAUGHT));
             expect(status).toContain(Side.NAUGHT);
         });
 

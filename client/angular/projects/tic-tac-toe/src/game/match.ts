@@ -14,25 +14,30 @@ export class Match {
 
     async play(player1: IPlayer, player2: IPlayer, games: number = 1, silent: boolean = false): Promise<{ crossCount: number, naughtCount: number, drawCount: number }> {
 
-        let draw_count = 0;
-        let cross_count = 0;
-        let naught_count = 0;
+        let drawCount = 0;
+        let crossCount = 0;
+        let naughtCount = 0;
 
         for (let i = 0; i < games; i++) {
             let result = await this.game(player1, player2, silent);
             if (result == GameResult.CROSS_WIN)
-                cross_count += 1;
+                crossCount += 1;
             else if (result == GameResult.NAUGHT_WIN)
-                naught_count += 1;
+                naughtCount += 1;
             else
-                draw_count += 1;
+                drawCount += 1;
         }
 
-        return {
-            crossCount: cross_count,
-            naughtCount: naught_count,
-            drawCount: draw_count
-        };
+        return new Promise<{ crossCount: number, naughtCount: number, drawCount: number }>(resolve => {
+
+            let result = {
+                crossCount: crossCount,
+                naughtCount: naughtCount,
+                drawCount: drawCount
+            };
+
+            resolve(result);
+        });
     }
 
     async game(player1: IPlayer, player2: IPlayer, silent: boolean): Promise<GameResult> {
@@ -96,11 +101,11 @@ export class Match {
     static printStatistics(games: number, statistics: { crossCount: number, naughtCount: number, drawCount: number }) {
 
         console.log("After " + games + " game we have draws: " + statistics.drawCount + ", cross wins: " + statistics.crossCount + ", and naught wins: " + statistics.naughtCount + ".");
-    
+
         let drawPercent = (statistics.drawCount / games * 100).toFixed(2);
         let crossPercent = (statistics.crossCount / games * 100).toFixed(2);
         let naughtPercent = (statistics.naughtCount / games * 100).toFixed(2);
-    
+
         console.log("Which gives percentages of draws : cross : naught of about " + drawPercent + "% : " + crossPercent + "% : " + naughtPercent + "%");
-      }    
+    }
 }
