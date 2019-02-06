@@ -11,3 +11,15 @@ How to dockerize:
 
 2) run a container
 - from cmd: docker run -p 8080:8080 -i -t tictactoe
+
+
+docker-compose tutorial
+https://tecadmin.net/tutorial/docker/docker-compose-example/
+
+steps:
+- define: docker-compose.yml
+- run: docker-compose build
+- run: docker-compose up -d
+
+to see logs
+docker logs --follow my_container_id

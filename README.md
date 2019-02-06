@@ -47,6 +47,10 @@ In the following picture there is a sequence diagram to show how any single user
 
 ![user action sequence diagram](assets/images/user_action_sequence.jpg)
 
+## Prerequirements
+
+The following requirements are needed to run the system.
+
 ## Setup and Run
 
 Once you cloned or downloaded the project from github, you have to install all packages for each project. Follow these steps.

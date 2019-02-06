@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  tictactoe-client:
+    image: tictactoe-client
+    build: ./client/angular
+    container_name: tictactoe-client
+    restart: always
+    ports:
+      - "4200:80"
+
+  tictactoe-server:
+    image: tictactoe-server
+    build: ./server/tictactoe
+    container_name: tictactoe-server
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - tictactoe-agent
+    environment:
+      - AGENT_ENDPOINT=http://tictactoe-agent:8080/
+      - LISTEN_PORT=3000
+
+  tictactoe-agent:
+    image: tictactoe-agent
+    build: ./server/agent
+    container_name: tictactoe-agent
+    restart: always
+    ports:
+      - "8080:8080"

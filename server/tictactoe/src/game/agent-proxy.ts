@@ -24,7 +24,7 @@ export class AgentProxy {
     constructor(nickname: string) {
 
         let nodeConfig = new NodeConfig();
-        this._endpoint = nodeConfig.getValue('endpoint');
+        this._endpoint = process.env.AGENT_ENDPOINT || nodeConfig.getValue('endpoint');
 
         this.configuration = {
             method: "POST",
@@ -52,6 +52,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -70,6 +71,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -88,6 +90,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -106,6 +109,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -124,6 +128,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -142,6 +147,7 @@ export class AgentProxy {
                     subscriber.complete();
                 })
                 .catch((reason) => {
+                    console.log(reason);
                     subscriber.error(reason);
                     subscriber.complete();
                 })
@@ -153,6 +159,7 @@ export class AgentProxy {
     private updateConfiguration(action: string, data: any, message: string): void {
 
         let url = this._endpoint + action;
+        console.log('url: ' + url);
         let jsonData = data ? JSON.stringify(data) : JSON.stringify('NO DATA TO SEND');
         console.log('jsonData - action ' + action + ' - ' + message);
         console.log(jsonData);
