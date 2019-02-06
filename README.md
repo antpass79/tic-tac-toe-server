@@ -187,6 +187,26 @@ The following commands have to run under the folder server\agent through a cmd p
 
 ### Docker for all together
 
+### Docker for all
+
+In the folder root the docker-compose.yml file is present.
+In order to build and run all containers together, it's enough to follow these steps.
+
+The following commands have to run under the folder root, where there is the docker-compose.yml, through a cmd prompt with administrative privileges.
+
+- build images
+
+        docker-compose build
+
+- run containers
+
+        docker-compose up -d
+        (-d flag used to detach and run containers in background)
+
+- stop containers
+
+        docker-compose down
+
 ## Raspberry
 
 TODO
