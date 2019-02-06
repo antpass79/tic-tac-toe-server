@@ -21,6 +21,7 @@ services:
     environment:
       - AGENT_ENDPOINT=http://tictactoe-agent:8080/
       - LISTEN_PORT=3000
+      - ORIGINS_WHITE_LIST=["http://localhost:4200","http://localhost:2000"]
 
   tictactoe-agent:
     image: tictactoe-agent

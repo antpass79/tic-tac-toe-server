@@ -24,7 +24,7 @@ export class AgentProxy {
     constructor(nickname: string) {
 
         let nodeConfig = new NodeConfig();
-        this._endpoint = process.env.AGENT_ENDPOINT || nodeConfig.getValue('endpoint');
+        this._endpoint = nodeConfig.getValue('AGENT_ENDPOINT');
 
         this.configuration = {
             method: "POST",

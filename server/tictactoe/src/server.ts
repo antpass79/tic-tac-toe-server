@@ -45,7 +45,7 @@ export class Server {
 
         let nodeConfig = new NodeConfig();
 
-        let originsWhitelist = nodeConfig.getValue('originsWhitelist');
+        let originsWhitelist = nodeConfig.getValue('ORIGINS_WHITE_LIST');
         let corsOptions = {
             origin: (origin: any, callback: any) => {
                 var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;

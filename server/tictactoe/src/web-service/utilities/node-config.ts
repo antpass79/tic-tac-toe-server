@@ -19,7 +19,7 @@ export class NodeConfig {
 
     getValue(key: string) {
 
-        return this._json[key];
+        return process.env[key] || this._json[key];
     }
 
     // private functions
