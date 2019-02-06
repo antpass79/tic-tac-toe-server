@@ -57,16 +57,19 @@ export class GameFlowService {
         return this.store.select('winner');
     }
 
-    async nickname(nickname: string): Promise<any> {
+    async nickname(nickname: string): Promise<string> {
 
-        return new Promise<any>((resolve) => {
+        return new Promise<string>((resolve, reject) => {
 
             this.store.dispatch(MessageActions.busy(true));
 
             this.agentProxyService.nickname(nickname).subscribe((nickname) => {
-
                 this.store.dispatch(MessageActions.busy(false));
                 resolve(nickname);
+            },
+            (error) => {
+                this.store.dispatch(MessageActions.busy(false));
+                reject(error);
             });
         });
     }

@@ -6,9 +6,7 @@ export abstract class IAppConfig {
     abstract getValue(key: string): any;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AppConfig implements IAppConfig {
 
     // data members

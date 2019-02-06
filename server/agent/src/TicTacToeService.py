@@ -16,6 +16,9 @@ class GameSession(object):
     def set_game(self, key: str, gameSimulator: GameSimulator):
         self.games[key] = gameSimulator
 
+    def exists(self, key: str) -> bool:
+        return key in self.games
+
 class TicTacToeService(object):
 
     def __init__(self):
@@ -28,6 +31,11 @@ class TicTacToeService(object):
     def nickname(self):
 
         nickname = cherrypy.request.json
+        print ('nickname')
+        print (nickname)
+        if self.games.exists(nickname):
+            raise cherrypy.HTTPError(message='Invalid nickname')
+
         self.games.set_game(nickname, GameSimulator())
 
         return nickname

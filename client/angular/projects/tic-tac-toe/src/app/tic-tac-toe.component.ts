@@ -46,6 +46,7 @@ export class TicTacToeComponent {
     statistics: Statistics;
     games: number = 10000;
     nickname: string = '';
+    validNickname: string = '';
     firstHuman: boolean = true;
 
     // Constructor
@@ -65,8 +66,12 @@ export class TicTacToeComponent {
     }    
 
     async onNickname() {
-
-        await this.gameFlowService.nickname(this.nickname);
+        this.gameFlowService.nickname(this.nickname)
+            .then(nickname => {
+                this.validNickname = nickname;
+            }).catch(() => {
+                this.validNickname = '';
+        });
     }
 
     async onStartHuman() {

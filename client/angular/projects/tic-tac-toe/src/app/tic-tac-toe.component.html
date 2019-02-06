@@ -6,21 +6,36 @@
             <div class="spinner"></div>
         </div>
     </div>
+
     <div class="options">
-        <div>
-            <button (click)="onNickname()">Play with the nickname</button><input type="text"
-                [(ngModel)]="nickname">
+
+        <div class="option-block">
+            <h3>Credentials</h3>
+            <div class="option-row">
+                <button (click)="onNickname()">Play with the nickname</button>
+                <input type="text" [(ngModel)]="nickname">
+            </div>
         </div>
-        <button (click)="onStartHuman()">Start Human - CROSS</button>
-        <button (click)="onStartAgent()">Start Agent - NAUGHT</button>
-        <div>
-            <button (click)="onTrainAgent()" [disabled]="!(started | async)">Train Agent</button><input type="number"
-                [(ngModel)]="games">
+
+        <div class="option-block" [class.disable]="!validNickname">
+            <h3>Game</h3>
+            <button class="option-row" (click)="onStartHuman()">Start Human - CROSS</button>
+            <button class="option-row" (click)="onStartAgent()">Start Agent - NAUGHT</button>
         </div>
-        <button (click)="onCleanAgent()">Clean Agent Training</button>
+
+        <div class="option-block" [class.disable]="!validNickname">
+            <h3>Training</h3>
+            <div class="option-row">
+                <button (click)="onTrainAgent()" [disabled]="!(started | async)">Train Agent</button>
+                <input type="number" [(ngModel)]="games">
+            </div>
+            <button class="option-row" (click)="onCleanAgent()">Clean Agent Training</button>
+        </div>
+
         <h1 *ngIf="(winner | async) != 0 && (winner | async) == 1">The Winner is O</h1>
         <h1 *ngIf="(winner | async) != 0 && (winner | async) == 2">The Winner is X</h1>
     </div>
+
     <div>
         <h3>Statistics after the training</h3>
         <div class="statistics">

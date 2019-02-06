@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TicTacToeComponent } from './tic-tac-toe.component';
 import { BoardComponent } from '../components/board/board.component';
 import { CellComponent } from '../components/cell/cell.component';
@@ -20,7 +20,7 @@ import { NicknameStoreService } from '../services/nickname-store.service';
     imports: [
         BrowserModule,
         HttpClientModule,
-        FormsModule,
+        FormsModule
     ],
     providers: [
         {
@@ -36,7 +36,7 @@ import { NicknameStoreService } from '../services/nickname-store.service';
         {
             provide: APP_INITIALIZER,
             useFactory: ConfigLoader,
-            deps: [AppConfig],
+            deps: [IAppConfig],
             multi: true
         },
         NicknameStoreService,

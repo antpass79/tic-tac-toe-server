@@ -160,9 +160,9 @@ export class AgentProxy {
 
         let url = this._endpoint + action;
         console.log('url: ' + url);
-        let jsonData = data ? JSON.stringify(data) : JSON.stringify('NO DATA TO SEND');
+        let jsonData = data ? JSON.stringify(data) : '';
         console.log('jsonData - action ' + action + ' - ' + message);
-        console.log(jsonData);
+        console.log(jsonData ? jsonData : 'NO DATA TO SEND');
 
         this.configuration.url = url;
         this.configuration.data = jsonData;

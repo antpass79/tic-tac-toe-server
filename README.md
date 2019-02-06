@@ -194,6 +194,8 @@ In order to build and run all containers together, it's enough to follow these s
 
 The following commands have to run under the folder root, where there is the docker-compose.yml, through a cmd prompt with administrative privileges.
 
+Before all, remember to build the client (see [Docker for the Client](#Docker-for-the-Client))
+
 - build images
 
         docker-compose build
