@@ -10,6 +10,8 @@ import { Logger, LoggerFactory } from './redux/logger';
 import { IAppConfig, AppConfig, ConfigLoader } from './app.config';
 import { NicknameInterceptor } from './services/nickname.interceptor';
 import { NicknameStoreService } from './services/nickname-store.service';
+import { gameReducer } from './store/reducers/game.reducer';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
     declarations: [
@@ -20,7 +22,8 @@ import { NicknameStoreService } from './services/nickname-store.service';
     imports: [
         BrowserModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        StoreModule.forRoot(gameReducer)
     ],
     providers: [
         {
