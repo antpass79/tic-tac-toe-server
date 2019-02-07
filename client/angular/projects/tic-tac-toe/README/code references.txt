@@ -8,3 +8,20 @@ https://blog.rangle.io/angular-components-and-the-redux-store-now-you-can-have-y
 https://medium.com/collaborne-engineering/why-not-to-store-objects-in-redux-7f41243020fc
 https://travishorn.com/redux-by-example-combined-reducer-with-action-creators-34be581ddb0
 https://medium.com/coding-artist/redux-from-scratch-chapter-8-dividing-the-state-with-multiple-reducers-c7969a0d2d97
+
+redux at home
+https://blog.ng-book.com/introduction-to-redux-with-typescript-and-angular-2/
+
+redux - examples
+https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
+https://stackabuse.com/beginners-guide-to-ngrx-and-angular/
+https://medium.freecodecamp.org/how-to-learn-redux-from-a-functional-programming-perspective-720892f704c6
+
+redux - authentication
+http://www.gistia.com/authentication-in-angular-with-ngrx-part-i/
+
+redux - effects (dialogs etc...)
+https://blog.angularindepth.com/start-using-ngrx-effects-for-this-e0b2bd9da165
+
+rxjs
+https://blog.hackages.io/rxjs-5-5-piping-all-the-things-9d469d1b3f44

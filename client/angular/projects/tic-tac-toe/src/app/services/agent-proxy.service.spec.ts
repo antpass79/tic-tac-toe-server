@@ -9,8 +9,8 @@ import { GameResult, Board } from '../game/board';
 import { GameStoreProvider } from '../redux/implementation/providers';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NicknameStoreService } from './nickname-store.service';
-import { IAppConfig } from '../app/app.config';
-import { MockAppConfig } from '../mock/mock-app-config';
+import { IAppConfig } from '../app.config';
+import { MockAppConfig } from '../../mock/mock-app-config';
 
 describe('AgentProxyService', () => {
 

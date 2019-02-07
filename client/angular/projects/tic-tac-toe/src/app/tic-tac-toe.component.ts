@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
-import { CellState, Side, GameState, initialState } from '../redux/implementation/states';
-import { HumanPlayer } from '../game/players/human-player';
+import { Component, EventEmitter } from '@angular/core';
+import { CellState, Side, GameState, initialState } from './redux/implementation/states';
+import { HumanPlayer } from './game/players/human-player';
 import { Observable } from 'rxjs';
-import { AgentPlayer } from '../game/players/agent-player';
-import { AgentProxyService } from '../services/agent-proxy.service';
-import { GameFlowService } from '../services/game-flow.service';
+import { AgentPlayer } from './game/players/agent-player';
+import { AgentProxyService } from './services/agent-proxy.service';
+import { GameFlowService } from './services/game-flow.service';
 
 class Statistics {
 
