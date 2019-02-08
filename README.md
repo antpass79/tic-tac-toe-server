@@ -2,21 +2,41 @@
 
 ## Introduction
 
-I started to work on this project for the purpose of to learn some new technologies. A simple application to put all together what I wanted to study was perfect for my aim. At the present this is a working in progress project that I'm using to learn and study new things. I try to update and do refactoring every sections based on my study.
+Tic Tac Toe is an easy puzzle game that in the past helped me to learn new languages. More than 15 years ago, I started to learn and improve my knowledge of C++ and MFC, implementing Tic Tac Toe. That was the first version of the game. In the subsequent years other versions were made, in C# before and in javascript after.
+
+Now it’s time for a new and revolutionary version, the Tic Tac Toe Enterprise, more complex and advanced, but mainly useful for me to learn new topics.
 
 I take it for granted that this game is known, otherwise it's easy to find on Google something about it.
 
-In the past, every time that a new language came in front of me for work or hobby, I used the Tic Tac Toe game to learn it. MFC, C#, javascript are examples of languages that I learnt thanks to this game. Now there are a lot of new things to know, but I wanted to use the same example.
-
 ### Goals
 
-On the client side my goals are to learn react.js (TODO) and redux concepts.
+The aim of the project is to use, learn and improve the following technologies:
 
-On the server side my goals are to learn node.js and express.
+- Client
+  - Angular + Redux
+  - React + Redux (TODO)
 
-The last goal is to learn python and tensorflow. In the reference section, there is a link to a very good article and code about deep learning, from which I took all the code for the agent project.
+- Server
+  - node.js
+  - express.js
 
-During the development other concepts came in my mind, the first one is Docker, so I decided to move all projects on containers. The second one is based on the gift I made to myself, the Raspberry (TODO), so my aim is to move all on that device...step by step.
+- Database (TODO)
+  - MongoDB
+
+- Infrastructure
+  - Docker
+  - Rabbit (TODO)
+
+- Architecture (TODO)
+  - CQRS
+  - Event Sourcing
+
+- Machine Learning
+  - Keras
+  - TensorFlow
+  - Python
+
+During the development other concepts came in my mind, based on the gift that I made to myself, the Raspberry, so the last goal is to move all on that device...step by step.  (TODO)
 
 ## Projects
 
@@ -25,6 +45,7 @@ The game is organized in the following projects:
 - client
   - angular
   - react (TODO)
+
 - server
   - tictactoe
   - agent
@@ -36,20 +57,34 @@ In the client folder there are two versions of the same application:
 
 The projects expose the GUI for the human player.
 
-In the server folder there are two sub folders:
+In the server folder there are two projects:
 
-- tictactoe is the project that exposes the web service, based on node.js and express. The clients call it to play ti tac toe.
+- tictactoe is the project that exposes the web service, based on node and express. The clients call it to play ti tac toe.
 - agent is the project that exposes the web service to manage the AI, written in python and based on tensorflow. tictactoe project call it to manage the next best move.
 
 ### Architecture
 
-In the following picture there is a sequence diagram to show how any single user action is handled by the system.
+In the following picture there is a sequence diagram shows how any single user action is handled by the system.
 
 ![user action sequence diagram](assets/images/user_action_sequence.jpg)
 
 ## Prerequirements
 
 The following requirements are needed to run the system.
+I list only the main components, I take for granted the boundary components.
+
+- Node.js
+- Python 3.6 (it's the version that I'm using)
+- Tensorflow
+- MongoDB (TODO)
+
+If you want to run the system on containers
+
+- Docker or Docker Toolbox (I'm using both based on which computer I'm working on)
+
+If you want to run the system on Raspberry
+
+- Raspberry (I have the Raspberry Pi 3 Model B+)
 
 ## Setup and Run
 
@@ -85,8 +120,6 @@ Try it, typing the command
 
 ### Setup and Run the Agent
 
-The prerequisite to run the agent is to have installed on your computer python 3.6. After a short search on Google you can find and install it.
-
 The following commands have to run under the folder server\agent through a cmd prompt with administrative privileges.
 
     pip install virtualenv
@@ -109,7 +142,7 @@ Now the agent service is ready to run.
 
 Try it, typing the command
 
-    python src\TicTacToe.py
+    python src\TicTacToeService.py
 
 ## Tests
 
@@ -187,8 +220,6 @@ The following commands have to run under the folder server\agent through a cmd p
 
 ### Docker for all together
 
-### Docker for all
-
 In the folder root the docker-compose.yml file is present.
 In order to build and run all containers together, it's enough to follow these steps.
 
@@ -219,7 +250,7 @@ TODO
 
 ## References
 
-In the following sections the are the references about the main topics. In each project there is a folder README in which it's possible to find other links and examples that I have taken note. 
+In the following sections the are the references about the main topics. In each project there is a folder README in which it's possible to find other links and examples that I have taken note.
 
 ### Tools for testing
 
@@ -240,3 +271,7 @@ In the following sections the are the references about the main topics. In each 
 ### Deep Learning
 
 - https://medium.com/@carsten.friedrich/teaching-a-computer-to-play-tic-tac-toe-88feb838b5e3
+
+### Dockers
+
+- https://medium.com/@DenysVuika/your-angular-apps-as-docker-containers-471f570a7f2

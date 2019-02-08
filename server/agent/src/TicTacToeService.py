@@ -73,7 +73,7 @@ class TicTacToeService(object):
 
         nickname = cherrypy.request.headers['Nickname']
         game_simulator = self.games.get_game(nickname)
-        result = game_simulator.end_game(game_result)
+        game_simulator.end_game(game_result)
         return game_result_json
 
     @cherrypy.expose
