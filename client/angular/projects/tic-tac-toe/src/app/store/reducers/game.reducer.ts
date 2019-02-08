@@ -8,19 +8,14 @@ export const gameReducer = (
 
     switch (action.type) {
         case GameActionTypes.Start: {
-            return {
-                ...state, started: true
+            let initialState = initialGameState;
+            return {                
+                ...initialState, started: true
             };
         }
         case GameActionTypes.Stop: {
             return {
                 ...state, started: false
-            };
-        }
-        case GameActionTypes.Move: {
-            let boardState = { ...state.boardState, cells: action.payload };
-            return {
-                ...state, boardState: boardState
             };
         }
         case GameActionTypes.TheWinnerIs: {

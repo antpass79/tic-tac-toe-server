@@ -1,12 +1,6 @@
 import { GameResult, Board } from '../board';
-import { Observable, observable } from 'rxjs';
-
-export enum Side {
-
-    EMPTY = 0,
-    NAUGHT = 1,
-    CROSS = 2
-}
+import { Observable } from 'rxjs';
+import { Side } from '../../store/states/board.state';
 
 export interface IPlayer {
 

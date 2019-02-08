@@ -1,10 +1,10 @@
 import { Component, EventEmitter } from '@angular/core';
-import { CellState, Side, GameState, initialState } from './redux/implementation/states';
 import { HumanPlayer } from './game/players/human-player';
 import { Observable } from 'rxjs';
 import { AgentPlayer } from './game/players/agent-player';
 import { AgentProxyService } from './services/agent-proxy.service';
 import { GameFlowService } from './services/game-flow.service';
+import { Side, CellState } from './store/states/board.state';
 
 class Statistics {
 
@@ -20,8 +20,6 @@ class Statistics {
     styleUrls: ['./tic-tac-toe.component.css']
 })
 export class TicTacToeComponent {
-
-    gameState: GameState = initialState;
 
     private _started$: Observable<boolean>;
     get started(): Observable<boolean> {

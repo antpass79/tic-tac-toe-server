@@ -1,7 +1,8 @@
-import { Player, Side } from './player';
+import { Player } from './player';
 import { GameResult, Board } from '../board';
 import { Observable } from 'rxjs';
 import { AgentProxyService } from '../../services/agent-proxy.service';
+import { Side } from '../../store/states/board.state';
 
 export class AgentPlayer extends Player {
 

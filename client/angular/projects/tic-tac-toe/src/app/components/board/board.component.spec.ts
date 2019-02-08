@@ -2,9 +2,10 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
 import { BoardComponent } from './board.component';
 import { CellComponent } from '../cell/cell.component';
-import { GameStoreProvider } from '../../redux/implementation/providers';
-import { Logger, LoggerFactory } from '../../redux/logger';
-import { Injector } from '@angular/core';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { StoreModule } from '@ngrx/store';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 describe('BoardComponent', () => {
 
@@ -18,13 +19,12 @@ describe('BoardComponent', () => {
                 BoardComponent,
                 CellComponent
             ],
+            imports: [
+                FormsModule,
+                HttpClientModule,
+                StoreModule.forRoot(appReducer)
+            ],
             providers: [
-                {
-                    provide: Logger,
-                    useFactory: LoggerFactory,
-                    deps: [Injector]
-                },
-                GameStoreProvider
             ]
         }).compileComponents().then(() => {
 

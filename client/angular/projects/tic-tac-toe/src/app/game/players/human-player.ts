@@ -1,8 +1,9 @@
-import { Player, Side } from './player';
+import { Player } from './player';
 import { GameResult, Board } from '../board';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
-import { CellState } from '../../redux/implementation/states';
+import { CellState, Side } from '../../store/states/board.state';
+import { BoardUtils } from '../utils';
 
 export class HumanPlayer extends Player {
 
@@ -19,7 +20,7 @@ export class HumanPlayer extends Player {
 
                 clickSubscriber.unsubscribe();
                 
-                let moveResult = board.move(Board.getIndex(cellState.x, cellState.y), this.side);
+                let moveResult = board.move(BoardUtils.getIndex(cellState.x, cellState.y), this.side);
                 let result = { gameResult: moveResult.result, finished: moveResult.finished };
          
                 subscriber.next(result);

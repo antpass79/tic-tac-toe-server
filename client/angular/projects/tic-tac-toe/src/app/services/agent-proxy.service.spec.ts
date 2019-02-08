@@ -4,13 +4,13 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { range } from 'underscore';
 
 import { AgentProxyService } from './agent-proxy.service';
-import { Side } from '../redux/implementation/states';
 import { GameResult, Board } from '../game/board';
-import { GameStoreProvider } from '../redux/implementation/providers';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NicknameStoreService } from './nickname-store.service';
 import { IAppConfig } from '../app.config';
 import { MockAppConfig } from '../../mock/mock-app-config';
+import { Side } from '../store/states/board.state';
+import { BoardUtils } from '../game/utils';
 
 describe('AgentProxyService', () => {
 
@@ -34,8 +34,7 @@ describe('AgentProxyService', () => {
                     provide: AgentProxyService,
                     useClass: AgentProxyService,
                     deps: [HttpClient, NicknameStoreService, IAppConfig]
-                },
-                GameStoreProvider
+                }
             ]
         });
 
@@ -69,7 +68,7 @@ describe('AgentProxyService', () => {
 
     it('should return status 200 after a call to move', () => {
 
-        let state = range(Board.BOARD_SIZE).map(() => { return Side.EMPTY; });
+        let state = range(BoardUtils.BOARD_SIZE).map(() => { return Side.EMPTY; });
         state[1] = Side.NAUGHT;
 
         service.move(state).subscribe((status) => {

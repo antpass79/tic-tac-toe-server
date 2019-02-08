@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Side } from '../redux/implementation/states';
 import { Observable } from 'rxjs';
 import { GameResult } from '../game/board';
 import { IAppConfig } from '../app.config';
 import { NicknameStoreService } from './nickname-store.service';
+import { Side } from '../store/states/board.state';
 
 @Injectable({
     providedIn: 'root'

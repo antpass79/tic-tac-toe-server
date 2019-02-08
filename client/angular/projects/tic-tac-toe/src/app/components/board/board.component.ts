@@ -1,9 +1,10 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { CellState, GameState, Side } from '../../redux/implementation/states';
 import { Observable } from 'rxjs';
-import { Store } from '../../redux/store';
-import { GameStore } from '../../redux/implementation/providers';
-import { Inject } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { Component, Output, EventEmitter } from '@angular/core';
+import { CellState, Side } from '../../store/states/board.state';
+import { listenForCells } from '../../store/selectors/board.selector';
+import { AppState } from '../../store/states/app.state';
 
 @Component({
     selector: 'board',
@@ -26,9 +27,9 @@ export class BoardComponent {
 
     // Constructor
 
-    constructor(@Inject(GameStore) private store: Store<GameState>) {
+    constructor(private store: Store<AppState>) {
         
-        this._cells$ = this.store.select("boardState", "cells");
+        this._cells$ = this.store.pipe(select(listenForCells));
     }
 
     onCellClick(state: CellState) {

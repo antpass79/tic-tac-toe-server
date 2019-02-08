@@ -1,7 +1,8 @@
 import { EventEmitter } from "@angular/core";
 
 import { GameResult, Board } from "./board";
-import { Side, IPlayer } from "./players/player";
+import { IPlayer } from "./players/player";
+import { Side } from "../store/states/board.state";
 
 export class Match {
 

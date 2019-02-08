@@ -2,15 +2,15 @@ import { async, TestBed } from '@angular/core/testing';
 import { TicTacToeComponent } from './tic-tac-toe.component';
 import { BoardComponent } from './components/board/board.component';
 import { CellComponent } from './components/cell/cell.component';
-import { GameStoreProvider } from './redux/implementation/providers';
 import { Injector } from '@angular/core';
-import { LoggerFactory, Logger } from './redux/logger';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NicknameStoreService } from './services/nickname-store.service';
 import { IAppConfig } from './app.config';
 import { NicknameInterceptor } from './services/nickname.interceptor';
 import { MockAppConfig } from '../mock/mock-app-config';
+import { appReducer } from './store/reducers/app.reducer';
+import { StoreModule } from '@ngrx/store';
 
 describe('TicTacToeComponent', () => {
   beforeEach(async(() => {
@@ -22,15 +22,10 @@ describe('TicTacToeComponent', () => {
       ],
       imports: [
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        StoreModule.forRoot(appReducer)
       ],
       providers: [
-        {
-          provide: Logger,
-          useFactory: LoggerFactory,
-          deps: [Injector]
-      },
-      GameStoreProvider,
       {
           provide: IAppConfig,
           useClass: MockAppConfig

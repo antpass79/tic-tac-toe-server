@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { range } from 'underscore';
-
-import { Side } from "./players/player";
+import { Side } from '../store/states/board.state';
+import { BoardUtils } from './utils';
 
 export enum GameResult {
     NOT_FINISHED = 0,
@@ -14,9 +14,6 @@ export class Board {
 
     stateChange: EventEmitter<Array<Side>> = new EventEmitter<Array<Side>>();
 
-    static BOARD_DIM = 3;
-    static BOARD_SIZE = Board.BOARD_DIM * Board.BOARD_DIM;
-
     private _state: Array<Side> = new Array<Side>();
     get state() {
         return this._state;
@@ -24,20 +21,6 @@ export class Board {
 
     constructor() {
         this.reset();
-    }
-
-    static getIndex(x: number, y: number) {
-        return x * 3 + y;
-    }
-
-    static getCoordinate(index: number): { x: number, y: number } {
-
-        let coordinate = {
-            x: Math.floor(index / Board.BOARD_DIM),
-            y: index % Board.BOARD_DIM
-        }
-
-        return coordinate;
     }
 
     static otherSide(side: Side) {
@@ -79,7 +62,7 @@ export class Board {
 
     isLegal(move: number) {
 
-        return move >= 0 && move < Board.BOARD_SIZE && this.state[move] == Side.EMPTY;
+        return move >= 0 && move < BoardUtils.BOARD_SIZE && this.state[move] == Side.EMPTY;
     }
 
     randomEmptySpot() {
@@ -98,14 +81,14 @@ export class Board {
     }
 
     reset() {
-        this._state = range(Board.BOARD_SIZE).map(() => { return Side.EMPTY; });
+        this._state = range(BoardUtils.BOARD_SIZE).map(() => { return Side.EMPTY; });
     }
 
     hashValue() {
 
         let res = 0;
 
-        for (let i = 0; i < Board.BOARD_SIZE; i++) {
+        for (let i = 0; i < BoardUtils.BOARD_SIZE; i++) {
             res *= 3;
             res += this.state[i];
         }

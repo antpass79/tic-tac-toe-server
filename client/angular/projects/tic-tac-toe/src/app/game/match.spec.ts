@@ -3,9 +3,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { Match } from './match';
 import { RandomPlayer } from './players/random-player';
 import { HumanPlayer } from './players/human-player';
-import { CellState, Side } from '../redux/implementation/states';
 import { EventEmitter } from '@angular/core';
-import { Board } from './board';
+import { Side, CellState } from '../store/states/board.state';
+import { BoardUtils } from './utils';
 
 describe('Match', () => {
 
@@ -64,7 +64,7 @@ async function click(click: EventEmitter<CellState>, index: number) {
 
         setTimeout(() => {
 
-            let coordinate = Board.getCoordinate(index);
+            let coordinate = BoardUtils.getCoordinate(index);
             click.emit({
                 side: Side.NAUGHT,
                 x: coordinate.x,

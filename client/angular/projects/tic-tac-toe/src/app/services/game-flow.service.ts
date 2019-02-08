@@ -1,13 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { GameResult, Board } from '../game/board';
 import { AgentProxyService } from './agent-proxy.service';
-import { IPlayer, Side } from '../game/players/player';
+import { IPlayer } from '../game/players/player';
 import { Match } from '../game/match';
-import { MessageActions } from '../redux/implementation/actions';
-import { GameState, CellState } from '../redux/implementation/states';
-import { Store } from '../redux/store';
-import { GameStore } from '../redux/implementation/providers';
+import { AppState } from '../store/states/app.state';
+import { Store, select } from '@ngrx/store';
+import { Busy, Start, Stop, TheWinnerIs } from '../store/actions/game.actions';
+import { listenForStarted, listenForBusy, listenForWinner } from '../store/selectors/game.selector';
+import { CellState, Side } from '../store/states/board.state';
+import { Move, Reset } from '../store/actions/board.actions';
+import { BoardUtils } from '../game/utils';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +24,7 @@ export class GameFlowService {
     // constructor
 
     constructor(
-        @Inject(GameStore) private store: Store<GameState>,
+        private store: Store<AppState>,
         private agentProxyService: AgentProxyService) {
 
         this._match = new Match();
@@ -30,7 +32,7 @@ export class GameFlowService {
 
             let cellStates: Array<CellState> = state.map((item, index) => {
 
-                let coordinate = Board.getCoordinate(index);
+                let coordinate = BoardUtils.getCoordinate(index);
 
                 return {
                     x: coordinate.x,
@@ -39,36 +41,36 @@ export class GameFlowService {
                 }
             });
 
-            this.store.dispatch(MessageActions.updateCellSides(cellStates));
+            this.store.dispatch(new Move(cellStates));
         });
     }
 
     // public functions
 
     listenForStarted() {
-        return this.store.select('started');
+        return this.store.pipe(select(listenForStarted));
     }
 
     listenForBusy() {
-        return this.store.select('busy');
+        return this.store.pipe(select(listenForBusy));
     }
 
     listenForWinner() {
-        return this.store.select('winner');
+        return this.store.pipe(select(listenForWinner));
     }
 
     async nickname(nickname: string): Promise<string> {
 
         return new Promise<string>((resolve, reject) => {
 
-            this.store.dispatch(MessageActions.busy(true));
+            this.store.dispatch(new Busy(true));
 
             this.agentProxyService.nickname(nickname).subscribe((nickname) => {
-                this.store.dispatch(MessageActions.busy(false));
+                this.store.dispatch(new Busy(false));
                 resolve(nickname);
             },
             (error) => {
-                this.store.dispatch(MessageActions.busy(false));
+                this.store.dispatch(new Busy(false));
                 reject(error);
             });
         });
@@ -82,7 +84,7 @@ export class GameFlowService {
         }
         this._roundChangeSubscriber = this._match.roundChange.subscribe((side: Side) => {
             
-            this.store.dispatch(MessageActions.busy(side == Side.NAUGHT));
+            this.store.dispatch(new Busy(side == Side.NAUGHT));
         });
 
         this.start();
@@ -101,11 +103,11 @@ export class GameFlowService {
 
         return new Promise<any>((resolve) => {
 
-            this.store.dispatch(MessageActions.busy(true));
+            this.store.dispatch(new Busy(true));
 
             this.agentProxyService.train(games).subscribe((statistics) => {
 
-                this.store.dispatch(MessageActions.busy(false));
+                this.store.dispatch(new Busy(false));
                 resolve(statistics);
             });
         });
@@ -115,11 +117,11 @@ export class GameFlowService {
 
         return new Promise<any>((resolve) => {
 
-            this.store.dispatch(MessageActions.busy(true));
+            this.store.dispatch(new Busy(true));
 
             this.agentProxyService.clean().subscribe(() => {
 
-                this.store.dispatch(MessageActions.busy(false));
+                this.store.dispatch(new Busy(false));
                 resolve();
             });
         });
@@ -141,14 +143,15 @@ export class GameFlowService {
             winner = Side.EMPTY;
         }
 
-        this.store.dispatch(MessageActions.theWinnerIs(winner));
+        this.store.dispatch(new TheWinnerIs(winner));
     }
 
     private start() {
-        this.store.dispatch(MessageActions.start());
+        this.store.dispatch(new Reset());
+        this.store.dispatch(new Start());
     }
 
     private stop() {
-        this.store.dispatch(MessageActions.stop());
+        this.store.dispatch(new Stop());
     }
 }

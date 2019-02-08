@@ -1,7 +1,8 @@
 import { createSelector } from "@ngrx/store";
-import { GameState } from "../../redux/implementation/states";
+import { GameState } from "../states/game.state";
+import { AppState } from "../states/app.state";
 
-const selectGameState = (state: GameState) => state;
+const selectGameState = (state: AppState) => state.game;
 
 export const listenForStarted = createSelector(
     selectGameState,
