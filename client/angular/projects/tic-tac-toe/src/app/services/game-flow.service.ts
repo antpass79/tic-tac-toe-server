@@ -6,7 +6,7 @@ import { Match } from '../game/match';
 import { AppState } from '../store/states/app.state';
 import { Store, select } from '@ngrx/store';
 import { Busy, Start, Stop, TheWinnerIs } from '../store/actions/game.actions';
-import { listenForStarted, listenForBusy, listenForWinner } from '../store/selectors/game.selector';
+import { listenForStarted, listenForBusy, listenForWinner, listenForTrainingGames } from '../store/selectors/game.selector';
 import { CellState, Side } from '../store/states/board.state';
 import { Move, Reset } from '../store/actions/board.actions';
 import { BoardUtils } from '../game/utils';
@@ -57,6 +57,10 @@ export class GameFlowService {
 
     listenForWinner() {
         return this.store.pipe(select(listenForWinner));
+    }
+
+    listenForTrainingGames() {
+        return this.store.pipe(select(listenForTrainingGames));
     }
 
     async nickname(nickname: string): Promise<string> {

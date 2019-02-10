@@ -36,6 +36,11 @@ export class TicTacToeComponent {
         return this._winner$;
     }
 
+    private _trainingGames$: Observable<number>;
+    get trainingGames(): Observable<number> {
+        return this._trainingGames$;
+    }
+
     private _humanPlayer: HumanPlayer;
     private _agentPlayer: AgentPlayer;
 
@@ -54,6 +59,7 @@ export class TicTacToeComponent {
         this._started$ = this.gameFlowService.listenForStarted();
         this._busy$ = this.gameFlowService.listenForBusy();
         this._winner$ = this.gameFlowService.listenForWinner();
+        this._trainingGames$ = this.gameFlowService.listenForWinner();
 
         this._humanPlayer = new HumanPlayer(Side.CROSS, this._cellClick);
         this._agentPlayer = new AgentPlayer(Side.NAUGHT, this.agentProxyService);
