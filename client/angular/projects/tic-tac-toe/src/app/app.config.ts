@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { AppState } from './store/states/app.state';
 
 export abstract class IAppConfig {
 
@@ -24,7 +26,8 @@ export class AppConfig implements IAppConfig {
         return this.configuration[key];
     }
 
-    public load(url: string) {
+    public async load(url: string) {
+        
         return new Promise((resolve) => {
 
             this.httpClient.get<any>(url)
@@ -38,5 +41,6 @@ export class AppConfig implements IAppConfig {
 }
 
 export function ConfigLoader(appConfig: AppConfig) {
+
     return () => appConfig.load('./assets/config.json');
 }

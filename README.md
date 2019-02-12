@@ -178,6 +178,28 @@ Create (if it doesn't exist) and activate the virtual folder (see [Setup and Run
 
 Each project can run on a docker container.
 
+After the installation of Docker, you can use many commands from cmd prompt to manage your images, containers, networks and all you want about Docker. I used only a subset of them. Here there is the list of docker commands that I learnt for working this project.
+
+        docker images
+        gets a list of images
+
+        docker ps
+        gets a list of containers
+
+        docker network ls
+        gets a list of networks
+
+        docker image build -t <<image_name:tag>> .
+        run in a path in which there is a Dockerfile, builds an image
+
+        docker run -p <<host_port:container_port>> <<image_name>>
+        runs a container from the specified image
+        host_port is the port accessible from the external Docker host
+        container_port is the port of the container
+        [External] <---host_port---> [Docker host] <---container_port---> [Container]
+        using -i flag the interactive mode is enabled, keeping the STDIN open even if not attached
+        using -t flag a console is open and together with -i the output goes to the console
+
 ### Docker for the Client
 
 The following commands have to run under the folder client\angular through a cmd prompt with administrative privileges.

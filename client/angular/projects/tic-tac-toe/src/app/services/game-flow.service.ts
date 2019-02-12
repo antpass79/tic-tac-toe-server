@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
-import { GameResult, Board } from '../game/board';
+import { GameResult } from '../game/board';
 import { AgentProxyService } from './agent-proxy.service';
 import { IPlayer } from '../game/players/player';
 import { Match } from '../game/match';
 import { AppState } from '../store/states/app.state';
 import { Store, select } from '@ngrx/store';
 import { Busy, Start, Stop, TheWinnerIs } from '../store/actions/game.actions';
-import { listenForStarted, listenForBusy, listenForWinner, listenForTrainingGames } from '../store/selectors/game.selector';
+import { listenForStarted, listenForBusy, listenForWinner } from '../store/selectors/game.selector';
+import { listenForStatistics, listenForTrainingErrorMessage } from '../store/selectors/training.selector';
 import { CellState, Side } from '../store/states/board.state';
 import { Move, Reset } from '../store/actions/board.actions';
 import { BoardUtils } from '../game/utils';
+import { listenForNickname,listenForNicknameErrorMessage } from '../store/selectors/credentials.selector';
+import { Nickname } from '../store/actions/credentials.actions';
+import { Training, Clean } from '../store/actions/training.actions';
 
 @Injectable({
     providedIn: 'root'
@@ -24,8 +28,7 @@ export class GameFlowService {
     // constructor
 
     constructor(
-        private store: Store<AppState>,
-        private agentProxyService: AgentProxyService) {
+        private store: Store<AppState>) {
 
         this._match = new Match();
         this._match.board.stateChange.subscribe((state: Side[]) => {
@@ -59,25 +62,24 @@ export class GameFlowService {
         return this.store.pipe(select(listenForWinner));
     }
 
-    listenForTrainingGames() {
-        return this.store.pipe(select(listenForTrainingGames));
+    listenForNickname() {
+        return this.store.pipe(select(listenForNickname));
     }
 
-    async nickname(nickname: string): Promise<string> {
+    listenForNicknameErrorMessage() {
+        return this.store.pipe(select(listenForNicknameErrorMessage));
+    }
 
-        return new Promise<string>((resolve, reject) => {
+    listenForStatistics() {
+        return this.store.pipe(select(listenForStatistics));
+    }
 
-            this.store.dispatch(new Busy(true));
+    listenForTrainingErrorMessage() {
+        return this.store.pipe(select(listenForTrainingErrorMessage));
+    }
 
-            this.agentProxyService.nickname(nickname).subscribe((nickname) => {
-                this.store.dispatch(new Busy(false));
-                resolve(nickname);
-            },
-            (error) => {
-                this.store.dispatch(new Busy(false));
-                reject(error);
-            });
-        });
+    nickname(nickname: string) {
+        this.store.dispatch(new Nickname(nickname));
     }
 
     async newGame(player1: IPlayer, player2: IPlayer): Promise<GameResult> {
@@ -103,32 +105,12 @@ export class GameFlowService {
         });
     }
 
-    async train(games: number): Promise<any> {
-
-        return new Promise<any>((resolve) => {
-
-            this.store.dispatch(new Busy(true));
-
-            this.agentProxyService.train(games).subscribe((statistics) => {
-
-                this.store.dispatch(new Busy(false));
-                resolve(statistics);
-            });
-        });
+    async training(games: number): Promise<any> {
+        this.store.dispatch(new Training(games));
     }
 
     async clean(): Promise<any> {
-
-        return new Promise<any>((resolve) => {
-
-            this.store.dispatch(new Busy(true));
-
-            this.agentProxyService.clean().subscribe(() => {
-
-                this.store.dispatch(new Busy(false));
-                resolve();
-            });
-        });
+        this.store.dispatch(new Clean());
     }
 
     // private functions
@@ -151,7 +133,6 @@ export class GameFlowService {
     }
 
     private start() {
-        this.store.dispatch(new Reset());
         this.store.dispatch(new Start());
     }
 

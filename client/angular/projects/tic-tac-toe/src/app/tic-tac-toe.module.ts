@@ -8,8 +8,13 @@ import { CellComponent } from './components/cell/cell.component';
 import { IAppConfig, AppConfig, ConfigLoader } from './app.config';
 import { NicknameInterceptor } from './services/nickname.interceptor';
 import { NicknameStoreService } from './services/nickname-store.service';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { appReducer } from './store/reducers/app.reducer';
+import { CredentialsEffects } from './store/effects/credentials.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { provideBootstrapEffects } from './store/effects/provider.effects';
+import { TrainingEffects } from './store/effects/training.effects';
+import { GameEffects } from './store/effects/game.effects';
 
 @NgModule({
     declarations: [
@@ -21,6 +26,7 @@ import { appReducer } from './store/reducers/app.reducer';
         BrowserModule,
         HttpClientModule,
         FormsModule,
+        EffectsModule.forRoot([]),
         StoreModule.forRoot(appReducer)
     ],
     providers: [
@@ -40,7 +46,8 @@ import { appReducer } from './store/reducers/app.reducer';
             useClass: NicknameInterceptor,
             deps: [NicknameStoreService],
             multi: true
-        }
+        },
+        provideBootstrapEffects([CredentialsEffects, TrainingEffects, GameEffects])
     ],
     bootstrap: [TicTacToeComponent]
 })

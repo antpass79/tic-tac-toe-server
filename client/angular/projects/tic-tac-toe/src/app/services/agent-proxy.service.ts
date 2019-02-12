@@ -61,13 +61,13 @@ export class AgentProxyService {
         return this.httpClient.post<number>(this.buildEndpoint('endgame'), JSON.stringify(data), this.buildOptions());
     }
 
-    train(games: number): Observable<number> {
+    train(games: number): Observable<any> {
 
         let data = {
             games: games
         };
 
-        return this.httpClient.post<number>(this.buildEndpoint('train'), JSON.stringify(data), this.buildOptions());
+        return this.httpClient.post<any>(this.buildEndpoint('train'), JSON.stringify(data), this.buildOptions());
     }
 
     clean(): Observable<number> {

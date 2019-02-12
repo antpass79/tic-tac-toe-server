@@ -1,11 +1,6 @@
 import { Action } from "@ngrx/store";
 import { Side } from "../states/board.state";
 
-export const START: string = "START";
-export const STOP: string = "STOP";
-export const THE_WINNER_IS: string = "THE_WINNER_IS";
-export const BUSY: string = "BUSY";
-
 export enum GameActionTypes {
     Start = '[Game] Start',
     Stop = '[Game] Stop',

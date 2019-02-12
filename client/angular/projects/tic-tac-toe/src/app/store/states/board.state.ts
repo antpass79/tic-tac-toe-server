@@ -18,6 +18,7 @@ export interface CellState {
 export interface BoardState {
 
     readonly cells: CellState[];
+    readonly errorMessage: string;
 }
 
 export const initialBoardState: BoardState = {
@@ -30,7 +31,8 @@ export const initialBoardState: BoardState = {
             y: coordinate.y,
             side: Side.EMPTY
         }
-    })
+    }),
+    errorMessage: null
 }
 
 export function getInitialBoardState(): BoardState {

@@ -12,6 +12,17 @@ export const boardReducer = (
                 ...state, cells: action.payload
             };
         }
+        // case BoardActionTypes.MoveSuccess: {
+        //     return {
+        //         ...state, cells: action.payload, errorMessage: null
+        //     };
+        // }
+        // case BoardActionTypes.MoveFailure: {
+        //     let newState = initialBoardState;
+        //     return {
+        //         ...newState, errorMessage: "Invalid move"
+        //     };
+        // }
         case BoardActionTypes.Reset: {
             return initialBoardState;
         }

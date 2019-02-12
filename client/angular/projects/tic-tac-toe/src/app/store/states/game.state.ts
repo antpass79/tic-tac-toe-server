@@ -5,7 +5,7 @@ export interface GameState {
     readonly started: boolean;
     readonly busy: boolean;
     readonly winner: Side;
-    readonly trainingGames: number;
+    readonly nickname: string;
 }
 
 export const initialGameState: GameState = {
@@ -13,7 +13,7 @@ export const initialGameState: GameState = {
     started: false,
     busy: false,
     winner: Side.EMPTY,
-    trainingGames: 10000
+    nickname: null
 }
 
 export function getInitialGameState(): GameState {

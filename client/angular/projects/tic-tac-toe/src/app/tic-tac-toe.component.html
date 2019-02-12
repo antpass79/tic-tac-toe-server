@@ -12,23 +12,25 @@
         <div class="option-block">
             <h3>Credentials</h3>
             <div class="option-row">
-                <button (click)="onNickname()">Play with the nickname</button>
-                <input type="text" [(ngModel)]="nickname">
+                <button (click)="onNickname(nicknameField.value)">Play with the nickname</button>
+                <input #nicknameField type="text">
             </div>
+            <label>{{ nicknameErrorMessage | async }}</label>
         </div>
 
-        <div class="option-block" [class.disable]="!validNickname">
+        <div class="option-block" [class.disable]="!(nickname | async)">
             <h3>Game</h3>
             <button class="option-row" (click)="onStartHuman()">Start Human - CROSS</button>
             <button class="option-row" (click)="onStartAgent()">Start Agent - NAUGHT</button>
         </div>
 
-        <div class="option-block" [class.disable]="!validNickname">
+        <div class="option-block" [class.disable]="!(nickname | async)">
             <h3>Training</h3>
             <div class="option-row">
-                <button (click)="onTrainAgent()" [disabled]="!(started | async)">Train Agent</button>
-                <input type="number" [(ngModel)]="games">
+                <button (click)="onTrainAgent(trainigGamesField.value)" [disabled]="!(started | async)">Train Agent</button>
+                <input #trainigGamesField type="number">
             </div>
+            <label>{{ trainingErrorMessage | async }}</label>
             <button class="option-row" (click)="onCleanAgent()">Clean Agent Training</button>
         </div>
 
@@ -39,10 +41,10 @@
     <div>
         <h3>Statistics after the training</h3>
         <div class="statistics">
-            <label>Games: {{statistics?.games}}</label>
-            <label>Cross wins: {{statistics?.crossCount}}</label>
-            <label>Naught wins: {{statistics?.naughtCount}}</label>
-            <label>Draws: {{statistics?.drawCount}}</label>
+            <label>Games: {{ (statistics | async)?.simulationGames }}</label>
+            <label>Cross wins: {{ (statistics | async)?.crossCount }}</label>
+            <label>Naught wins: {{ (statistics | async)?.naughtCount }}</label>
+            <label>Draws: {{ (statistics | async)?.drawCount }}</label>
         </div>
     </div>
 </div>

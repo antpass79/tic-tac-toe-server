@@ -1,0 +1,3 @@
+- 'Error during cleaning'
+- don't use store to dispatch messages in effects
+- Start action doesn't call Reset, but the program seems to work the same

@@ -18,8 +18,3 @@ export const listenForWinner = createSelector(
     selectGameState,
     (state: GameState) => state.winner
 );
-
-export const listenForTrainingGames = createSelector(
-    selectGameState,
-    (state: GameState) => state.trainingGames
-);
