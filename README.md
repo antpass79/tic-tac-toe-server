@@ -14,29 +14,18 @@ The aim of the project is to use, learn and improve the following technologies:
 
 - Client
   - Angular + Redux
-  - React + Redux (TODO)
 
 - Server
   - node.js
   - express.js
 
-- Database (TODO)
-  - MongoDB
-
 - Infrastructure
   - Docker
-  - Rabbit (TODO)
-
-- Architecture (TODO)
-  - CQRS
-  - Event Sourcing
 
 - Machine Learning
   - Keras
   - TensorFlow
   - Python
-
-During the development other concepts came in my mind, based on the gift that I made to myself, the Raspberry, so the last goal is to move all on that device...step by step.  (TODO)
 
 ## Projects
 
@@ -44,18 +33,13 @@ The game is organized in the following projects:
 
 - client
   - angular
-  - react (TODO)
 
 - server
   - tictactoe
   - agent
   
-In the client folder there are two versions of the same application:
-
-- the first one is written in angular 6+.
-- the second one is written in react (TODO).
-
-The projects expose the GUI for the human player.
+In the client folder there is a subfolder angular with the application.
+The project exposes the GUI for the human player.
 
 In the server folder there are two projects:
 
@@ -76,15 +60,10 @@ I list only the main components, I take for granted the boundary components.
 - Node.js
 - Python 3.6 (it's the version that I'm using)
 - Tensorflow
-- MongoDB (TODO)
 
 If you want to run the system on containers
 
 - Docker or Docker Toolbox (I'm using both based on which computer I'm working on)
-
-If you want to run the system on Raspberry
-
-- Raspberry (I have the Raspberry Pi 3 Model B+)
 
 ## Setup and Run
 
@@ -173,6 +152,9 @@ The following commands have to run under the folder server/agent through a cmd p
 Create (if it doesn't exist) and activate the virtual folder (see [Setup and Run the Agent](#Setup-and-Run-the-Agent))
 
     python -m tests.entrypoint
+
+NOTE:
+there is some problems with path imports for testing and running the agent. For testing it's necessary to change some imports.
 
 ## Docker
 
