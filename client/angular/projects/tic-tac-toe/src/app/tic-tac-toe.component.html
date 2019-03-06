@@ -1,50 +1,54 @@
 <div class="tic-tac-toe">
-    <div class="header">Tic Tac Toe Enterprise</div>
-    <div class="board-container">
-        <board class="board" (cellClick)="onCellClick($event)"></board>
-        <div *ngIf="busy | async" class="spinner-container">
-            <div class="spinner"></div>
-        </div>
-    </div>
 
-    <div class="options">
+    <div class="layout">
 
-        <div class="option-block">
-            <h3>Credentials</h3>
-            <div class="option-row">
-                <button (click)="onNickname(nicknameField.value)">Play with the nickname</button>
-                <input #nicknameField type="text">
+        <div class="options">
+
+            <div class="option-block">
+                <h3>Credentials</h3>
+                <div class="option-row">
+                    <button (click)="onNickname(nicknameField.value)">Play with the nickname</button>
+                    <input #nicknameField type="text">
+                </div>
+                <label>{{ nicknameErrorMessage | async }}</label>
             </div>
-            <label>{{ nicknameErrorMessage | async }}</label>
-        </div>
 
-        <div class="option-block" [class.disable]="!(nickname | async)">
-            <h3>Game</h3>
-            <button class="option-row" (click)="onStartHuman()">Start Human - CROSS</button>
-            <button class="option-row" (click)="onStartAgent()">Start Agent - NAUGHT</button>
-        </div>
-
-        <div class="option-block" [class.disable]="!(nickname | async)">
-            <h3>Training</h3>
-            <div class="option-row">
-                <button (click)="onTrainAgent(trainigGamesField.value)" [disabled]="!(started | async)">Train Agent</button>
-                <input #trainigGamesField type="number">
+            <div class="option-block" [class.disable]="!(nickname | async)">
+                <h3>Game</h3>
+                <button class="option-row" (click)="onStartHuman()">Start Human - CROSS</button>
+                <button class="option-row" (click)="onStartAgent()">Start Agent - NAUGHT</button>
             </div>
-            <label>{{ trainingErrorMessage | async }}</label>
-            <button class="option-row" (click)="onCleanAgent()">Clean Agent Training</button>
+
+            <div class="option-block" [class.disable]="!(nickname | async)">
+                <h3>Training</h3>
+                <div class="option-row">
+                    <button (click)="onTrainAgent(trainigGamesField.value)" [disabled]="!(started | async)">Train Agent</button>
+                    <input #trainigGamesField type="number">
+                </div>
+                <label>{{ trainingErrorMessage | async }}</label>
+                <button class="option-row" (click)="onCleanAgent()">Clean Agent Training</button>
+            </div>
+
+            <h1 *ngIf="(winner | async) != 0 && (winner | async) == 1">The Winner is O</h1>
+            <h1 *ngIf="(winner | async) != 0 && (winner | async) == 2">The Winner is X</h1>
         </div>
 
-        <h1 *ngIf="(winner | async) != 0 && (winner | async) == 1">The Winner is O</h1>
-        <h1 *ngIf="(winner | async) != 0 && (winner | async) == 2">The Winner is X</h1>
-    </div>
-
-    <div>
-        <h3>Statistics after the training</h3>
-        <div class="statistics">
-            <label>Games: {{ (statistics | async)?.simulationGames }}</label>
-            <label>Cross wins: {{ (statistics | async)?.crossCount }}</label>
-            <label>Naught wins: {{ (statistics | async)?.naughtCount }}</label>
-            <label>Draws: {{ (statistics | async)?.drawCount }}</label>
+        <div class="board-container">
+            <board class="board" (cellClick)="onCellClick($event)"></board>
+            <div *ngIf="busy | async" class="spinner-container">
+                <div class="spinner"></div>
+            </div>
         </div>
+
+        <div class="statistics-container">
+            <h3>Statistics after the training</h3>
+            <div class="statistics">
+                <label>Games: {{ (statistics | async)?.simulationGames }}</label>
+                <label>Cross wins: {{ (statistics | async)?.crossCount }}</label>
+                <label>Naught wins: {{ (statistics | async)?.naughtCount }}</label>
+                <label>Draws: {{ (statistics | async)?.drawCount }}</label>
+            </div>
+        </div>
+
     </div>
 </div>

@@ -1,8 +1,16 @@
 .tic-tac-toe {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    flex-direction: column;    
     text-align: center;
+    height: 100%;
+}
+
+.layout {
+    display: flex;
+    flex: 1;
+    padding: 500px;
+    padding-top: 50px;
+    background: antiquewhite;
 }
 
 .header {
@@ -13,12 +21,24 @@
 .board-container, .board, .spinner-container {
     display: flex;
     justify-content: center;
-    flex: 0.50;
+}
+
+.board-container {
+    flex: 1;
+}
+
+.board {
+    align-self: center;
+    height: 300px;
 }
 
 .spinner-container {
     position: absolute;
     align-self: center;
+  }
+
+  .statistics-container {
+      align-self: center;
   }
 
   @keyframes spin {
@@ -66,4 +86,8 @@
   .disable {
     pointer-events: none;
     opacity: 0.4;
+  }
+
+  button {
+      text-align: center;
   }

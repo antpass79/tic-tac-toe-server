@@ -8,6 +8,19 @@ Now it’s time for a new and revolutionary version, the Tic Tac Toe Enterprise,
 
 I take it for granted that this game is known, otherwise it's easy to find on Google something about it.
 
+## The Game
+
+The following picture shows the GUI.
+![application](assets/images/application.jpg)
+
+There are 3 sections:
+
+- Options (on the left): you have to insert a nickname (for example 'test'). When start buttons are enabled and you press one of them, you can train the agent, choosing a number of cycles (a good number could be 100000). It's possible also to train the agent more times (with cycles of 10000 each time) in order to see how better the agent plays against you for each training. You can also clear the agent.
+
+- Board (in the center): in the center of the screen there is the board of the game.
+
+- Statistics (on the right): shows the statistics of the training. The section is updated every time you train the agent.
+
 ### Goals
 
 The aim of the project is to use, learn and improve the following technologies:
@@ -260,22 +273,22 @@ In the following sections the are the references about the main topics. In each 
 
 #### Jasmine for Angular
 
-- https://scotch.io/tutorials/testing-angular-with-jasmine-and-karma-part-1
+- <https://scotch.io/tutorials/testing-angular-with-jasmine-and-karma-part-1>
 
 #### Mocha for Node.js
 
-- https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d
-- https://scotch.io/tutorials/nodejs-tests-mocking-http-requests
+- <https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d>
+- <https://scotch.io/tutorials/nodejs-tests-mocking-http-requests>
 
 #### Unitest for Python
 
-- https://docs.python.org/2/library/unittest.html
-- https://medium.com/@ramrajchandradevan/python-init-py-modular-imports-81b746e58aae
+- <https://docs.python.org/2/library/unittest.html>
+- <https://medium.com/@ramrajchandradevan/python-init-py-modular-imports-81b746e58aae>
 
 ### Deep Learning
 
-- https://medium.com/@carsten.friedrich/teaching-a-computer-to-play-tic-tac-toe-88feb838b5e3
+- <https://medium.com/@carsten.friedrich/teaching-a-computer-to-play-tic-tac-toe-88feb838b5e3>
 
 ### Dockers
 
-- https://medium.com/@DenysVuika/your-angular-apps-as-docker-containers-471f570a7f2
+- <https://medium.com/@DenysVuika/your-angular-apps-as-docker-containers-471f570a7f2>
