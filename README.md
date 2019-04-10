@@ -56,7 +56,7 @@ The project exposes the GUI for the human player.
 
 In the server folder there are two projects:
 
-- tictactoe is the project that exposes the web service, based on node and express. The clients call it to play ti tac toe.
+- tictactoe is the project that exposes the web service, based on node and express. The clients call it to play tic tac toe.
 - agent is the project that exposes the web service to manage the AI, written in python and based on tensorflow. tictactoe project call it to manage the next best move.
 
 ### Architecture
@@ -256,14 +256,6 @@ Before all, remember to build the client (see [Docker for the Client](#Docker-fo
 - stop containers
 
         docker-compose down
-
-## Raspberry
-
-TODO
-
-## Put all together
-
-TODO
 
 ## References
 
