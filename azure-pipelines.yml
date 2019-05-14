@@ -21,7 +21,7 @@ jobs:
       cd client/angular
       npm install
       npm run build
-    displayName: 'npm install and build frontend'
+    displayName: 'npm install and build'
 
   - task: Docker@2
     inputs:
@@ -37,7 +37,7 @@ jobs:
       containerRegistry: 'DockerHub'
       tags: |
         latest
-    displayName: "docker - build and push frontend"
+    displayName: "docker - build and push"
       
   - task: Docker@2
     inputs:
@@ -59,7 +59,7 @@ jobs:
       cd server/tictactoe
       npm install
       npm run build
-    displayName: 'npm install and build backend'
+    displayName: 'npm install and build'
 
   - task: Docker@2
     inputs:
@@ -75,7 +75,7 @@ jobs:
       containerRegistry: 'DockerHub'
       tags: |
         latest
-    displayName: "docker - build and push backend"
+    displayName: "docker - build and push"
       
   - task: Docker@2
     inputs:
