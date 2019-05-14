@@ -36,12 +36,22 @@ steps:
 - task: Docker@2
   inputs:
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: 'client/angular/Dockerfile'
     repository: $(dockerId)/$(dockerRepositoryTictactoe)-frontend
     containerRegistry: 'DockerHub'
     tags: |
       latest
-  displayName: "docker - build and push"
+  displayName: "docker - build and push frontend"
+
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: 'server/tictactoe/Dockerfile'
+    repository: $(dockerId)/$(dockerRepositoryTictactoe)-backend
+    containerRegistry: 'DockerHub'
+    tags: |
+      latest
+  displayName: "docker - build and push backend"
     
 - task: Docker@2
   inputs:
