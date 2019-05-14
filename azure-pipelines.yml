@@ -82,3 +82,30 @@ jobs:
       command: 'logout'
       containerRegistry: 'DockerHub'
     displayName: "docker - logout"
+
+- job: 'tictactoe_agent'
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: Docker@2
+    inputs:
+      command: 'login'    
+      containerRegistry: 'DockerHub'
+    displayName: "docker - login"
+
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      Dockerfile: 'server/agent/Dockerfile'
+      repository: $(dockerId)/$(dockerRepositoryTictactoe)-agent
+      containerRegistry: 'DockerHub'
+      tags: |
+        latest
+    displayName: "docker - build and push"
+      
+  - task: Docker@2
+    inputs:
+      command: 'logout'
+      containerRegistry: 'DockerHub'
+    displayName: "docker - logout"
