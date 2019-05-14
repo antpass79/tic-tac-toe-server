@@ -31,7 +31,7 @@ steps:
   inputs:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    repository: $(dockerId)/$(dockerRepositoryTictactoe)frontend
+    repository: $(dockerId)/$(dockerRepositoryTictactoe)-frontend
     containerRegistry: 'DockerHub'
     tags: |
       latest
