@@ -19,7 +19,13 @@ steps:
     cd client/angular
     npm install
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install and build frontend'
+
+- script: |
+    cd server/tictactoe
+    npm install
+    npm run build
+  displayName: 'npm install and build backend'
 
 - task: Docker@2
   inputs:
