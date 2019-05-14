@@ -6,55 +6,79 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+- job: 'tictactoe_frontend'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    cd client/angular
-    npm install
-    npm run build
-  displayName: 'npm install and build frontend'
+  - script: |
+      cd client/angular
+      npm install
+      npm run build
+    displayName: 'npm install and build frontend'
 
-- script: |
-    cd server/tictactoe
-    npm install
-    npm run build
-  displayName: 'npm install and build backend'
+  - task: Docker@2
+    inputs:
+      command: 'login'    
+      containerRegistry: 'DockerHub'
+    displayName: "docker - login"
 
-- task: Docker@2
-  inputs:
-    command: 'login'    
-    containerRegistry: 'DockerHub'
-  displayName: "docker - login"
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      Dockerfile: 'client/angular/Dockerfile'
+      repository: $(dockerId)/$(dockerRepositoryTictactoe)-frontend
+      containerRegistry: 'DockerHub'
+      tags: |
+        latest
+    displayName: "docker - build and push frontend"
+      
+  - task: Docker@2
+    inputs:
+      command: 'logout'
+      containerRegistry: 'DockerHub'
+    displayName: "docker - logout"
 
-- task: Docker@2
-  inputs:
-    command: 'buildAndPush'
-    Dockerfile: 'client/angular/Dockerfile'
-    repository: $(dockerId)/$(dockerRepositoryTictactoe)-frontend
-    containerRegistry: 'DockerHub'
-    tags: |
-      latest
-  displayName: "docker - build and push frontend"
+- job: 'tictactoe_backend'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-- task: Docker@2
-  inputs:
-    command: 'buildAndPush'
-    Dockerfile: 'server/tictactoe/Dockerfile'
-    repository: $(dockerId)/$(dockerRepositoryTictactoe)-backend
-    containerRegistry: 'DockerHub'
-    tags: |
-      latest
-  displayName: "docker - build and push backend"
-    
-- task: Docker@2
-  inputs:
-    command: 'logout'
-    containerRegistry: 'DockerHub'
-  displayName: "docker - logout"
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      cd server/tictactoe
+      npm install
+      npm run build
+    displayName: 'npm install and build backend'
+
+  - task: Docker@2
+    inputs:
+      command: 'login'    
+      containerRegistry: 'DockerHub'
+    displayName: "docker - login"
+
+  - task: Docker@2
+    inputs:
+      command: 'buildAndPush'
+      Dockerfile: 'server/tictactoe/Dockerfile'
+      repository: $(dockerId)/$(dockerRepositoryTictactoe)-backend
+      containerRegistry: 'DockerHub'
+      tags: |
+        latest
+    displayName: "docker - build and push backend"
+      
+  - task: Docker@2
+    inputs:
+      command: 'logout'
+      containerRegistry: 'DockerHub'
+    displayName: "docker - logout"
