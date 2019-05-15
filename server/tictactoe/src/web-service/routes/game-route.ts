@@ -14,6 +14,7 @@ export class GameRoute {
         router.post('/endgame', this.gameController.endGame);
         router.post('/train', this.gameController.train);
         router.post('/clean', this.gameController.clean);
+        router.get('/ping', this.gameController.ping);
 
         return router;
     }

@@ -22,7 +22,7 @@ export class AgentProxyService {
         private nicknameStoreService: NicknameStoreService,
         appConfig: IAppConfig) {
 
-            this._endpoint = appConfig.getValue('endpoint');
+            this._endpoint = appConfig.getValue('BACKEND_ENDPOINT');
     }
 
     // public functions

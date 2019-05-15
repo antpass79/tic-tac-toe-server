@@ -103,4 +103,12 @@ export class GameController {
             res.sendStatus(500);
         });
     }
+
+    // how to use it:
+    // call 'http://localhost:3000/tictactoe/ping'
+    // GET, Content-Type: application/json
+    ping(req: any, res: any) {
+
+        res.send(JSON.stringify("Ping OK!"));
+    }
 }

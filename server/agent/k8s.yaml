@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tictactoe-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tictactoe-agent
+  template:
+    metadata:
+      labels:
+        app: tictactoe-agent
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: tictactoe-agent
+        image: antpass79/tictactoe-agent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
