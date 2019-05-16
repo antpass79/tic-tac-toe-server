@@ -102,7 +102,18 @@ class TicTacToeService(object):
 
         return result
 
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    @cherrypy.tools.json_in()
+    def ping(self):
+
+        return "Ping from Agent OK!"
+
 if __name__ == '__main__':
-   config = {'server.socket_host': '0.0.0.0'}
+#    config = {'server.socket_host': '0.0.0.0'}
+# for kubernetes tests
+   config = {'server.socket_host': '0.0.0.0','server.socket_port': 80}
+# for nginx
+#    config = {'server.socket_host': '127.0.0.1'}
    cherrypy.config.update(config)
    cherrypy.quickstart(TicTacToeService())

@@ -1,4 +1,4 @@
 {
-    "BACKEND_ENDPOINT": "http://tictactoe-backend/tictactoe/",
+    "BACKEND_ENDPOINT": "http://65.52.129.39/tictactoe/",
     "endpoint1": "http://192.168.99.100:3000/tictactoe/"
 }

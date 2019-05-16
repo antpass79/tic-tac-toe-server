@@ -154,6 +154,25 @@ export class AgentProxy {
         })
     }
 
+    ping(): Observable<any> {
+
+        this.updateConfiguration('ping', undefined, 'pinging the agent');
+
+        return new Observable(subscriber => {
+
+            Axios(this.configuration)
+                .then((response) => {
+                    subscriber.next(response.data);
+                    subscriber.complete();
+                })
+                .catch((reason) => {
+                    console.log(reason);
+                    subscriber.error(reason);
+                    subscriber.complete();
+                })
+        })
+    }
+
     // private functions
 
     private updateConfiguration(action: string, data: any, message: string): void {
