@@ -109,8 +109,10 @@ export class GameController {
     // GET, Content-Type: application/json
     ping(req: any, res: any) {
 
+        // res.send(JSON.stringify("Ping OK!"));
+
         try {
-            let agentProxy = new AgentProxy("NO NICKNAME");
+            let agentProxy = new AgentProxy("NO NICKNAME", 'GET');
             agentProxy.ping().subscribe((data) => {
                 res.send(JSON.stringify(data));
             }, () => {

@@ -19,7 +19,7 @@ spec:
         image: antpass79/tictactoe-frontend
         env:
         - name: BACKEND_ENDPOINT
-          value: http://tictactoe-backend/tictactoe/
+          value: http://13.80.107.201:8080/tictactoe/
         resources:
           requests:
             cpu: 100m

@@ -1,6 +1,10 @@
-FROM nginx:alpine
+FROM node:6.14.2
 
-COPY nginx/default.conf /etc/nginx/nginx.conf
+EXPOSE 8080
 
-WORKDIR /usr/share/nginx/html
 COPY backend/ .
+COPY package.json .
+COPY test.js .
+RUN npm install
+
+CMD ["node", "entrypoint.js"]

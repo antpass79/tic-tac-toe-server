@@ -21,13 +21,13 @@ export class AgentProxy {
 
     // constructor
 
-    constructor(nickname: string) {
+    constructor(nickname: string, method = 'POST') {
 
         let nodeConfig = new NodeConfig();
         this._endpoint = nodeConfig.getValue('AGENT_ENDPOINT');
 
         this.configuration = {
-            method: "POST",
+            method: method,
             responseType: 'json',
             headers: {
                 "Content-Type": "application/json",

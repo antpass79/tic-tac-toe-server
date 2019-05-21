@@ -4,6 +4,6 @@
         "http://tictactoe-agent:4200",
         "http://tictactoe-frontend"
     ],
-    "AGENT_ENDPOINT": "http://52.157.169.252/",
+    "AGENT_ENDPOINT": "http://tictactoe-agent/",
     "AGENT_ENDPOINT1": "http://192.168.99.100:8080/"
 }
