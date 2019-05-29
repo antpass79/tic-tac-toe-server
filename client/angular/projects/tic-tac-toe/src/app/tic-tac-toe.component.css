@@ -1,6 +1,5 @@
 .tic-tac-toe {
     display: flex;
-    flex-direction: column;    
     text-align: center;
     height: 100%;
 }
@@ -8,8 +7,9 @@
 .layout {
     display: flex;
     flex: 1;
-    padding: 500px;
-    padding-top: 50px;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
     background: antiquewhite;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .board-container {
-    flex: 1;
+    flex: 0.5;
 }
 
 .board {
